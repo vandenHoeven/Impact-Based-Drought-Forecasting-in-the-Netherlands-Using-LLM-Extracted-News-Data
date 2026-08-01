@@ -1,0 +1,9 @@
+# Large and generated data artifacts
+data/raw/*
+!data/raw/.gitkeep
+
+# Python cache and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
