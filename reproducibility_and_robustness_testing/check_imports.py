@@ -1,5 +1,5 @@
 """
-Smoke-test: compile all chapter/scripts Python files and verify third-party
+Smoke-test: compile chapter and testing Python files and verify third-party
 imports resolve in the active environment.
 
 Does not execute scrapers, notebooks, or pipelines.
@@ -14,7 +14,10 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SCAN_DIRS = [REPO_ROOT / "chapters", REPO_ROOT / "scripts"]
+SCAN_DIRS = [
+    REPO_ROOT / "chapters",
+    REPO_ROOT / "reproducibility_and_robustness_testing",
+]
 SKIP_DIR_NAMES = {"__pycache__", ".venv", "venv", ".git"}
 
 # pip / distribution name -> import name (extend as chapters are added)
@@ -66,10 +69,8 @@ def is_local_module(name: str, py_files: list[Path]) -> bool:
     for path in py_files:
         if path.stem == name:
             return True
-        # package: .../name/__init__.py
         if path.name == "__init__.py" and path.parent.name == name:
             return True
-    # also treat scripts/ and chapters/ roots as non-third-party namespaces
     for scan_dir in SCAN_DIRS:
         if (scan_dir / name).exists():
             return True
@@ -85,7 +86,7 @@ def resolve_import_name(name: str) -> str:
 def main() -> int:
     py_files = iter_python_files()
     if not py_files:
-        print("No Python files found under chapters/ or scripts/.")
+        print("No Python files found under chapters/ or reproducibility_and_robustness_testing/.")
         return 1
 
     compile_failures: list[str] = []

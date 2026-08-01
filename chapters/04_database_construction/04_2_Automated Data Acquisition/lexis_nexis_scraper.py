@@ -4,8 +4,10 @@ import time
 import random
 from datetime import datetime
 import os
+from pathlib import Path
 
-DOWNLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "downloads")
+CHAPTER_ROOT = Path(__file__).resolve().parents[1]
+DOWNLOAD_DIR = str(CHAPTER_ROOT / "data" / "raw")
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 CURRENT_PAGE = 1
@@ -25,12 +27,7 @@ def check_boxes(page1):
 
 
 def next_page(page1):
-    # global CURRENT_PAGE
-    # sleep()
-    # page1.get_by_role("link", name="Volgende").click()
-    # CURRENT_PAGE += 1
-    # sleep()
-    # sleep()
+
     global CURRENT_PAGE
     next_btn = page1.locator('a[data-action="nextpage"]')
     next_btn.wait_for(state="visible", timeout=10000)
@@ -178,6 +175,58 @@ def run_lexis_scraper():
         )
 
         browser.close()
+
+
+def run_lexis_viewer_smoke(duration_seconds: int = 20) -> None:
+    """Open headed Chromium and exercise the Lexis login UI briefly (no real scrape)."""
+    username = f"smoke_user_{random.randint(1000, 9999)}"
+    password = f"smoke_pass_{random.randint(1000, 9999)}"
+    print(f"Viewer smoke: dummy username={username!r}, duration={duration_seconds}s")
+
+    started = time.time()
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)
+        context = browser.new_context(locale="nl-NL", accept_downloads=True)
+        page = context.new_page()
+
+        try:
+            page.goto("https://www.lexisnexis.com/nl-nl/producten-login")
+            try:
+                page.get_by_role("button", name="Aanvullende cookies weigeren").click(
+                    timeout=5000
+                )
+            except Exception:
+                pass
+
+            sleep()
+            with page.expect_popup() as page1_info:
+                page.locator("#iw_comp1684473773185").get_by_role(
+                    "link", name="Nexis Uni"
+                ).click()
+            page1 = page1_info.value
+            sleep()
+
+            page1.get_by_role("textbox", name="Gebruikersnaam").click()
+            page1.get_by_role("textbox", name="Gebruikersnaam").fill(username)
+            sleep()
+            page1.get_by_role("button", name="Volgende").click()
+            sleep()
+            try:
+                page1.get_by_role("textbox", name="Password").fill(password, timeout=5000)
+            except Exception as exc:
+                print(f"Viewer smoke: password field not filled ({exc})")
+        except Exception as exc:
+            print(f"Viewer smoke: UI step failed ({exc}); keeping browser open.")
+
+        remaining = duration_seconds - (time.time() - started)
+        if remaining > 0:
+            print(f"Viewer smoke: holding browser open for {remaining:.1f}s more...")
+            time.sleep(remaining)
+        else:
+            print("Viewer smoke: duration already elapsed; closing.")
+
+        browser.close()
+        print("Viewer smoke: done.")
 
 
 if __name__ == "__main__":

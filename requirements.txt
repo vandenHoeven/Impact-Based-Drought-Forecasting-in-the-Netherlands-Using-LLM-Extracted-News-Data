@@ -1,1 +1,8 @@
 playwright
+python-docx
+tqdm
+datasketch
+litellm
+pydantic
+python-dotenv
+pytest

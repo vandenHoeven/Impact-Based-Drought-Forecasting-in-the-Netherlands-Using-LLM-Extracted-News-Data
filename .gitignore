@@ -1,6 +1,23 @@
-# Large and generated data artifacts
+# Large and generated data artifacts (repo-root)
 data/raw/*
 !data/raw/.gitkeep
+
+# Chapter-local pipeline data (shared per chapter, e.g. 04_database_construction/data)
+chapters/**/data/raw/*
+!chapters/**/data/raw/.gitkeep
+chapters/**/data/preprocessed/*
+!chapters/**/data/preprocessed/.gitkeep
+chapters/**/data/llm_extracted/*
+!chapters/**/data/llm_extracted/.gitkeep
+chapters/**/data/output/*
+!chapters/**/data/output/.gitkeep
+
+# Robustness-testing fixture outputs
+reproducibility_and_robustness_testing/**/data/preprocessed/*
+!reproducibility_and_robustness_testing/**/data/preprocessed/.gitkeep
+
+# Secrets
+.env
 
 # Python cache and environments
 __pycache__/
