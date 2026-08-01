@@ -15,6 +15,8 @@ chapters/**/data/output/*
 # Robustness-testing fixture outputs
 reproducibility_and_robustness_testing/**/data/preprocessed/*
 !reproducibility_and_robustness_testing/**/data/preprocessed/.gitkeep
+reproducibility_and_robustness_testing/**/data/llm_extracted/*
+!reproducibility_and_robustness_testing/**/data/llm_extracted/.gitkeep
 
 # Secrets
 .env

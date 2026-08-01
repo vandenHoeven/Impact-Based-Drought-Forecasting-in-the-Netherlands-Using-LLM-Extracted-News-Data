@@ -14,14 +14,7 @@ Code and resources accompanying an MSc thesis on impact-based drought forecastin
 │   ├── raw/
 │   └── processed/
 ├── chapters/
-│   ├── 04_database_construction/
-│   │   ├── data/
-│   │   │   ├── raw/
-│   │   │   ├── preprocessed/
-│   │   │   └── llm_extracted/
-│   │   ├── 04_2_Automated Data Acquisition/
-│   │   ├── 04_3_LLM_Input_Preprocessing/
-│   │   └── 04_4_LLMn_Extraction_Framework/
+│   ├── 04_database_construction/   # see chapters/04_database_construction/README.md
 │   ├── 05_llm_evaluation/
 │   ├── 06_geocoding/
 │   ├── 07_visualization_reliability/
@@ -31,15 +24,9 @@ Code and resources accompanying an MSc thesis on impact-based drought forecastin
     ├── check_imports.py
     ├── run_all_scripts.py
     └── chapter_04_database_construction/
-        ├── data/raw/
-        ├── data/preprocessed/
-        ├── run_acquisition.py
-        └── run_preprocessing.py
 ```
 
-## Environment setup and smoke test
-
-After editing `requirements.txt` (or cloning on a fresh machine), create or refresh a virtual environment and verify that third-party imports used by all `.py` files resolve. This does **not** run scrapers, call APIs, or execute chapter pipelines.
+## Environment setup
 
 ```text
 # create (first time)
@@ -54,39 +41,28 @@ pip install -r requirements.txt
 
 playwright install chromium   # once, after playwright is added
 
-# automated reproducibility checks (imports + preprocessing + headed Lexis viewer smoke)
+# automated procedure checks (imports → preprocessing → 2-article LLMn → viewer smoke)
 python reproducibility_and_robustness_testing/run_all_scripts.py
-
-# 04_2 acquisition check (~20s headed Lexis viewer smoke; dummy credentials)
-python reproducibility_and_robustness_testing/chapter_04_database_construction/run_acquisition.py
-
-# 04_3 preprocessing only (visible clean_archive run → data/preprocessed/)
-python reproducibility_and_robustness_testing/chapter_04_database_construction/run_preprocessing.py
 ```
 
-## Chapter 04 shared data folder
+## Chapter 04 (database construction)
 
-All chapter 04 scripts read/write a single shared tree:
+Chapter 04 acquires LexisNexis article ZIPs, cleans and deduplicates them (accounting for acquisition artefacts), then extracts structured drought impacts with a fixed schema via LiteLLM so the same pipeline can target multiple providers and batch large corpora.
 
-`chapters/04_database_construction/data/`
+Details, layout, and run commands: [`chapters/04_database_construction/README.md`](chapters/04_database_construction/README.md).
 
-| Stage | Folder | Produced by |
-| --- | --- | --- |
-| Lexis ZIP archives | `data/raw/` | `04_2` scraper |
-| Cleaned / deduplicated articles (`newsjson.json`, …) | `data/preprocessed/` | `04_3` `clean_archive.py` |
-| LLM-enriched articles | `data/llm_extracted/` | `04_4` `llmn_extraction.py` |
-
-No copying between subchapters is required.
+Shared pipeline data lives under `chapters/04_database_construction/data/` (`raw/` → `preprocessed/` → `llm_extracted/`).
 
 ```text
 python chapters/04_database_construction/04_2_Automated Data Acquisition/lexis_nexis_scraper.py
 python chapters/04_database_construction/04_3_LLM_Input_Preprocessing/clean_archive.py
-
-# set GEMINI_API_KEY in 04_4_LLMn_Extraction_Framework/.env
 python chapters/04_database_construction/04_4_LLMn_Extraction_Framework/llmn_extraction.py
 ```
 
-Schema and system prompt: `04_4_LLMn_Extraction_Framework/schemas.py`.  
-Optional: `--mode test-one --index 0` or `--limit N` on the extraction runner.
+## Reproducibility notes
 
-See also [`reproducibility_and_robustness_testing/README.md`](reproducibility_and_robustness_testing/README.md).
+- Full Lexis news corpora **cannot be redistributed** (copyright). The repo ships code and a small test fixture, not the thesis corpus.
+- The **acquisition procedure** and **preprocessing** are reproducible as code (same steps / same ZIPs → same cleaned JSON); full downloads still need Lexis credentials.
+- **LLMn outputs** depend on third-party APIs that may change or disappear; exact extractions are hard to bit-reproduce. The schema/runner framework is largely time-invariant but may need updates when providers or model IDs change.
+
+Procedure checks: [`reproducibility_and_robustness_testing/README.md`](reproducibility_and_robustness_testing/README.md).

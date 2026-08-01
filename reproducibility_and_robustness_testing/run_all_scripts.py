@@ -1,5 +1,6 @@
 """
-Run all reproducibility / robustness checks, including headed Lexis viewer smoke.
+Run all reproducibility / robustness checks, including headed Lexis viewer smoke
+and a 2-article LLMn extraction call (prompts for API key if needed).
 
     python reproducibility_and_robustness_testing/run_all_scripts.py
 """
@@ -41,6 +42,17 @@ def main() -> int:
             failures += _run(
                 [sys.executable, str(runner)],
                 f"Preprocessing run: {runner.relative_to(REPO_ROOT).as_posix()}",
+            )
+
+    llmn_runners = sorted(TESTING_ROOT.glob("chapter_*/run_llmn_extraction.py"))
+    if not llmn_runners:
+        print("No chapter_*/run_llmn_extraction.py files found.")
+        failures += 1
+    else:
+        for runner in llmn_runners:
+            failures += _run(
+                [sys.executable, str(runner)],
+                f"LLMn extraction (2 articles): {runner.relative_to(REPO_ROOT).as_posix()}",
             )
 
     acquisition_runners = sorted(TESTING_ROOT.glob("chapter_*/run_acquisition.py"))

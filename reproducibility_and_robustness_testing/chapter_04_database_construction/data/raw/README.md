@@ -1,6 +1,6 @@
 # Chapter 04 fixture raw newspaper data
 
-Place Lexis-like ZIP archives here for preprocessing robustness tests.
+Small **test sample** for preprocessing robustness checks—not redistributable full Lexis holdings (copyright). Place Lexis-like ZIP archives here for procedure tests only.
 
 ## Expected format
 - File name: `Page_<start>_to_<end>.zip`
