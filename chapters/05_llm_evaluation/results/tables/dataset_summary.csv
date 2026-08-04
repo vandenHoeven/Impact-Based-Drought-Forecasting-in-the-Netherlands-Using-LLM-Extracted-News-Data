@@ -1,0 +1,7 @@
+metric,value
+reviewed_articles,65
+extracted_events,33
+distinct_impact_classes,10
+label_Irrelevant,41
+label_Uncertain,13
+label_Relevant,11

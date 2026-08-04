@@ -1,0 +1,6 @@
+model,model_id,location_impact_precision,location_impact_recall,location_impact_f1,location_impact_severity_recency_precision,location_impact_severity_recency_recall,location_impact_severity_recency_f1
+Gemini 3.5 Flash,gemini_gemini-3.5-flash,0.469,0.455,0.462,0.188,0.182,0.185
+Gemini 3.1 Pro,gemini_gemini-3.1-pro-preview,0.206,0.212,0.209,0.118,0.121,0.119
+Claude Sonnet 4.5,anthropic_claude-sonnet-4-5,0.191,0.273,0.225,0.064,0.091,0.075
+Gemini 3.1 Flash-Lite,gemini_gemini-3.1-flash-lite,0.242,0.242,0.242,0.061,0.061,0.061
+GPT-5.4 mini,gpt-5.4-mini,0.157,0.242,0.19,0.02,0.03,0.024

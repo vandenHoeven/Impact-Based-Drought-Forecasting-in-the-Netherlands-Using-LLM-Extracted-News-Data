@@ -17,6 +17,10 @@ reproducibility_and_robustness_testing/**/data/preprocessed/*
 !reproducibility_and_robustness_testing/**/data/preprocessed/.gitkeep
 reproducibility_and_robustness_testing/**/data/llm_extracted/*
 !reproducibility_and_robustness_testing/**/data/llm_extracted/.gitkeep
+reproducibility_and_robustness_testing/**/data/results/*
+!reproducibility_and_robustness_testing/**/data/results/.gitkeep
+reproducibility_and_robustness_testing/**/data/labeller_state/*
+!reproducibility_and_robustness_testing/**/data/labeller_state/.gitkeep
 
 # Secrets
 .env

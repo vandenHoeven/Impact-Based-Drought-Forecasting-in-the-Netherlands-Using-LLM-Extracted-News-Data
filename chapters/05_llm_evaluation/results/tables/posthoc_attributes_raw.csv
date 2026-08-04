@@ -1,0 +1,3 @@
+model_id,loc_tp_raw,loc_fn_raw,sev_tp_raw,sev_fn_raw,rec_tp_raw,rec_fn_raw,note
+anthropic_claude-sonnet-4-5,17,0,29,5,14,1,raw_json_before_thesis_spatial_usability_filter
+gemini_gemini-3.5-flash,16,0,24,0,14,0,raw_json_before_thesis_spatial_usability_filter

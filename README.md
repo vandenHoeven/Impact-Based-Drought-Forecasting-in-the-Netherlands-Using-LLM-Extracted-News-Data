@@ -15,7 +15,7 @@ Code and resources accompanying an MSc thesis on impact-based drought forecastin
 │   └── processed/
 ├── chapters/
 │   ├── 04_database_construction/   # see chapters/04_database_construction/README.md
-│   ├── 05_llm_evaluation/
+│   ├── 05_llm_evaluation/          # see chapters/05_llm_evaluation/README.md
 │   ├── 06_geocoding/
 │   ├── 07_visualization_reliability/
 │   ├── 08_exploratory_data_analysis/
@@ -58,6 +58,10 @@ python chapters/04_database_construction/04_2_Automated Data Acquisition/lexis_n
 python chapters/04_database_construction/04_3_LLM_Input_Preprocessing/clean_archive.py
 python chapters/04_database_construction/04_4_LLMn_Extraction_Framework/llmn_extraction.py
 ```
+
+## Chapter 05 (LLM evaluation)
+
+Frozen annotations and metrics under [`chapters/05_llm_evaluation/`](chapters/05_llm_evaluation/README.md). Run `notebooks/report_chapter5.ipynb` to regenerate thesis tables/figures (no article bodies or API keys). Optional re-labelling / re-running models needs the private Chapter 04 corpus.
 
 ## Reproducibility notes
 

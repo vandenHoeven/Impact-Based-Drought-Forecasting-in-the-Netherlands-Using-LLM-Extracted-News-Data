@@ -1,9 +1,10 @@
 """
 Chapter 04.4 LLMn extraction check: run extraction on two fixture articles.
 
-Prompts for GEMINI_API_KEY if unset. Reads the first two articles from
-data/preprocessed/newsjson.json, writes results under data/llm_extracted/,
-prints impacts, then TEST COMPLETE.
+Prompts for GEMINI_API_KEY if unset. Leave the prompt blank to skip the live
+API call (reported as SKIPPED by run_all_scripts.py). Reads the first two
+articles from data/preprocessed/newsjson.json, writes results under
+data/llm_extracted/, prints impacts, then TEST COMPLETE.
 
     python reproducibility_and_robustness_testing/chapter_04_database_construction/run_llmn_extraction.py
 """
@@ -32,14 +33,16 @@ EXTRACTION_DIR = (
 N_ARTICLES = 2
 
 
-def _ensure_api_key() -> None:
+def _ensure_api_key() -> bool:
+    """Return True if a key is available; False if the user left the prompt blank."""
     if os.environ.get("GEMINI_API_KEY", "").strip():
         print("Using GEMINI_API_KEY from environment.")
-        return
-    key = getpass.getpass("GEMINI_API_KEY: ").strip()
+        return True
+    key = getpass.getpass("GEMINI_API_KEY (leave blank to skip live API check): ").strip()
     if not key:
-        raise RuntimeError("GEMINI_API_KEY is required for this test.")
+        return False
     os.environ["GEMINI_API_KEY"] = key
+    return True
 
 
 def _load_llmn_extraction():
@@ -93,7 +96,13 @@ def main() -> int:
                 f"Missing {PREPROCESSED_PATH}. Run run_preprocessing.py first."
             )
 
-        _ensure_api_key()
+        if not _ensure_api_key():
+            print(
+                "CHECK_RESULT: SKIPPED - GEMINI_API_KEY was left blank; "
+                "live LLMn check not run."
+            )
+            return 0
+
         articles = _load_two_articles(PREPROCESSED_PATH)
         LLM_DIR.mkdir(parents=True, exist_ok=True)
         with open(INPUT_SLICE_PATH, "w", encoding="utf-8") as handle:
@@ -133,9 +142,11 @@ def main() -> int:
     except Exception as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
         print(traceback.format_exc(), file=sys.stderr)
+        print(f"CHECK_RESULT: FAIL - {exc}")
         return 1
 
     print("TEST COMPLETE")
+    print("CHECK_RESULT: PASS - live 2-article LLMn extraction succeeded.")
     return 0
 
 

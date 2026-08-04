@@ -1,0 +1,36 @@
+[
+  {
+    "id": "SMOKE_2020_000001",
+    "meta": {
+      "date": "2020-07-15",
+      "source": "labeller_fixture",
+      "original_filename": "synthetic_drought_gelderland.txt"
+    },
+    "text_content": "Publication date: 2020-07-15\n\nIn Gelderland leiden aanhoudende droogte en lage rivierstanden tot beregeningsbeperkingen voor landbouwers. De oogst van mais en aardappelen staat onder druk. Waterschappen melden dalende grondwaterstanden in de zandgebieden.",
+    "features": {
+      "title": "Droogte treft landbouw in Gelderland (synthetic fixture)",
+      "publication_date": "2020-07-15",
+      "clean_text": "Publication date: 2020-07-15\n\nIn Gelderland leiden aanhoudende droogte en lage rivierstanden tot beregeningsbeperkingen voor landbouwers. De oogst van mais en aardappelen staat onder druk. Waterschappen melden dalende grondwaterstanden in de zandgebieden.",
+      "source_zip": "labeller_fixture",
+      "source_file": "synthetic_drought_gelderland.txt",
+      "article_id": 0
+    }
+  },
+  {
+    "id": "SMOKE_2020_000002",
+    "meta": {
+      "date": "2018-08-02",
+      "source": "labeller_fixture",
+      "original_filename": "synthetic_drought_limburg.txt"
+    },
+    "text_content": "Publication date: 2018-08-02\n\nIn Limburg geldt een tijdelijk verbod op het sproeien van gazons vanwege waterschaarste. Natuurbeheerders waarschuwen voor verdroging van beekdalen en een verhoogd risico op natuurbranden.",
+    "features": {
+      "title": "Waterschaarste en sproeiverbod in Limburg (synthetic fixture)",
+      "publication_date": "2018-08-02",
+      "clean_text": "Publication date: 2018-08-02\n\nIn Limburg geldt een tijdelijk verbod op het sproeien van gazons vanwege waterschaarste. Natuurbeheerders waarschuwen voor verdroging van beekdalen en een verhoogd risico op natuurbranden.",
+      "source_zip": "labeller_fixture",
+      "source_file": "synthetic_drought_limburg.txt",
+      "article_id": 1
+    }
+  }
+]

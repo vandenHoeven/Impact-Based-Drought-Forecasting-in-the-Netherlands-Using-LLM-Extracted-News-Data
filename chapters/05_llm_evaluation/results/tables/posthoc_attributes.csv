@@ -1,0 +1,3 @@
+model,loc_tp,loc_fn,sev_tp,sev_fn,rec_tp,rec_fn,source
+Gemini 3.5 Flash,17,5,24,0,14,0,thesis_table_after_spatial_usability_filter
+Claude Sonnet 4.5,14,5,29,5,14,1,thesis_table_after_spatial_usability_filter

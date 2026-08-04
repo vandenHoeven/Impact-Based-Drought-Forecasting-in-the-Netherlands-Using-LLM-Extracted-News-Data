@@ -1,0 +1,6 @@
+model,model_id,TP,FP,precision
+Claude Sonnet 4.5,anthropic_claude-sonnet-4-5,26,0,1.0
+Gemini 3.5 Flash,gemini_gemini-3.5-flash,26,2,0.929
+Gemini 3.1 Flash Lite,gemini_gemini-3.1-flash-lite,16,4,0.8
+Gemini 3.1 Pro Preview,gemini_gemini-3.1-pro-preview,18,5,0.783
+GPT-5.4 Mini,gpt-5.4-mini,27,13,0.675

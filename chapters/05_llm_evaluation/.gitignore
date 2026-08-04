@@ -1,0 +1,6 @@
+data/runs/
+data/.labeller/
+**/__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.env

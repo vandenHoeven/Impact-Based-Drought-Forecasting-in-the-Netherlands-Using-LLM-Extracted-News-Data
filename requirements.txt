@@ -6,3 +6,6 @@ litellm
 pydantic
 python-dotenv
 pytest
+pandas
+matplotlib
+streamlit
