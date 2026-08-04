@@ -5,6 +5,7 @@ Procedure **checks** for thesis chapter code—not a substitute for the full cop
 See also:
 - [`chapters/04_database_construction/README.md`](../chapters/04_database_construction/README.md)
 - [`chapters/05_llm_evaluation/README.md`](../chapters/05_llm_evaluation/README.md)
+- [`chapters/06_geocoding/README.md`](../chapters/06_geocoding/README.md)
 
 ## Layout
 
@@ -19,13 +20,19 @@ reproducibility_and_robustness_testing/
 │   ├── run_acquisition.py
 │   ├── run_preprocessing.py
 │   └── run_llmn_extraction.py
-└── chapter_05_llm_evaluation/
-    ├── data/labeller_fixture/   # synthetic articles for UI smoke
-    ├── data/labeller_state/     # labeller runtime state (gitignored)
-    ├── data/results/            # recomputed tables from offline check
-    ├── run_evaluation_report.py
-    ├── run_src_smoke.py
-    └── run_labeller_smoke.py
+├── chapter_05_llm_evaluation/
+│   ├── data/labeller_fixture/   # synthetic articles for UI smoke
+│   ├── data/labeller_state/     # labeller runtime state (gitignored)
+│   ├── data/results/            # recomputed tables from offline check
+│   ├── run_evaluation_report.py
+│   ├── run_src_smoke.py
+│   └── run_labeller_smoke.py
+└── chapter_06_geocoding/
+    ├── data/fixture/            # 5 real impacts from chapter input (bodies truncated)
+    ├── data/results/            # geocode + NUTS-3 smoke outputs (gitignored)
+    ├── run_geocoding.py
+    ├── run_viewer_smoke.py
+    └── run_src_smoke.py
 ```
 
 ## Run
@@ -38,9 +45,14 @@ python reproducibility_and_robustness_testing/run_all_scripts.py
 python reproducibility_and_robustness_testing/chapter_05_llm_evaluation/run_evaluation_report.py
 python reproducibility_and_robustness_testing/chapter_05_llm_evaluation/run_src_smoke.py
 python reproducibility_and_robustness_testing/chapter_05_llm_evaluation/run_labeller_smoke.py
+
+# Chapter 06 only
+python reproducibility_and_robustness_testing/chapter_06_geocoding/run_src_smoke.py
+python reproducibility_and_robustness_testing/chapter_06_geocoding/run_geocoding.py
+python reproducibility_and_robustness_testing/chapter_06_geocoding/run_viewer_smoke.py
 ```
 
-`run_all_scripts.py` order: imports → Chapter 05 checks → Chapter 04 preprocessing → 2-article LLMn → headed Lexis viewer.
+`run_all_scripts.py` order: imports → Chapter 05 checks → Chapter 06 geocoding/viewer → Chapter 04 preprocessing → 2-article LLMn → headed Lexis acquisition.
 
 At the end it prints a **Robustness-check summary** with `PASS` / `SKIPPED` / `FAIL` for every runner (plus totals and a list of failed checks). The suite exits non-zero only when one or more checks are `FAIL`; skipped optional checks do not fail the suite.
 
@@ -51,6 +63,14 @@ At the end it prints a **Robustness-check summary** with `PASS` / `SKIPPED` / `F
 - Enter a key → live 2-article extraction runs (`PASS` if successful).
 - Leave blank / press Enter → check is **SKIPPED** (no API call); this does **not** fail `run_all_scripts.py`.
 - If the key is already in the environment, the live call runs without prompting.
+
+### Optional live Nominatim (Chapter 06 geocoding)
+
+`run_geocoding.py` calls OpenStreetMap Nominatim for 5 real locations from the chapter input fixture:
+
+- Network reachable → live geocode + offline NUTS-3 (`PASS` if all 5 get coordinates).
+- Nominatim unreachable → check is **SKIPPED**; this does **not** fail `run_all_scripts.py`.
+- Viewer smoke (`run_viewer_smoke.py`) expects those results under `chapter_06_geocoding/data/results/` (run geocoding first; the full suite does that automatically).
 
 ## Chapter 05 — what is tested and why
 
@@ -71,3 +91,13 @@ Chapter 05 thesis numbers come from **frozen annotations/metrics**, not from a l
 | `run_acquisition.py` | ~20s headed Lexis viewer smoke with dummy credentials | Acquisition UI/browser path still opens |
 
 Full Lexis downloads / full-corpus extraction / full evaluation re-runs use the chapter scripts with real credentials and the private corpus.
+
+## Chapter 06 — what is tested and why
+
+Geocoding code and frozen thesis outputs live under [`chapters/06_geocoding/`](../chapters/06_geocoding/README.md). Suite runners use a **tiny self-contained fixture** of 5 real non-geocoded impacts excerpted from `impacts_for_geocoding.json` (article bodies truncated); they do **not** load `data/final/` thesis CSVs.
+
+| Check | What it tests | Why |
+| --- | --- | --- |
+| `run_src_smoke.py` | Compile/import geocoding modules; NUTS geojson present | Chapter wiring stays importable without network |
+| `run_geocoding.py` | Nominatim on 5 real Dutch locations from the chapter input; print lat/lon/display; offline NUTS-3 via local geojson; write CSVs under `data/results/` | End-to-end point + NUTS path on real excerpts; skippable if Nominatim is unreachable |
+| `run_viewer_smoke.py` | Streamlit `combined_viewer.py` on port 8506 for **60 seconds** (manual inspection), pointed at smoke CSVs via `GEOCODING_VIEWER_DATA_DIR` | Confirms the map UI still launches against the smoke outputs |

@@ -1,8 +1,9 @@
 """
 Run all reproducibility / robustness checks.
 
-Order: imports → Chapter 05 offline/UI checks → Chapter 04 preprocessing →
-2-article LLMn (optional if API key blank) → headed Lexis viewer smoke.
+Order: imports → Chapter 05 offline/UI checks → Chapter 06 geocoding/viewer →
+Chapter 04 preprocessing → 2-article LLMn (optional if API key blank) →
+headed Lexis acquisition smoke.
 
 Prints a final PASS / SKIPPED / FAIL summary for every check.
 
@@ -173,6 +174,18 @@ def main() -> int:
     )
     results.extend(
         _run_glob(
+            "chapter_*/run_geocoding.py",
+            "Geocoding smoke (5 impacts + NUTS-3)",
+        )
+    )
+    results.extend(
+        _run_glob(
+            "chapter_*/run_viewer_smoke.py",
+            "Geocoding viewer UI smoke (Streamlit 60s)",
+        )
+    )
+    results.extend(
+        _run_glob(
             "chapter_*/run_preprocessing.py",
             "Preprocessing run",
         )
@@ -186,7 +199,7 @@ def main() -> int:
     results.extend(
         _run_glob(
             "chapter_*/run_acquisition.py",
-            "Viewer smoke (headed browser on screen)",
+            "Lexis acquisition smoke (headed browser)",
         )
     )
 

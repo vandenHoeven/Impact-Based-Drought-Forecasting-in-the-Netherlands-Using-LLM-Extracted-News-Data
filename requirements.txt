@@ -9,3 +9,7 @@ pytest
 pandas
 matplotlib
 streamlit
+geopandas
+shapely
+pyproj
+pydeck

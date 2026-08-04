@@ -9,21 +9,19 @@ Code and resources accompanying an MSc thesis on impact-based drought forecastin
 ├── README.md
 ├── .gitignore
 ├── requirements.txt
-├── data/
-│   ├── README.md
-│   ├── raw/
-│   └── processed/
+├── data/                              # repo-root shared data (see data/README.md)
 ├── chapters/
-│   ├── 04_database_construction/   # see chapters/04_database_construction/README.md
-│   ├── 05_llm_evaluation/          # see chapters/05_llm_evaluation/README.md
-│   ├── 06_geocoding/
+│   ├── 04_database_construction/      # Lexis → preprocess → LLMn
+│   ├── 05_llm_evaluation/             # frozen eval metrics + report notebook
+│   ├── 06_geocoding/                  # Nominatim points + NUTS-3 + viewer/EDA
 │   ├── 07_visualization_reliability/
 │   ├── 08_exploratory_data_analysis/
 │   └── 09_baseline_forecasting/
 └── reproducibility_and_robustness_testing/
     ├── check_imports.py
-    ├── run_all_scripts.py
-    └── chapter_04_database_construction/
+    ├── run_all_scripts.py             # PASS / SKIPPED / FAIL summary
+    ├── chapter_04_database_construction/
+    └── chapter_05_llm_evaluation/
 ```
 
 ## Environment setup
@@ -41,17 +39,17 @@ pip install -r requirements.txt
 
 playwright install chromium   # once, after playwright is added
 
-# automated procedure checks (imports → preprocessing → 2-article LLMn → viewer smoke)
+# automated procedure checks (imports → ch05 → ch04; optional blank API key = skip)
 python reproducibility_and_robustness_testing/run_all_scripts.py
 ```
 
+`requirements.txt` covers Chapter 04–06 stacks (Playwright/LiteLLM, pandas/matplotlib/streamlit, and geopandas/shapely/pyproj/pydeck for geocoding).
+
 ## Chapter 04 (database construction)
 
-Chapter 04 acquires LexisNexis article ZIPs, cleans and deduplicates them (accounting for acquisition artefacts), then extracts structured drought impacts with a fixed schema via LiteLLM so the same pipeline can target multiple providers and batch large corpora.
+Acquires LexisNexis article ZIPs, cleans and deduplicates them, then extracts structured drought impacts with a fixed schema via LiteLLM (multi-provider, batch-capable).
 
-Details, layout, and run commands: [`chapters/04_database_construction/README.md`](chapters/04_database_construction/README.md).
-
-Shared pipeline data lives under `chapters/04_database_construction/data/` (`raw/` → `preprocessed/` → `llm_extracted/`).
+Details: [`chapters/04_database_construction/README.md`](chapters/04_database_construction/README.md).
 
 ```text
 python chapters/04_database_construction/04_2_Automated Data Acquisition/lexis_nexis_scraper.py
@@ -61,12 +59,24 @@ python chapters/04_database_construction/04_4_LLMn_Extraction_Framework/llmn_ext
 
 ## Chapter 05 (LLM evaluation)
 
-Frozen annotations and metrics under [`chapters/05_llm_evaluation/`](chapters/05_llm_evaluation/README.md). Run `notebooks/report_chapter5.ipynb` to regenerate thesis tables/figures (no article bodies or API keys). Optional re-labelling / re-running models needs the private Chapter 04 corpus.
+Frozen annotations and metrics under [`chapters/05_llm_evaluation/`](chapters/05_llm_evaluation/README.md). Run `notebooks/report_chapter5.ipynb` to regenerate thesis tables/figures (no article bodies or API keys).
+
+## Chapter 06 (geocoding)
+
+Point geocoding (Nominatim) + NUTS-3 assignment, Streamlit viewer, and wildfire EDA under [`chapters/06_geocoding/`](chapters/06_geocoding/README.md). Frozen `data/processed/` CSVs support offline viewing without re-running Nominatim.
+
+```text
+cd chapters/06_geocoding
+python src/point_coder.py
+python src/nuts3_coder.py
+streamlit run src/combined_viewer.py
+```
 
 ## Reproducibility notes
 
-- Full Lexis news corpora **cannot be redistributed** (copyright). The repo ships code and a small test fixture, not the thesis corpus.
-- The **acquisition procedure** and **preprocessing** are reproducible as code (same steps / same ZIPs → same cleaned JSON); full downloads still need Lexis credentials.
-- **LLMn outputs** depend on third-party APIs that may change or disappear; exact extractions are hard to bit-reproduce. The schema/runner framework is largely time-invariant but may need updates when providers or model IDs change.
+- Full Lexis news corpora **cannot be redistributed** (copyright). The repo ships code, fixtures, and frozen evaluation/geocoding outputs—not the full thesis corpus.
+- Chapter 04 **acquisition procedure** and **preprocessing** are reproducible as code; full downloads need Lexis credentials.
+- **LLMn outputs** depend on third-party APIs; exact extractions are hard to bit-reproduce. Leave the Chapter 04 suite API prompt blank to **skip** the live call without failing the suite.
+- Chapter 06 **NUTS-3 / viewer** paths are offline-reproducible from frozen files; **Nominatim** may change over time.
 
 Procedure checks: [`reproducibility_and_robustness_testing/README.md`](reproducibility_and_robustness_testing/README.md).

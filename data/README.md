@@ -1,12 +1,14 @@
 # Data directory
 
-Repo-root shared data tree (not the Chapter 04 pipeline folder).
+Repo-root shared data tree (not a chapter pipeline folder).
 
 - `raw/`: large raw inputs (usually gitignored). Full Lexis / newspaper corpora are **not shipped** here for copyright reasons.
-- `processed/`: shared frozen panels, impact databases, and geospatial outputs.
+- `processed/`: shared frozen panels, impact databases, and geospatial outputs that are not chapter-local.
 
-Chapter 04 acquisition → preprocessing → LLMn outputs live under:
+## Chapter data trees (preferred for pipelines)
 
-`chapters/04_database_construction/data/`
-
-See [`chapters/04_database_construction/README.md`](../chapters/04_database_construction/README.md).
+| Chapter | Path | Contents |
+| --- | --- | --- |
+| 04 Database construction | [`chapters/04_database_construction/data/`](../chapters/04_database_construction/README.md) | `raw/` → `preprocessed/` → `llm_extracted/` |
+| 05 LLM evaluation | [`chapters/05_llm_evaluation/data/`](../chapters/05_llm_evaluation/README.md) | Frozen evaluation JSON (no article bodies) |
+| 06 Geocoding | [`chapters/06_geocoding/data/`](../chapters/06_geocoding/README.md) | Input mentions, geojson, processed points/NUTS-3, wildfire CSVs |

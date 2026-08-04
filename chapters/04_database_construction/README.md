@@ -59,3 +59,5 @@ Optional extraction flags: `--mode test-one --index 0` or `--limit N`. Schema an
 - The **extraction framework** (schema, prompt, runner) is largely time-invariant as research code, but may need occasional updates when providers, LiteLLM, or model IDs change.
 
 Procedure checks (fixture ZIP, 2-article live extraction, headed Lexis smoke): see [`reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md).
+
+Next spatial step (geocoding extracted locations): [`../06_geocoding/README.md`](../06_geocoding/README.md). Evaluation of extraction quality: [`../05_llm_evaluation/README.md`](../05_llm_evaluation/README.md).

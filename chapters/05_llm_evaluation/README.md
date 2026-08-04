@@ -80,7 +80,8 @@ Defaults (overridable via env / CLI):
 Env overrides: `EVAL_BUILDER_LLM_SCHEMA`, `EVAL_BUILDER_SOURCE_JSON`, `EVAL_BUILDER_OUTPUT_DIR`, `DROUGHT_MONOREPO_ROOT`.  
 Full article dumps from `run_models.py` go under `data/runs/` (gitignored).
 
-See also Chapter 04: [`../04_database_construction/README.md`](../04_database_construction/README.md).
+See also Chapter 04: [`../04_database_construction/README.md`](../04_database_construction/README.md).  
+Geocoding of extracted locations: [`../06_geocoding/README.md`](../06_geocoding/README.md).
 
 ## Copyright
 

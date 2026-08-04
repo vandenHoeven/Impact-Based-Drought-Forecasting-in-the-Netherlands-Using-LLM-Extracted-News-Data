@@ -1,0 +1,246 @@
+[
+  {
+    "id": "NEWS_2018_010505",
+    "meta": {
+      "date": "2018-07-24",
+      "source": "Page_281_to_290.zip",
+      "original_filename": "Amsterdam zet zich schrap voor hittegolf.DOCX"
+    },
+    "text_content": "Publication date: 2018-07-24\n\nNa een periode van extreme droogte volgt nu ook een hittegolf. De stad begint te lijden onder de warmte. Bruggen openen niet, zwemwater is onveilig, sloten drogen op.\n\nExtreem weer: Bruggen dicht, polders krijgen water, liever niet zwemmen\nDe komende dagen zijn extreem hoge temperaturen voorspeld. Volgens meteoroloog en onderzoeker van de universiteit van Wageningen B...",
+    "labels": {
+      "relevance_score": null,
+      "sectors": [],
+      "spatial_targets": []
+    },
+    "manual_notes": "",
+    "features": {
+      "title": "Amsterdam zet zich schrap voor hittegolf",
+      "top_date": "2018-07-24",
+      "bottom_date": "2018-07-24",
+      "publication_date": "2018-07-24",
+      "clean_text": "Publication date: 2018-07-24\n\nNa een periode van extreme droogte volgt nu ook een hittegolf. De stad begint te lijden onder de warmte. Bruggen openen niet, zwemwater is onveilig, sloten drogen op.\n\nExtreem weer: Bruggen dicht, polders krijgen water, liever niet zwemmen\nDe komende dagen zijn extreem hoge temperaturen voorspeld. Volgens meteoroloog en onderzoeker van de universiteit van Wageningen B...",
+      "clean_text_ratio": 0.8675,
+      "cleaning_warning": "",
+      "source_zip": "Page_281_to_290.zip",
+      "source_file": "Amsterdam zet zich schrap voor hittegolf.DOCX",
+      "article_id": 10504,
+      "llm_drought_impacts": [
+        {
+          "reasoning": "Amsterdam is experiencing severe drought and heat, leading to dried-up ditches, blue-green algae blooms in recreational waters, and thermal expansion of bridges that blocks shipping routes.",
+          "location": "Amsterdam",
+          "recency_in_months": 0,
+          "impacts": [
+            {
+              "classification": "Inland Waterway Disruption",
+              "severity": 2,
+              "evidence": "De scheepvaart kan vanaf vandaag niet meer over de Oostroute varen. Het metaal van bruggen is zodanig uitgezet dat die niet meer open kunnen.",
+              "confidence": 1.0
+            },
+            {
+              "classification": "Freshwater Ecosystem Degradation",
+              "severity": 2,
+              "evidence": "De provincie Noord-Holland waarschuwt recreanten voor blauwalg in de Sloterplas, de Nieuwe Meer en Het Twiske. Zwemmen wordt daar sterk afgeraden.",
+              "confidence": 0.9
+            },
+            {
+              "classification": "Reservoir & Surface Water Shortage",
+              "severity": 2,
+              "evidence": "In de Watergraafsmeer is voor het eerst in acht jaar water van buiten de diepe polders nodig om de sloten op peil te houden.",
+              "confidence": 1.0
+            }
+          ]
+        }
+      ],
+      "llm_drought_impact_error": ""
+    },
+    "model_name": "gemini/gemini-3.5-flash"
+  },
+  {
+    "id": "NEWS_2018_010390",
+    "meta": {
+      "date": "2018-07-05",
+      "source": "Page_271_to_280.zip",
+      "original_filename": "Utrecht laaft zich aan de Rijn.DOCX"
+    },
+    "text_content": "Publication date: 2018-07-05\n\nDroogte nog geen probleem\nHet is soms flink puzzelen voor Hoogheemraadschap De Stichtse Rijnlanden om de waterkwaliteit in en rond Utrecht op orde te houden. De hoeveelheid water is volgens een woordvoerder ondanks de aanhoudende droogte geen probleem.\n\nUtrecht laaft zich aan de Rijn. \"Ons geluk is dat we aan een grote rivier liggen die voldoende water heeft. Daar sti...",
+    "labels": {
+      "relevance_score": null,
+      "sectors": [],
+      "spatial_targets": []
+    },
+    "manual_notes": "",
+    "features": {
+      "title": "Utrecht laaft zich aan de Rijn",
+      "top_date": "2018-07-05",
+      "bottom_date": "2018-07-04",
+      "publication_date": "2018-07-05",
+      "clean_text": "Publication date: 2018-07-05\n\nDroogte nog geen probleem\nHet is soms flink puzzelen voor Hoogheemraadschap De Stichtse Rijnlanden om de waterkwaliteit in en rond Utrecht op orde te houden. De hoeveelheid water is volgens een woordvoerder ondanks de aanhoudende droogte geen probleem.\n\nUtrecht laaft zich aan de Rijn. \"Ons geluk is dat we aan een grote rivier liggen die voldoende water heeft. Daar sti...",
+      "clean_text_ratio": 0.8367,
+      "cleaning_warning": "",
+      "source_zip": "Page_271_to_280.zip",
+      "source_file": "Utrecht laaft zich aan de Rijn.DOCX",
+      "article_id": 10389,
+      "llm_drought_impacts": [
+        {
+          "reasoning": "The text discusses the ongoing drought in Utrecht and the surrounding region managed by Hoogheemraadschap De Stichtse Rijnlanden. It notes that while water quantity is sufficient, there are minor impacts on water supply pressure/color, voluntary water use restrictions, and increased risks of water quality degradation (blue-green algae and botulism) due to high temperatures.",
+          "location": "Utrecht",
+          "recency_in_months": 0,
+          "impacts": [
+            {
+              "classification": "Water Supply & Sanitation Issues",
+              "severity": 1,
+              "evidence": "Alleen met de levering van veel water tegelijkertijd kan de druk tijdelijk lager zijn, of het water wat bruin kleuren.",
+              "confidence": 0.9
+            },
+            {
+              "classification": "Water Use Restrictions",
+              "severity": 1,
+              "evidence": "Het water bedrijf vraagt consumenten daarom niet tijdens de spitsuren veel water te gebruiken, zoals voor het sproeien van de tuin.",
+              "confidence": 0.9
+            },
+            {
+              "classification": "Freshwater Ecosystem Degradation",
+              "severity": 1,
+              "evidence": "Vooral door de hoge temperaturen neemt de kans op verontreinigingen met blauwalg en botulisme toe.",
+              "confidence": 0.8
+            }
+          ]
+        }
+      ],
+      "llm_drought_impact_error": ""
+    },
+    "model_name": "gemini/gemini-3.5-flash"
+  },
+  {
+    "id": "NEWS_2018_009998",
+    "meta": {
+      "date": "2018-04-04",
+      "source": "Page_261_to_270.zip",
+      "original_filename": "’Zoetwaterbel’ bij vijver vangt regen op.DOCX"
+    },
+    "text_content": "Publication date: 2018-04-04\n\nVan onze Rotterdamse\nredactie\nROTTERDAM - Rotterdam neemt stappen om ’hoosbuiproof’ te worden. Met onder  andere een vijver met een ondergrondse zoetwaterbel bij het Nieuwe Instituut  moet de stad extreme hoeveelheden water in de toekomst beter op kunnen vangen.\nHet dagelijks bestuur van het Hoogheemraadschap van Schieland en de  Krimpenerwaard heeft 600.000 euro besc...",
+    "labels": {
+      "relevance_score": null,
+      "sectors": [],
+      "spatial_targets": []
+    },
+    "manual_notes": "",
+    "features": {
+      "title": "’Zoetwaterbel’ bij vijver vangt regen op",
+      "top_date": "2018-04-04",
+      "bottom_date": "2018-04-03",
+      "publication_date": "2018-04-04",
+      "clean_text": "Publication date: 2018-04-04\n\nVan onze Rotterdamse\nredactie\nROTTERDAM - Rotterdam neemt stappen om ’hoosbuiproof’ te worden. Met onder  andere een vijver met een ondergrondse zoetwaterbel bij het Nieuwe Instituut  moet de stad extreme hoeveelheden water in de toekomst beter op kunnen vangen.\nHet dagelijks bestuur van het Hoogheemraadschap van Schieland en de  Krimpenerwaard heeft 600.000 euro besc...",
+      "clean_text_ratio": 0.7653,
+      "cleaning_warning": "",
+      "source_zip": "Page_261_to_270.zip",
+      "source_file": "’Zoetwaterbel’ bij vijver vangt regen op.DOCX",
+      "article_id": 9997,
+      "llm_drought_impacts": [
+        {
+          "reasoning": "The text indicates that during periods of drought in Rotterdam, drinking water is currently used to replenish the pond at the Nieuwe Instituut, which represents an impact on the municipal water supply.",
+          "location": "Rotterdam",
+          "recency_in_months": 0,
+          "impacts": [
+            {
+              "classification": "Water Supply & Sanitation Issues",
+              "severity": 1,
+              "evidence": "En dat water komt weer naar boven bij droogte om de vijver bij te vullen. Nu wordt daar drinkwater voor gebruikt.",
+              "confidence": 0.8
+            }
+          ]
+        }
+      ],
+      "llm_drought_impact_error": ""
+    },
+    "model_name": "gemini/gemini-3.5-flash"
+  },
+  {
+    "id": "NEWS_2019_014210",
+    "meta": {
+      "date": "2019-06-15",
+      "source": "Page_340_to_349.zip",
+      "original_filename": "Klimaatverandering heeft slechte invloed op gezondheid.DOCX"
+    },
+    "text_content": "Publication date: 2019-06-15\n\nWETENSCHAPPERS\nMAASTRICHT\nDe klimaatverandering heeft op allerlei manieren invloed op onze gezondheid.\nWetenschappers van de universiteiten van Maastricht en Wageningen en van het RIVM pleiten voor nader onderzoek naar wat daartegen te doen is.\nOverstromingen, temperatuurveranderingen en droogte hebben grote impact op de volksgezondheid.\nNu al is duidelijk dat mensen...",
+    "labels": {
+      "relevance_score": null,
+      "sectors": [],
+      "spatial_targets": []
+    },
+    "manual_notes": "",
+    "features": {
+      "title": "Klimaatverandering heeft slechte invloed op gezondheid",
+      "top_date": "2019-06-15",
+      "bottom_date": "2019-06-15",
+      "publication_date": "2019-06-15",
+      "clean_text": "Publication date: 2019-06-15\n\nWETENSCHAPPERS\nMAASTRICHT\nDe klimaatverandering heeft op allerlei manieren invloed op onze gezondheid.\nWetenschappers van de universiteiten van Maastricht en Wageningen en van het RIVM pleiten voor nader onderzoek naar wat daartegen te doen is.\nOverstromingen, temperatuurveranderingen en droogte hebben grote impact op de volksgezondheid.\nNu al is duidelijk dat mensen...",
+      "clean_text_ratio": 0.6301,
+      "cleaning_warning": "",
+      "source_zip": "Page_340_to_349.zip",
+      "source_file": "Klimaatverandering heeft slechte invloed op gezondheid.DOCX",
+      "article_id": 14209,
+      "llm_drought_impacts": [
+        {
+          "reasoning": "The text discusses how climate change factors, including drought ('droogte'), are already impacting public health, as highlighted by researchers in Maastricht. Specifically, it mentions increased heat stress and health risks associated with these climatic changes.",
+          "location": "Maastricht",
+          "recency_in_months": 0,
+          "impacts": [
+            {
+              "classification": "Heat & Air Quality Health Impacts",
+              "severity": 2,
+              "evidence": "Overstromingen, temperatuurveranderingen en droogte hebben grote impact op de volksgezondheid. Nu al is duidelijk dat mensen meer last hebben van hittestress",
+              "confidence": 0.8
+            }
+          ]
+        }
+      ],
+      "llm_drought_impact_error": ""
+    },
+    "model_name": "gemini/gemini-3.5-flash"
+  },
+  {
+    "id": "NEWS_2018_010268",
+    "meta": {
+      "date": "2018-07-02",
+      "source": "Page_271_to_280.zip",
+      "original_filename": "Natuurbranden in de hitte.DOCX"
+    },
+    "text_content": "Publication date: 2018-07-02\n\nDit weekend woedden er verschillende natuur branden op heidegrond en in bossen en bermen in onder meer Bergen op Zoom, Alphen, Hoeven en Tilburg.\n\nDoor hoge temperaturen, harde wind en aanhoudende droogte kunnen branden sneller ontstaan en zich ook sneller verspreiden dan normaal. Daarom rukt de brandweer in delen van het land uit voorzorg met extra materieel uit bij...",
+    "labels": {
+      "relevance_score": null,
+      "sectors": [],
+      "spatial_targets": []
+    },
+    "manual_notes": "",
+    "features": {
+      "title": "Natuurbranden in de hitte",
+      "top_date": "2018-07-02",
+      "bottom_date": "2018-07-01",
+      "publication_date": "2018-07-02",
+      "clean_text": "Publication date: 2018-07-02\n\nDit weekend woedden er verschillende natuur branden op heidegrond en in bossen en bermen in onder meer Bergen op Zoom, Alphen, Hoeven en Tilburg.\n\nDoor hoge temperaturen, harde wind en aanhoudende droogte kunnen branden sneller ontstaan en zich ook sneller verspreiden dan normaal. Daarom rukt de brandweer in delen van het land uit voorzorg met extra materieel uit bij...",
+      "clean_text_ratio": 0.7486,
+      "cleaning_warning": "",
+      "source_zip": "Page_271_to_280.zip",
+      "source_file": "Natuurbranden in de hitte.DOCX",
+      "article_id": 10267,
+      "llm_drought_impacts": [
+        {
+          "reasoning": "A heath fire occurred near the Reeshof district in Tilburg, coming close to houses and requiring residents to assist the fire department with garden hoses.",
+          "location": "Tilburg",
+          "recency_in_months": 0,
+          "impacts": [
+            {
+              "classification": "Wildfire Occurrence",
+              "severity": 2,
+              "evidence": "heidebrand bij de Tilburgse wijk Reeshof. Die beide natuurbranden kwamen dicht in de buurt van woningen.",
+              "confidence": 1.0
+            }
+          ]
+        }
+      ],
+      "llm_drought_impact_error": ""
+    },
+    "model_name": "gemini/gemini-3.5-flash"
+  }
+]

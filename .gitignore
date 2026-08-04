@@ -25,6 +25,13 @@ reproducibility_and_robustness_testing/**/data/labeller_state/*
 # Secrets
 .env
 
+# Chapter 06 — large / full-article artefacts (local only; GitHub 100 MB limit)
+# Kept on disk for thesis re-analysis; not versioned. See chapters/06_geocoding/README.md.
+chapters/06_geocoding/data/input/chapter7_merged_with_llm_features_gemini_gemini-3.5-flash_flex.json
+chapters/06_geocoding/data/final/points/*_geocoded.json
+chapters/06_geocoding/data/final/nuts3/*_nuts3.json
+chapters/06_geocoding/data/wildfire/wildfires_2km_*.csv
+
 # Python cache and environments
 __pycache__/
 *.py[cod]
