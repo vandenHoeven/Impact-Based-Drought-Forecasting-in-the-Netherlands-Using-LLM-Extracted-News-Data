@@ -1,0 +1,70 @@
+
+
+\subsection{Impact categorization}
+To further evaluate the quality of the extracted impacts, a post-hoc evaluation was performed on a subset of ten manually verified relevant articles. Instead of comparing model predictions against the predefined annotation labels, the extracted model outputs were manually reviewed and classified as either valid impact extractions or incorrect extractions. This evaluation focuses on whether the \textbf{impacts} identified by the models represent actual drought impacts described in the articles, while reducing the influence of strict category boundaries.
+
+During the evaluation, one edge case was identified. One article described a potential public health hazard caused by drought conditions, where a lack of rainfall caused animal waste to accumulate before being transported into a lagoon by later rainfall. This article was classified as irrelevant because the drought created a vulnerability rather than a direct impact. Since the models were instructed to avoid making indirect assumptions, extracting this event was considered an incorrect extraction.
+
+Additionally, extractions where the location was only specified as "the Netherlands" were excluded from the evaluation. This spatial resolution is too coarse for the regional impact analysis targeted in this study.
+
+The results are shown in Table~\ref{tab:posthoc_results}. Claude Sonnet 4.5 and Gemini 3.5 Flash achieved the highest precision. Claude identified 26 valid impacts without producing any incorrect extractions, while Gemini 3.5 Flash identified the same number of valid impacts with two incorrect extractions. These results are consistent with the earlier event-level evaluation, where both models achieved the strongest overall performance.
+
+
+
+\begin{table}[ht]
+\centering
+\caption{Post-hoc evaluation results based on manually verified model extractions.}\label{tab:posthoc_results}
+\begin{tabular}{lrrr}
+\toprule
+Model & TP & FP & Precision \\
+\midrule
+Claude Sonnet 4.5      & 26 & 0  & 1.000 \\
+Gemini 3.5 Flash       & 26 & 2  & 0.929 \\
+Gemini 3.1 Flash Lite  & 16 & 4  & 0.800 \\
+Gemini 3.1 Pro Preview & 18 & 5  & 0.783 \\
+GPT-5.4 Mini           & 27 & 13 & 0.675 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Location, Severity, and Recency Extraction}
+
+A secondary evaluation was performed on the two strongest-performing models to examine differences in individual extraction tasks, focusing on location extraction, severity classification, and recency estimation.
+
+Differences were observed in the spatial resolution of extracted locations. Claude Sonnet 4.5 tended to assign more general spatial labels, such as "the Netherlands", whereas Gemini 3.5 Flash extracted more detailed regional information. For example, in an article discussing agricultural irrigation ("Sproeit die boer wel legaal"), Gemini extracted "Achterhoek", "Bolksbeek", and "Eibergen", while Claude only identified "Achterhoek".
+
+A post-hoc spatial usability check was performed, where a location was considered a true positive if it could be mapped to a geographical region suitable for regional analysis. This criterion was not explicitly included in the extraction prompt. Both models produced five locations that could not be mapped to standard NUTS regions, such as "zandgebieden in Nederland" in the Gemini output. After filtering these cases, Gemini produced 17 usable locations compared to 14 from Claude, indicating more detailed spatial extraction within this evaluation sample.
+
+Differences were also observed in severity and recency classification. Claude Sonnet 4.5 showed a tendency to assign higher severity scores than suggested by the annotation criteria, with several minor impacts classified as severity level 3. Additionally, Claude incorrectly assigned an "ongoing" recency label to an event that occurred in September but was reported at the end of October.
+
+The attribute-level extraction performance is shown in Table~\ref{tab:extraction_performance}. A true positive represents a correct extraction according to the manual evaluation criteria, while a false negative represents a missed or incorrectly assigned attribute.
+
+\begin{table}[htbp] 
+\centering 
+\caption{Attribute-level extraction performance of the evaluated models.} 
+\label{tab:extraction_performance} 
+\begin{tabular}{lrrrrrr} 
+\toprule 
+Model & Loc. TP & Loc. FN & Sev. TP & Sev. FN & Rec. TP & Rec. FN \\
+\midrule 
+Gemini 3.5 Flash & 17 & 5 & 24 & 0 & 14 & 0 \\
+Claude Sonnet 4.5 & 14 & 5 & 29 & 5 & 14 & 1 \\
+\bottomrule 
+\end{tabular} 
+\end{table}
+
+Based on the combined event-level, post-hoc, and attribute-level evaluations, Gemini 3.5 Flash was selected as the final model. It provided more detailed spatial outputs and comparable extraction performance while having substantially lower inference costs.

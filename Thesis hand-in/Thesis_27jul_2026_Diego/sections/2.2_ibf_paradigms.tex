@@ -1,0 +1,32 @@
+\subsection{Definition of Impact-Based Drought Forecasting}
+
+Impact-based forecasting (IbF) predicts the expected consequences of drought for socio-economic and environmental systems, rather than drought conditions alone \cite{WMO2021, PrevenionWeb2022, Shyrokaya2024Advances}. Instead of relying solely on hazard indicators such as the Standardized Precipitation Index (SPI) or the Standardized Precipitation Evapotranspiration Index (SPEI), it relates meteorological and hydrological conditions to observed impacts, such as agricultural losses, reduced crop yields, wildfire risk, and water shortages \cite{Sutanto2019Moving, Bulut2026Framework}.
+
+By incorporating exposure and vulnerability alongside drought hazard indicators, impact-based forecasting supports early warning and decision-making across sectors including agriculture, water management, ecosystems, and infrastructure \cite{WMO2021, Shyrokaya2024Advances}.
+
+
+
+\subsection{Modelling Approaches in Impact-Based Drought Forecasting}
+
+Existing studies commonly estimate relationships between drought indicators and observed impacts using statistical or machine learning methods. Logistic regression, generalized additive models, Random Forests, and gradient boosting approaches are among the most frequently applied techniques \cite{Stagge2015Modeling, Bachmair2017Developing, Sutanto2019Moving, Bulut2026Framework}. 
+
+Many of these approaches use hydro-meteorological variables such as precipitation deficits, soil moisture anomalies, river discharge, or evapotranspiration as predictive features. In several studies, machine learning methods have demonstrated improved capability in capturing nonlinear relationships between drought conditions and reported impacts \cite{Sutanto2019Moving, Bulut2026Framework}. Tree-based methods are frequently identified as effective under conditions of sparse or noisy impact data due to their flexibility and relatively limited assumptions regarding variable distributions.
+
+The majority of impact-based drought forecasting studies rely on existing impact inventories, most notably the European Drought Impact report Inventory (EDII). These datasets are typically combined with meteorological observations or reanalysis products in order to model the probability, severity, or occurrence of drought impacts across sectors and regions.
+
+\subsection{Spatial and Temporal Scales}
+
+The spatial scale of impact-based drought forecasting is strongly influenced by the structure of available impact datasets. Most studies operate at aggregated administrative levels, including NUTS-2 regions (provinces) or NUTS-1 regions (e.g., western Netherlands), because impact observations are rarely available at finer spatial resolutions \cite{Sutanto2019Moving, Bulut2026Framework, Shyrokaya2024Advances}.
+
+Forecast horizons also vary substantially across studies. Short lead times (0 to 3 months) generally achieve higher predictive skill, whereas longer lead times require broader accumulation periods or additional proxy variables to maintain performance \cite{Sutanto2019Moving, Shyrokaya2025HowGood}. Note that the results reported by Sutanto ~\cite{Sutanto2019Moving} may be affected by data leakage, potentially leading to overly optimistic performance estimates.
+
+The Critical Threshold for prediction seems to be around 6 months, where skill often becomes equivalent to random guessing \cite{Bulut2026Framework}. 
+
+
+% \subsection{Current Limitations}
+
+% Despite methodological advances, current impact-based drought forecasting systems remain constrained by the availability and structure of impact data. Existing datasets often exhibit limited spatial precision, inconsistent reporting standards, and uneven sectoral representation \cite{Shyrokaya2024Advances, Bulut2026Framework}. These limitations reduce the reliability and transferability of predictive models and restrict the level of spatial and semantic detail that can be represented within operational forecasting systems.
+
+\subsection{Current Limitations}
+
+Despite methodological advances, current impact-based drought forecasting systems remain constrained by the availability and structure of impact data. Existing datasets often exhibit limited spatial precision, inconsistent reporting standards, and uneven sectoral representation \cite{Shyrokaya2024Advances, Bulut2026Framework}. For example, text-based impact datasets commonly rely on administrative (NUTS) geocoding, where reported impacts are assigned to regional centroids rather than their exact locations, limiting their suitability for fine-scale analysis \cite{sodoge2023}. Furthermore, impact records often lack consistent temporal information, with some reports only providing seasonal or annual descriptions rather than precise occurrence dates \cite{Bulut2026Framework, Sutanto2019Moving}. Existing datasets are also frequently biased towards well-documented sectors, such as agriculture, while impacts in sectors with less standardized reporting remain under-represented \cite{Shyrokaya2024Advances}.

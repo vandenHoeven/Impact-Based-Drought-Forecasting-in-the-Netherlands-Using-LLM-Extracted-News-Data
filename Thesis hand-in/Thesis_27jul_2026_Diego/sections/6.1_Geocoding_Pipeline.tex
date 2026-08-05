@@ -1,0 +1,125 @@
+\section{Geocoding Pipeline}
+
+The LLM extraction framework produces location mentions as free-text descriptions. However, these textual locations cannot directly be used for spatial analysis because newspaper articles often contain ambiguous descriptions rather than standard administrative names. Therefore, a hierarchical geocoding pipeline was developed to translate textual location mentions into spatial representations.
+
+The pipeline produces two outputs. First, each location mention is assigned a point location represented by latitude and longitude in the global WGS84 coordinate system. Second, each mention is assigned to one or more NUTS-3 regions. NUTS (Nomenclature of Territorial Units for Statistics) is the European standard for administrative regions. In this study, NUTS-3 regions are used because they provide sufficient spatial resolution for regional analysis and later machine learning applications.
+
+The pipeline operates on unique location mentions extracted by the LLM. When the same location appears in multiple articles, it is geocoded once and reused. This reduces redundant searches and improves computational efficiency.
+
+\subsection{Challenges in Location Geocoding}
+
+Geocoding newspaper-derived location mentions introduces several challenges that are not present when working with structured geographic data. A first challenge is ambiguity in geographic names. A location mention can refer to different types of places, such as municipalities, neighbourhoods, streets, or small geographic features. For example, initial testing showed that the location mention ``Jordaan'' could be incorrectly matched to Jordaan Street, while the article referred to the Jordaan River.
+
+A second challenge is the variation in spatial scale used by newspapers. Some articles refer to specific municipalities, whereas others describe provinces or broader regions. For example, a drought impact reported in ``Noord-Brabant'' does not necessarily refer to one specific municipality but rather to a wider area containing multiple NUTS-3 regions.
+
+Finally, journalistic descriptions do not always correspond to official administrative units. Mentions such as ``zandgebieden in Nederland'' or ``het oosten van Nederland'' describe meaningful geographic areas but cannot directly be linked to a single administrative region.
+
+To address these challenges, the pipeline follows a hierarchical approach in which increasingly general methods are applied only when more specific assignments cannot be made.
+
+
+\subsection{Point-Level Geocoding}
+
+The first step converts textual location mentions into geographic coordinates. Point-level geocoding answers the question: ``Where should this location mention be placed on the map?'' It does not directly determine the corresponding administrative regions.
+
+Location mentions are matched using the OpenStreetMap Nominatim gazetteer service. The gazetteer returns possible geographic candidates together with coordinates and additional metadata. Initial testing showed that unrestricted matching could produce incorrect results, particularly for ambiguous names. Therefore, an additional ranking step was introduced to prioritise meaningful geographic matches.
+
+The ranking procedure reorders candidate locations based on their geographic relevance. Administratively meaningful locations, such as municipalities, provinces, and recognised regions, are prioritised over less useful matches such as streets, buildings, or small geographic features. If an initial search returns an unsuitable match, a second search restricted to the Netherlands is performed.
+
+The final point-level output contains the latitude and longitude of the selected location. These coordinates are later combined with drought impact information and are mainly used for map inspection and validation.
+
+% \subsection{NUTS-3 Regional Assignment}
+
+% While point geocoding answers where a mention is located, regional assignment determines which official regions should be associated with a drought impact. This step is required because regional datasets and predictive models require consistent administrative units rather than individual coordinates.
+
+% The NUTS-3 assignment uses the geocoded point location together with additional text-based rules. Official EU NUTS 2021 boundaries for the Netherlands are used to assign locations to administrative regions.
+
+% The assignment process follows a hierarchical decision structure (Figure~\ref{fig:nuts3-flow}). After filtering invalid, non-Dutch, and country-level mentions, the pipeline first attempts text-based matching. Within this step, direct NUTS-3 name matches are prioritised. If no direct match is found, broader regional descriptions are considered, including NUTS-2 aliases and macro-regional phrases. These broader mentions are subsequently decomposed into their corresponding NUTS-3 regions. If no text-based match is possible, the pipeline falls back to coordinate-based assignment, where the geocoded point is checked against NUTS-3 polygons. If the point falls within a polygon, the corresponding region is assigned. This hierarchical order prioritises explicit textual information over spatial approximation.
+
+\subsection{NUTS-3 Regional Assignment}
+
+While point geocoding answers where a mention is located, regional assignment determines which official regions should be associated with a drought impact. This step is required because regional datasets and predictive models require consistent administrative units rather than individual coordinates.
+
+The NUTS-3 assignment uses the geocoded point location together with additional text-based rules. Official EU NUTS 2021 boundaries for the Netherlands are used to assign locations to administrative regions.
+
+The assignment process follows a hierarchical decision structure (Figure~\ref{fig:nuts3-flow}). After filtering invalid, non-Dutch, and country-level mentions, the pipeline first attempts text-based matching. Within this step, direct NUTS-3 name matches are prioritised. If no direct match is found, broader regional descriptions are considered, including NUTS-2 aliases and macro-regional phrases. These broader mentions are subsequently decomposed into their corresponding NUTS-3 regions. If no text-based match is possible, the pipeline falls back to coordinate-based assignment, where the geocoded point is checked against NUTS-3 polygons. If the point falls within a polygon, the corresponding region is assigned. If the geocoded point does not fall inside a NUTS-3 polygon, the nearest NUTS-3 region within 25 km is assigned.
+This hierarchical order prioritises explicit textual information over spatial approximation.
+
+\begin{figure}[htbp]
+\centering
+% Added scale=0.75 and transform shape to "zoom out"
+\begin{tikzpicture}[
+  scale=0.75, transform shape, 
+  node distance=5mm and 6mm, % Tightened spacing
+  startstop/.style={rectangle, rounded corners, draw, align=center, minimum width=30mm, minimum height=8mm, font=\small},
+  process/.style={rectangle, draw, align=center, minimum width=34mm, minimum height=8mm, font=\small},
+  decision/.style={diamond, aspect=2, draw, align=center, inner sep=1pt, font=\small},
+  result/.style={rectangle, draw, align=center, minimum width=30mm, minimum height=8mm, font=\small, fill=gray!10},
+  arrow/.style={-{Latex[length=1.8mm,width=1.4mm]}, thick}
+]
+
+% Main Vertical Spine
+\node[startstop] (input) {LLM location mention};
+\node[process, below=of input] (geo) {Gazetteer lookup\\(Nominatim)};
+\node[decision, below=of geo] (d1) {Valid\\coordinates?};
+\node[decision, below=of d1] (d2) {In\\Netherlands?};
+\node[decision, below=of d2] (d3) {Country-level\\mention?};
+\node[decision, below=of d3] (d4) {Name rule\\match?};
+
+% Exclusion Side Terminals - Reduced offset to 8mm
+\node[result, left=8mm of d1] (none) {Assign \texttt{none}};
+\node[result, right=8mm of d2] (nonnl) {Mark \texttt{non\_nl}};
+\node[result, right=8mm of d3] (country) {Mark \texttt{country}};
+
+% Name Rule Sub-Branches (Horizontal Row below d4)
+\node[process, below left=10mm and 8mm of d4] (name1) {Direct NUTS-3\\name match};
+\node[process, below=12mm of d4] (name2) {NUTS-2 alias,\\macro phrase, or\\spelling variant};
+\node[process, below right=10mm and 8mm of d4] (name3) {Expand to multiple\\NUTS-3 regions};
+
+% Geometry Fallback Branch - Reduced right offset to 35mm
+\node[decision, right=35mm of d4] (d5) {Point inside\\NUTS-3 polygon?};
+\node[process, below=12mm of d5] (single) {Assign single\\NUTS-3 region};
+
+% Consolidated Actions & Terminal Endpoints
+\node[result, below=15mm of name2] (weighted) {Assign with\\equal weights\\(\texttt{mention\_weight}=1/n)};
+\node[result, below=35mm of weighted] (out) {Output assigned\\region data};
+
+% Arrows - Main Spine & Exclusions
+\draw[arrow] (input) -- (geo);
+\draw[arrow] (geo) -- (d1);
+\draw[arrow] (d1) -- node[above, font=\scriptsize]{no} (none);
+\draw[arrow] (d1) -- node[right, font=\scriptsize]{yes} (d2);
+\draw[arrow] (d2) -- node[above, font=\scriptsize]{no} (nonnl);
+\draw[arrow] (d2) -- node[right, font=\scriptsize]{yes} (d3);
+\draw[arrow] (d3) -- node[above, font=\scriptsize]{yes} (country);
+\draw[arrow] (d3) -- node[right, font=\scriptsize]{no} (d4);
+
+% Arrows - Name Rule Splits
+\draw[arrow] (d4.west) -- ++(-0.8,0) |- node[pos=0.3, left, font=\scriptsize]{NUTS-3} (name1.west);
+\draw[arrow] (d4) -- node[right, font=\scriptsize]{broad} (name2);
+\draw[arrow] (d4.east) -- node[above, font=\scriptsize]{multi} (name3.west);
+
+% Arrows - Name Rules to Endpoints
+\draw[arrow] (name1.south) |- (out.west);
+\draw[arrow] (name2) -- (weighted);
+\draw[arrow] (name3.south) |- (weighted.east);
+
+% Arrows - Geometry Fallback Branch
+\draw[arrow] (d4) -- node[above, font=\scriptsize]{no} (d5);
+\draw[arrow] (d5) -- node[right, font=\scriptsize]{yes} (single);
+% \draw[arrow] (d5.east) -- node[above, font=\scriptsize]{no} ++(0.8,0) |- (weighted.east);
+
+% Final resolution flows to Output
+\draw[arrow] (single.south) |- (out.east);
+\draw[arrow] (weighted) -- (out);
+
+\end{tikzpicture}
+\caption{NUTS-3 assignment logic. The flowchart shows the decision path from gazetteer lookup through text-based rules and polygon checks.}
+\label{fig:nuts3-flow}
+\end{figure}
+
+\newpage
+\subsection{Difference Between Point and Regional Outputs}
+
+Although both outputs originate from the same geocoding process, they serve different purposes. Point locations preserve the original spatial position of the extracted mention and are mainly used for visual inspection and validation. NUTS-3 assignments convert textual locations into consistent regional units that can be aggregated and combined with external datasets.
+
+The regional representation is therefore used for predictive modelling. By assigning impacts to NUTS-3 regions, regional drought characteristics and external variables can be linked consistently across different locations.

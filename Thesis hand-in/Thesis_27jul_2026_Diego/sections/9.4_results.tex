@@ -1,0 +1,261 @@
+\section{Results}
+
+\subsection{Selected model configuration}
+
+The automated optimization procedure evaluated 100 candidate configurations, of
+which 70 completed all four cross-validation folds and 30 were terminated early
+by the median pruning rule. Model selection was based on the macro-averaged
+area under the precision--recall curve (PR-AUC) at a one-month lead time,
+averaged over the four expanding-window folds.
+
+The selected configuration is a Random Forest classifier using 32 of the 52
+candidate predictors, achieving a mean cross-validation macro PR-AUC of 0.324
+(Table~\ref{tab:best_config}). Tree-based models dominated the upper range of
+the search: across completed trials, Random Forest achieved a mean score of
+0.305 and XGBoost 0.300, compared with 0.273 for CatBoost, 0.267 for Elastic
+Net and 0.263 for Logistic Regression. Fold-level scores for the selected
+configuration were 0.433 (validation year 2020), 0.193 (2021), 0.336 (2022) and
+0.334 (2023). The comparatively poor performance in 2021 corresponds to a year
+without a major drought event, indicating that predictive skill is concentrated
+in drought years.
+
+A notable outcome of the predictor search is that the standardized drought
+indices (SPI and SPEI) were not retained. The optimization selected the
+\textit{auxiliary} meteorological subset, consisting of soil moisture anomalies
+and consecutive dry days, in preference to the SPI and SPEI accumulations.
+All remaining predictor groups were retained, with the class-lag group
+restricted to agricultural impact lags and the elevation group restricted to
+mean elevation.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Selected model configuration obtained from the automated optimization procedure.}
+\label{tab:best_config}
+\begin{tabular}{p{4.5cm} p{9.5cm}}
+\toprule
+\textbf{Component} & \textbf{Selected value} \\
+\midrule
+Algorithm & Random Forest \\
+Hyperparameters & 400 trees, maximum depth 6, minimum samples per leaf 9, balanced subsample class weighting \\
+Number of predictors & 32 (of 52 candidates) \\
+Hydro-meteorological & Soil moisture anomaly, consecutive dry days \\
+Regional characteristics & Land cover (3), population fraction, mean elevation, soil composition (18) \\
+Temporal & Seasonal harmonics, previous impact occurrence, agricultural impact lags (4) \\
+Cross-validation macro PR-AUC ($h=1$) & 0.324 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Forecast performance on the independent test period}
+
+The selected configuration was retrained on the complete development period
+(2018--2023) and evaluated on the independent test period (2024--2025), which
+comprises 837 region--month observations across 40 NUTS-3 regions.
+Table~\ref{tab:test_horizon} reports macro-averaged performance for each
+forecast horizon.
+
+Because the impact classes are rare, PR-AUC values must be interpreted relative
+to the class prevalence, which represents the expected performance of a
+no-skill classifier. The skill score is therefore defined as the difference
+between the observed PR-AUC and the prevalence.
+
+At a one-month lead time the model achieves a macro PR-AUC of 0.324 against a
+macro prevalence of 0.091, corresponding to a skill of 0.233 and a 3.6-fold
+improvement over the no-skill baseline. Performance decreases monotonically
+with lead time, from a skill of 0.247 at $h=0$ to 0.182 at $h=3$, while
+remaining approximately 2.9 times better than the baseline at the longest
+horizon. This gradual decline is consistent with the expectation that
+predictive skill decreases with increasing lead time, but indicates that useful
+skill is retained across the full zero-to-three-month range rather than
+collapsing to random performance.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Macro-averaged test performance by forecast horizon (2024--2025, ten impact classes).}
+\label{tab:test_horizon}
+\begin{tabular}{lrrrrrrr}
+\toprule
+\textbf{Horizon} & \textbf{PR-AUC} & \textbf{Prevalence} & \textbf{Skill} & \textbf{ROC-AUC} & \textbf{Precision} & \textbf{Recall} & \textbf{Brier} \\
+\midrule
+$h=0$ & 0.340 & 0.093 & 0.247 & 0.779 & 0.240 & 0.606 & 0.150 \\
+$h=1$ & 0.324 & 0.091 & 0.233 & 0.768 & 0.220 & 0.605 & 0.161 \\
+$h=2$ & 0.285 & 0.094 & 0.191 & 0.744 & 0.190 & 0.608 & 0.177 \\
+$h=3$ & 0.277 & 0.095 & 0.182 & 0.734 & 0.192 & 0.602 & 0.178 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The model operates in a high-recall, low-precision regime, correctly
+identifying approximately 60\% of impact occurrences at a precision of
+0.19--0.24. This behaviour follows from the balanced class weighting applied
+during training and is appropriate for an early-warning context, in which
+failing to anticipate an impact is generally more costly than issuing a false
+alarm.
+
+\subsection{Performance across impact classes}
+
+Performance varies considerably between impact classes
+(Table~\ref{tab:test_class}). Agricultural Economic Loss, Crop Failure and
+Yield Reduction, Irrigation Shortage and Water Use Restrictions form a
+consistently well-predicted group, with skill scores between 0.315 and 0.363
+and ROC-AUC values approaching 0.83. These classes are directly coupled to the
+agricultural water balance, which is well represented by the selected soil
+moisture and dry-spell predictors.
+
+A second group, comprising Reservoir and Surface Water Shortage, Forest Dieback
+and Vegetation Stress, and Freshwater Ecosystem Degradation, is substantially
+harder to predict, with skill scores of 0.103--0.143. These impacts depend on
+accumulated hydrological deficits and ecological response times that are only
+partially captured by the monthly predictors used here.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Test performance by impact class at a one-month lead time ($h=1$), ordered by skill.}
+\label{tab:test_class}
+\begin{tabular}{p{6.2cm} rrrrr}
+\toprule
+\textbf{Impact class} & \textbf{Prev.} & \textbf{PR-AUC} & \textbf{Skill} & \textbf{ROC-AUC} & \textbf{Recall} \\
+\midrule
+Agricultural Economic Loss          & 0.035 & 0.398 & 0.363 & 0.832 & 0.621 \\
+Crop Failure \& Yield Reduction     & 0.148 & 0.478 & 0.330 & 0.797 & 0.629 \\
+Irrigation Shortage                 & 0.088 & 0.412 & 0.323 & 0.822 & 0.635 \\
+Water Use Restrictions              & 0.059 & 0.374 & 0.315 & 0.794 & 0.694 \\
+Groundwater Depletion               & 0.109 & 0.377 & 0.268 & 0.752 & 0.637 \\
+Wildfire Occurrence                 & 0.029 & 0.220 & 0.191 & 0.799 & 0.625 \\
+Water Supply \& Sanitation Issues   & 0.111 & 0.269 & 0.157 & 0.750 & 0.570 \\
+Freshwater Ecosystem Degradation    & 0.117 & 0.260 & 0.143 & 0.678 & 0.551 \\
+Forest Dieback \& Vegetation Stress & 0.111 & 0.250 & 0.139 & 0.734 & 0.613 \\
+Reservoir \& Surface Water Shortage & 0.103 & 0.206 & 0.103 & 0.718 & 0.477 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Temporal variation in forecast skill}
+
+Forecast skill is strongly seasonal (Figure~\ref{fig:diag_calendar_month}).
+Skill is highest during the summer months, reaching 0.490 in August, 0.414 in
+July and 0.359 in June, and remains substantial in March (0.371) and April
+(0.300). In January, October and November the number of observed impacts is too
+small for PR-AUC to be defined, and these months are therefore reported as
+missing rather than as zero skill. This reflects the seasonal concentration of
+drought impacts in the database rather than a failure of the model.
+
+Skill also depends on the prevailing drought regime
+(Table~\ref{tab:drought_bin}). Under dry conditions, defined by an SPEI-12
+value below $-1$, the model achieves a macro PR-AUC of 0.440 and a skill of
+0.296. Under near-normal conditions skill decreases to 0.224, and under wet
+conditions to 0.133. The model therefore performs best precisely in the
+conditions under which impact-based drought forecasting is operationally
+relevant.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Test performance by SPEI-12 drought regime at $h=1$.}
+\label{tab:drought_bin}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Drought regime} & \textbf{Observations} & \textbf{Positives} & \textbf{Prevalence} & \textbf{PR-AUC} & \textbf{Skill} \\
+\midrule
+Dry         & 1410 & 187 & 0.133 & 0.440 & 0.296 \\
+Near-normal & 1650 & 290 & 0.176 & 0.400 & 0.224 \\
+Wet         & 5310 & 284 & 0.053 & 0.187 & 0.133 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Spatial variation in forecast skill}
+
+Regional performance was evaluated for each NUTS-3 region separately
+(Figure~\ref{fig:diag_choropleth}). Of the 40 regions, 15 contain sufficient
+positive observations in the test period for regional skill to be computed;
+for the remaining regions the metric is undefined and these are shown as
+missing. This sparsity is a direct consequence of the chosen spatial
+resolution: disaggregating a limited number of reported impacts across 40
+regions and 21 test months leaves many region--class combinations empty.
+
+Among the regions where skill can be estimated, Groot-Rijnmond attains the
+highest value (0.507), followed by Zuidoost-Noord-Brabant (0.397),
+Zeeuwsch-Vlaanderen (0.369) and Zuid-Limburg (0.340). The lowest values occur
+in Veluwe (0.114), Delft en Westland (0.115) and Utrecht (0.146). The
+better-performing regions are predominantly located in the southern and
+south-western Netherlands, which correspond to the areas most frequently
+affected during the 2018, 2019 and 2022 drought events and therefore provide
+the richest training signal.
+
+\subsection{Predictor contributions}
+
+Post-hoc interpretation was performed using SHAP values computed on the test
+period at a one-month lead time, averaged across the ten class-specific models
+(Figure~\ref{fig:shap}). The dominant predictor is the seasonal cosine
+component (mean $|$SHAP$|$ = 0.070), confirming that the annual cycle of
+drought impacts is the single strongest signal available to the model. This is
+followed by consecutive dry days (0.047), the peat soil fraction (0.034) and
+the soil moisture anomaly (0.031).
+
+Two observations follow from this ranking. First, the two retained
+hydro-meteorological predictors rank second and fourth overall, confirming
+that the optimization procedure discarded the SPI and SPEI accumulations
+because they were redundant rather than uninformative. Second, static soil
+composition variables occupy several of the leading positions, with peat and
+peaty soils contributing most strongly. This supports the inclusion of soil
+composition proposed during the exploratory analysis and expert consultation,
+and is physically consistent with the elevated drought sensitivity of
+organic-rich soils in the Netherlands.
+
+\subsection{Predictability limits across impact classes}
+
+To assess whether the restriction to the ten most frequent impact classes is
+justified, a supplementary analysis scored all fifteen candidate classes under
+a single shared model configuration using the same cross-validation procedure
+(Table~\ref{tab:predictability}). A class was considered predictable if it
+achieved a cross-validation skill of at least 0.15 and a PR-AUC of at least
+0.25.
+
+Seven classes satisfy both criteria, with skill scores between 0.170 and 0.263.
+The remaining eight fall below the threshold, and the lowest-ranked classes
+(Inland Waterway Disruption, Broader Economic Disruption, Social Impacts and
+Wetland Loss) achieve skill scores below 0.05, indicating essentially no
+predictive signal. These classes are both rare and only indirectly related to
+hydro-meteorological conditions, and their occurrence in the database is
+strongly influenced by media reporting behaviour rather than physical drought
+severity.
+
+This result confirms that predictive capability is limited to a subset of
+impact types and supports the decision to restrict the prediction target to the
+most frequently occurring classes. A second optimization stage restricted to
+the predictable classes was also evaluated but did not improve performance
+relative to the shared configuration (macro PR-AUC 0.374 versus 0.385), and the
+single shared configuration was therefore retained.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Cross-validation predictability of all fifteen candidate impact classes at $h=1$ under a shared model configuration.}
+\label{tab:predictability}
+\begin{tabular}{p{6.2cm} rrrl}
+\toprule
+\textbf{Impact class} & \textbf{PR-AUC} & \textbf{Prev.} & \textbf{Skill} & \textbf{Predictable} \\
+\midrule
+Forest Dieback \& Vegetation Stress & 0.396 & 0.133 & 0.263 & Yes \\
+Groundwater Depletion               & 0.459 & 0.212 & 0.247 & Yes \\
+Irrigation Shortage                 & 0.333 & 0.101 & 0.232 & Yes \\
+Reservoir \& Surface Water Shortage & 0.383 & 0.167 & 0.216 & Yes \\
+Water Use Restrictions              & 0.322 & 0.120 & 0.202 & Yes \\
+Freshwater Ecosystem Degradation    & 0.415 & 0.215 & 0.200 & Yes \\
+Crop Failure \& Yield Reduction     & 0.386 & 0.216 & 0.170 & Yes \\
+\midrule
+Wildfire Risk Increase              & 0.212 & 0.038 & 0.174 & No \\
+Wildfire Occurrence                 & 0.185 & 0.043 & 0.143 & No \\
+Agricultural Economic Loss          & 0.218 & 0.101 & 0.117 & No \\
+Water Supply \& Sanitation Issues   & 0.243 & 0.157 & 0.086 & No \\
+Wetland Loss                        & 0.095 & 0.052 & 0.043 & No \\
+Social Impacts                      & 0.094 & 0.053 & 0.042 & No \\
+Broader Economic Disruption         & 0.121 & 0.087 & 0.035 & No \\
+Inland Waterway Disruption          & 0.064 & 0.038 & 0.026 & No \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,185 @@
+source,target,weight
+Agricultural Economic Loss,Crop Failure & Yield Reduction,470
+Crop Failure & Yield Reduction,Reservoir & Surface Water Shortage,402
+Crop Failure & Yield Reduction,Freshwater Ecosystem Degradation,386
+Freshwater Ecosystem Degradation,Reservoir & Surface Water Shortage,382
+Crop Failure & Yield Reduction,Groundwater Depletion,369
+Crop Failure & Yield Reduction,Irrigation Shortage,340
+Freshwater Ecosystem Degradation,Groundwater Depletion,340
+Crop Failure & Yield Reduction,Water Use Restrictions,338
+Reservoir & Surface Water Shortage,Water Use Restrictions,307
+Crop Failure & Yield Reduction,Forest Dieback & Vegetation Stress,304
+Groundwater Depletion,Reservoir & Surface Water Shortage,290
+Forest Dieback & Vegetation Stress,Groundwater Depletion,278
+Forest Dieback & Vegetation Stress,Freshwater Ecosystem Degradation,266
+Freshwater Ecosystem Degradation,Water Use Restrictions,265
+Groundwater Depletion,Water Use Restrictions,259
+Crop Failure & Yield Reduction,Water Supply & Sanitation Issues,251
+Forest Dieback & Vegetation Stress,Reservoir & Surface Water Shortage,247
+Irrigation Shortage,Reservoir & Surface Water Shortage,238
+Reservoir & Surface Water Shortage,Water Supply & Sanitation Issues,219
+Freshwater Ecosystem Degradation,Water Supply & Sanitation Issues,212
+Irrigation Shortage,Water Use Restrictions,210
+Agricultural Economic Loss,Reservoir & Surface Water Shortage,202
+Agricultural Economic Loss,Freshwater Ecosystem Degradation,201
+Agricultural Economic Loss,Irrigation Shortage,200
+Forest Dieback & Vegetation Stress,Water Use Restrictions,187
+Water Supply & Sanitation Issues,Water Use Restrictions,178
+Groundwater Depletion,Irrigation Shortage,175
+Crop Failure & Yield Reduction,Wildfire Risk Increase,174
+Freshwater Ecosystem Degradation,Irrigation Shortage,174
+Groundwater Depletion,Water Supply & Sanitation Issues,173
+Agricultural Economic Loss,Groundwater Depletion,172
+Agricultural Economic Loss,Water Use Restrictions,171
+Broader Economic Disruption,Crop Failure & Yield Reduction,163
+Forest Dieback & Vegetation Stress,Wildfire Risk Increase,156
+Agricultural Economic Loss,Forest Dieback & Vegetation Stress,155
+Water Use Restrictions,Wildfire Risk Increase,153
+Broader Economic Disruption,Groundwater Depletion,149
+Wildfire Occurrence,Wildfire Risk Increase,147
+Forest Dieback & Vegetation Stress,Water Supply & Sanitation Issues,146
+Reservoir & Surface Water Shortage,Wildfire Risk Increase,146
+Crop Failure & Yield Reduction,Social Impacts,136
+Crop Failure & Yield Reduction,Wildfire Occurrence,134
+Inland Waterway Disruption,Reservoir & Surface Water Shortage,131
+Irrigation Shortage,Water Supply & Sanitation Issues,130
+Forest Dieback & Vegetation Stress,Irrigation Shortage,129
+Groundwater Depletion,Wildfire Risk Increase,127
+Groundwater Depletion,Social Impacts,127
+Freshwater Ecosystem Degradation,Wildfire Risk Increase,121
+Water Use Restrictions,Wildfire Occurrence,115
+Forest Dieback & Vegetation Stress,Wildfire Occurrence,115
+Groundwater Depletion,Wildfire Occurrence,114
+Reservoir & Surface Water Shortage,Social Impacts,112
+Broader Economic Disruption,Forest Dieback & Vegetation Stress,110
+Broader Economic Disruption,Reservoir & Surface Water Shortage,109
+Broader Economic Disruption,Freshwater Ecosystem Degradation,109
+Crop Failure & Yield Reduction,Inland Waterway Disruption,109
+Reservoir & Surface Water Shortage,Wildfire Occurrence,108
+Freshwater Ecosystem Degradation,Wildfire Occurrence,106
+Agricultural Economic Loss,Water Supply & Sanitation Issues,105
+Crop Failure & Yield Reduction,Livestock Stress & Mortality,104
+Irrigation Shortage,Wildfire Risk Increase,96
+Broader Economic Disruption,Water Supply & Sanitation Issues,93
+Freshwater Ecosystem Degradation,Wetland Loss,91
+Water Supply & Sanitation Issues,Wildfire Risk Increase,90
+Broader Economic Disruption,Water Use Restrictions,90
+Freshwater Ecosystem Degradation,Social Impacts,89
+Broader Economic Disruption,Social Impacts,87
+Forest Dieback & Vegetation Stress,Social Impacts,87
+Freshwater Ecosystem Degradation,Inland Waterway Disruption,85
+Agricultural Economic Loss,Broader Economic Disruption,84
+Agricultural Economic Loss,Social Impacts,77
+Irrigation Shortage,Wildfire Occurrence,76
+Social Impacts,Water Use Restrictions,75
+Inland Waterway Disruption,Water Use Restrictions,72
+Groundwater Depletion,Wetland Loss,71
+Agricultural Economic Loss,Wildfire Risk Increase,71
+Broader Economic Disruption,Irrigation Shortage,70
+Inland Waterway Disruption,Water Supply & Sanitation Issues,69
+Livestock Stress & Mortality,Reservoir & Surface Water Shortage,69
+Social Impacts,Water Supply & Sanitation Issues,68
+Inland Waterway Disruption,Irrigation Shortage,66
+Agricultural Economic Loss,Livestock Stress & Mortality,66
+Agricultural Economic Loss,Wildfire Occurrence,64
+Freshwater Ecosystem Degradation,Livestock Stress & Mortality,64
+Crop Failure & Yield Reduction,Wetland Loss,64
+Livestock Stress & Mortality,Water Use Restrictions,61
+Groundwater Depletion,Livestock Stress & Mortality,60
+Forest Dieback & Vegetation Stress,Livestock Stress & Mortality,58
+Irrigation Shortage,Social Impacts,58
+Water Supply & Sanitation Issues,Wildfire Occurrence,58
+Social Impacts,Wildfire Risk Increase,58
+Groundwater Depletion,Inland Waterway Disruption,57
+Forest Dieback & Vegetation Stress,Wetland Loss,54
+Broader Economic Disruption,Wildfire Risk Increase,50
+Reservoir & Surface Water Shortage,Wetland Loss,49
+Broader Economic Disruption,Wildfire Occurrence,49
+Crop Failure & Yield Reduction,Heat & Air Quality Health Impacts,49
+Forest Dieback & Vegetation Stress,Inland Waterway Disruption,49
+Agricultural Economic Loss,Inland Waterway Disruption,49
+Irrigation Shortage,Livestock Stress & Mortality,47
+Broader Economic Disruption,Wetland Loss,46
+Social Impacts,Wildfire Occurrence,46
+Broader Economic Disruption,Inland Waterway Disruption,46
+Water Use Restrictions,Wetland Loss,45
+Livestock Stress & Mortality,Social Impacts,42
+Groundwater Depletion,Heat & Air Quality Health Impacts,41
+Industrial Water Shortages,Water Supply & Sanitation Issues,39
+Livestock Stress & Mortality,Wildfire Risk Increase,39
+Livestock Stress & Mortality,Wildfire Occurrence,38
+Freshwater Ecosystem Degradation,Heat & Air Quality Health Impacts,35
+Water Supply & Sanitation Issues,Wetland Loss,35
+Livestock Stress & Mortality,Water Supply & Sanitation Issues,35
+Industrial Water Shortages,Water Use Restrictions,32
+Forest Dieback & Vegetation Stress,Heat & Air Quality Health Impacts,32
+Inland Waterway Disruption,Social Impacts,31
+Agricultural Economic Loss,Wetland Loss,29
+Irrigation Shortage,Wetland Loss,28
+Inland Waterway Disruption,Wildfire Risk Increase,25
+Heat & Air Quality Health Impacts,Reservoir & Surface Water Shortage,23
+Broader Economic Disruption,Heat & Air Quality Health Impacts,23
+Heat & Air Quality Health Impacts,Water Use Restrictions,23
+Heat & Air Quality Health Impacts,Water Supply & Sanitation Issues,22
+Heat & Air Quality Health Impacts,Wildfire Occurrence,21
+Broader Economic Disruption,Industrial Water Shortages,20
+Industrial Water Shortages,Reservoir & Surface Water Shortage,20
+Heat & Air Quality Health Impacts,Social Impacts,20
+Inland Waterway Disruption,Wildfire Occurrence,20
+Heat & Air Quality Health Impacts,Irrigation Shortage,19
+Wetland Loss,Wildfire Risk Increase,19
+Freshwater Ecosystem Degradation,Industrial Water Shortages,18
+Crop Failure & Yield Reduction,Industrial Water Shortages,18
+Social Impacts,Wetland Loss,17
+Industrial Water Shortages,Irrigation Shortage,17
+Heat & Air Quality Health Impacts,Wildfire Risk Increase,15
+Groundwater Depletion,Industrial Water Shortages,15
+Wetland Loss,Wildfire Occurrence,15
+Forest Dieback & Vegetation Stress,Industrial Water Shortages,14
+Livestock Stress & Mortality,Wetland Loss,14
+Agricultural Economic Loss,Industrial Water Shortages,14
+Inland Waterway Disruption,Livestock Stress & Mortality,13
+Crop Failure & Yield Reduction,Thermal/Nuclear Cooling Constraints,13
+Broader Economic Disruption,Livestock Stress & Mortality,12
+Agricultural Economic Loss,Heat & Air Quality Health Impacts,12
+Thermal/Nuclear Cooling Constraints,Water Use Restrictions,11
+Irrigation Shortage,Thermal/Nuclear Cooling Constraints,10
+Groundwater Depletion,Thermal/Nuclear Cooling Constraints,10
+Industrial Water Shortages,Wildfire Occurrence,10
+Industrial Water Shortages,Wildfire Risk Increase,10
+Reservoir & Surface Water Shortage,Thermal/Nuclear Cooling Constraints,9
+Freshwater Ecosystem Degradation,Thermal/Nuclear Cooling Constraints,7
+Livestock Stress & Mortality,Thermal/Nuclear Cooling Constraints,7
+Crop Failure & Yield Reduction,Hydropower Reduction,7
+Agricultural Economic Loss,Thermal/Nuclear Cooling Constraints,7
+Hydropower Reduction,Reservoir & Surface Water Shortage,7
+Heat & Air Quality Health Impacts,Livestock Stress & Mortality,6
+Inland Waterway Disruption,Wetland Loss,6
+Thermal/Nuclear Cooling Constraints,Wildfire Risk Increase,6
+Agricultural Economic Loss,Hydropower Reduction,6
+Groundwater Depletion,Hydropower Reduction,6
+Thermal/Nuclear Cooling Constraints,Water Supply & Sanitation Issues,5
+Hydropower Reduction,Water Use Restrictions,5
+Forest Dieback & Vegetation Stress,Hydropower Reduction,5
+Heat & Air Quality Health Impacts,Inland Waterway Disruption,5
+Forest Dieback & Vegetation Stress,Thermal/Nuclear Cooling Constraints,5
+Hydropower Reduction,Irrigation Shortage,5
+Hydropower Reduction,Livestock Stress & Mortality,5
+Industrial Water Shortages,Inland Waterway Disruption,4
+Heat & Air Quality Health Impacts,Wetland Loss,4
+Hydropower Reduction,Thermal/Nuclear Cooling Constraints,4
+Industrial Water Shortages,Social Impacts,3
+Thermal/Nuclear Cooling Constraints,Wildfire Occurrence,3
+Freshwater Ecosystem Degradation,Hydropower Reduction,3
+Social Impacts,Thermal/Nuclear Cooling Constraints,3
+Hydropower Reduction,Water Supply & Sanitation Issues,3
+Industrial Water Shortages,Wetland Loss,2
+Inland Waterway Disruption,Thermal/Nuclear Cooling Constraints,2
+Hydropower Reduction,Social Impacts,2
+Broader Economic Disruption,Thermal/Nuclear Cooling Constraints,2
+Hydropower Reduction,Wildfire Risk Increase,2
+Heat & Air Quality Health Impacts,Industrial Water Shortages,1
+Thermal/Nuclear Cooling Constraints,Wetland Loss,1
+Hydropower Reduction,Wildfire Occurrence,1
+Hydropower Reduction,Inland Waterway Disruption,1
+Hydropower Reduction,Wetland Loss,1

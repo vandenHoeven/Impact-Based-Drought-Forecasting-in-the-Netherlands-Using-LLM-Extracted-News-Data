@@ -1,0 +1,24 @@
+{
+  "best_model": "logistic_regression",
+  "cv_macro_pr_auc_h1": 0.33501974879731256,
+  "n_features": 30,
+  "feature_groups": [
+    "meteo",
+    "temporal",
+    "static_elev",
+    "static_soil"
+  ],
+  "group_subsets": {
+    "meteo": "long",
+    "temporal": "seasonality",
+    "static_elev": "both",
+    "static_soil": "all"
+  },
+  "n_trials": 100,
+  "test_macro_pr_auc_by_horizon": {
+    "0": 0.3032924269760578,
+    "1": 0.25899714831794,
+    "2": 0.22482878155342295,
+    "3": 0.23032513817508105
+  }
+}

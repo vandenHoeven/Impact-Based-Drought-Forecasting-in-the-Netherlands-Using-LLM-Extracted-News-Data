@@ -32,6 +32,17 @@ chapters/06_geocoding/data/final/points/*_geocoded.json
 chapters/06_geocoding/data/final/nuts3/*_nuts3.json
 chapters/06_geocoding/data/wildfire/wildfires_2km_*.csv
 
+# Chapter 09 — large rasters / raw archives / regenerable galleries (local only)
+# Full tree is kept on disk for rebuilds; not versioned. See chapters/09_baseline_forecasting/README.md.
+# (chapters/**/data/raw/* already covers data/raw/; patterns below catch static TIFs and caches.)
+chapters/09_baseline_forecasting/data/static/**/*.tif
+chapters/09_baseline_forecasting/**/*.tif
+chapters/09_baseline_forecasting/**/*.gml
+chapters/09_baseline_forecasting/**/*.gpkg
+chapters/09_baseline_forecasting/data/processed/qa_predictor_july_maps/
+chapters/09_baseline_forecasting/data/processed/soil_eda/
+chapters/09_baseline_forecasting/data/processed/images_for_elevation_eda/
+
 # Python cache and environments
 __pycache__/
 *.py[cod]

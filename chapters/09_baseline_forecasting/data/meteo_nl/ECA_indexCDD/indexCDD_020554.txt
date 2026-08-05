@@ -1,0 +1,38 @@
+EUROPEAN CLIMATE ASSESSMENT & DATASET (ECA&D), file created on: 17-05-2026
+THESE DATA CAN BE USED FOR NON-COMMERCIAL RESEARCH AND EDUCATION PROVIDED THAT THE FOLLOWING SOURCE IS ACKNOWLEDGED: 
+
+Klein Tank, A.M.G. and Coauthors, 2002. Daily dataset of 20th-century surface
+air temperature and precipitation series for the European Climate Assessment.
+Int. J. of Climatol., 22, 1441-1453.
+Data and metadata available at http://www.ecad.eu
+
+FILE FORMAT (MISSING VALUE CODE = -999999):
+
+THIS FILE HOLDS DATA FOR STATION NETHERLANDS                              LELYSTAD                                 (STAID:  20554)
+LATITUDE: dd:mm:ss +52:30:00
+LONGITUDE: ddd:mm:ss +005:25:00
+ELEVATION: m -100
+
+DATA IS FOR INDEX Maximum no of consecutive dry days (RR < 1 mm) (CDD) with unit 0.01 No of days
+
+01-06 SOUID: Source identifier
+08-11 YEAR : YYYY
+13-20 ANNUAL DATA VALUES
+21-28 WINTER HALF YEAR DATA VALUES
+29-36 SUMMER HALF YEAR DATA VALUES
+37-44 WINTER (DJF) DATA VALUES
+45-52 SPRING (MAM) DATA VALUES
+53-60 SUMMER (JJA) DATA VALUES
+61-68 AUTUMN (SON) DATA VALUES
+69-76 JANUARY DATA VALUES
+etc. 
+157-164 DECEMBER DATA VALUES
+
+20554  1954 -999999 -999999 1500    -999999 1600    700     600     -999999 -999999 1600    1300    1500    500     400     700     300     300     600     600     
+	20554  1955 1500    1400    1500    1100    1200    1500    1200    800     1100    700     1200    800     600     1200    1500    800     700     1200    400     
+	20554  1956 1500    1200    1300    800     1500    700     1300    500     800     1200    1300    800     700     400     400     1300    800     1000    600     
+	20554  1957 1500    1100    1200    1100    1400    1100    1500    1100    400     600     1000    800     1100    300     500     400     1500    1100    700     
+	20554  1958 1700    1300    1000    600     1300    1000    1700    600     200     1300    600     400     1000    800     400     600     1000    1700    700     
+	20554  1959 2700    2100    2200    2100    1500    1700    2700    700     2000    900     1300    1500    1700    1400    600     2000    1800    700     800     
+	20554  1960 1600    1500    1600    500     1600    900     900     400     400     1500    1000    1100    900     500     700     900     300     400     400     
+	

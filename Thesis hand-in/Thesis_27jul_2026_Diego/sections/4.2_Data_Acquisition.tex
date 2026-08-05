@@ -1,0 +1,62 @@
+\subsection{A Single News Article}
+
+Newspaper articles contain valuable information about drought impacts that can be extracted and transformed into structured records. News articles often contain relevant details such as the affected sector, impact type, location, and temporal information. The following example illustrates the type of information that can potentially be extracted from newspaper articles for the construction of a drought impact database.
+
+\begin{framed}
+\footnotesize
+\textbf{Publicatiedatum:} 15 augustus 2018
+
+\medskip
+
+\textbf{Droogte zorgt voor lagere aardappelopbrengsten in Zeeland}
+
+De aanhoudende droogte van de zomer van 2018 heeft grote gevolgen voor aardappeltelers in Zeeland. Door het langdurige neerslagtekort en de droge bodem hebben verschillende boeren te maken met lagere opbrengsten dan normaal.
+
+Volgens lokale landbouwers hebben aardappelplanten door het watertekort kleinere knollen ontwikkeld. Om verdere schade te beperken, hebben veel boeren extra beregend, maar door de beperkte beschikbaarheid van water werd dit steeds moeilijker.
+\end{framed}
+
+From this article, several features can potentially be extracted, including the publication date, location (Zeeland), affected sector (agriculture), and impact type (crop yield reduction). Note that, when reading the article closely, additional impacts can also be identified, such as water limitations caused by drought conditions.
+
+These extracted features can subsequently be structured into a drought impact record and linked to geographic information.
+
+
+
+
+
+
+\subsection{Automated Data Acquisition and Preprocessing}
+\label{ch:preprocessing}
+
+\begin{figure}[h!]
+    \centering
+    \fbox{
+    \begin{minipage}{0.95\textwidth}
+    \centering
+    \small
+    \setlength{\jot}{2pt}
+    \begin{aligned}
+        \text{LexisNexis Archive}
+        &\rightarrow \text{Playwright-based Scraping}
+        \rightarrow \text{Deduplication (MinHash + LSH)} \\
+        &\rightarrow \text{Text Cleaning \& Feature Extraction}
+        \rightarrow \text{Temporal Annotation}\\
+        \rightarrow \text{LLM-ready Corpus}
+    \end{aligned}
+    \end{minipage}
+    }
+    \caption{Preprocessing pipeline transforming raw news archives into a structured corpus for downstream LLM extraction.}
+    \label{fig:preprocessing_pipeline}
+\end{figure}
+
+The dataset is sourced from LexisNexis Nexis Uni, accessed through an institutional subscription. The platform imposes strict retrieval constraints, including a daily download limit of approximately 1,500 news articles and restricted pagination functionality. These limitations significantly reduced the download speed, resulting in an estimated collection period of more than 100 days. To facilitate this incremental daily data collection, an automated scraping pipeline was developed to enable systematic data retrieval.
+
+The overall preprocessing workflow is summarised in Figure~\ref{fig:preprocessing_pipeline}. A Playwright-based scraping framework is used to interact with the platform. The system simulates user interaction by navigating search results, selecting article batches, and initiating downloads through the web interface. The search query was constructed to maximise coverage of drought-related content across domains such as agriculture, water resources, forestry, infrastructure, and public health [ADD queery to appenidx].
+
+The resulting dataset contains redundancy due to repeated reporting of the exact same news articles. To address this, all retrieved articles are subjected to global deduplication. Near-duplicate detection is performed using a MinHash and Locality-Sensitive Hashing (LSH) framework, which removes redundant entries while preserving semantically distinct articles. Note that no additional steps were not taken to remove semantically similar news articles.
+
+
+After deduplication, structured feature extraction is applied. Article-level metadata, including title, source identifier, and publication date, is extracted using rule-based regular expressions. The article body is cleaned by removing headers, metadata blocks, and non-content segments based on predefined markers.
+
+The article body cleaning procedure is evaluated using a cleaning ratio, defined as the proportion between original and cleaned text length. Articles with extreme values in this metric are excluded based on a distribution-informed threshold approach. Further more we manually check for suspicious cases.
+
+Finally, publication dates are reintroduced into the cleaned text to preserve temporal context for downstream large language model processing. 

@@ -1,0 +1,23 @@
+
+% \subsection{Data limitations for impact-based drought forecasting}
+
+% The literature reviewed in Chapter~2 shows that a key challenge in impact-based drought forecasting is not only the development of predictive models, but also the availability of suitable impact datasets. Machine learning models require impact observations that are consistent in terms of location, timing, and impact type. However, existing drought impact datasets often have limited spatial detail (nuts-1 instead of nuts3), and a relatively small number of observations only 268 for nl.
+
+% Existing drought impact inventories, such as the European Drought Impact Inventory (EDII), provide valuable information on observed drought impacts and have supported previous impact-based forecasting studies. However, these inventories were mainly developed for documenting and analysing drought events rather than for creating large-scale datasets for machine learning applications. As a result, studies using these datasets often combine impacts into broad categories or aggregate observations over larger regions to obtain sufficient data for modelling \cite{Sutanto2019Moving, Blauhut2015Towards}. Although this improves model development, it reduces the ability to predict specific impacts at local scales .
+
+% Creating impact-based forecasting systems requires a balance between data quality, spatial detail, temporal coverage, and the number of available observations. Curated impact inventories generally provide reliable observations but contain a limited number of records. Newspaper articles, in contrast, provide a much larger source of historical information and often contain detailed descriptions of local drought impacts. However, they also contain uncertainties caused by reporting bias, inconsistent terminology, and incomplete descriptions.
+
+% This thesis investigates whether newspaper-based impact information can complement existing drought impact inventories by providing a larger and more spatially detailed dataset for machine learning applications. The aim is not to replace existing databases, but to develop a scalable approach for extracting additional impact observations. Using large language models (LLMs), newspaper articles are transformed into structured impact-location records, allowing individual impacts to be linked to their reported locations.
+
+% The resulting dataset provides additional information on drought impacts over longer time periods and across more locations. However, newspaper-based observations remain affected by limitations such as uneven reporting between sectors, differences in media attention, and uncertainty in impact severity. These limitations are considered when evaluating the suitability of the dataset for impact-based drought forecasting.
+
+
+\subsection{Data limitations for impact-based drought forecasting}
+
+The literature reviewed in Chapter~2 shows that a key limitation in impact-based drought forecasting is the availability of suitable impact datasets. While existing inventories such as the European Drought Impact Inventory (EDII) provide valuable information on observed drought impacts, they were primarily developed for documenting and analysing drought events rather than for creating large-scale datasets for machine learning applications.
+
+Consequently, current forecasting studies are often limited by the number of available observations, coarse spatial resolution, and inconsistent impact descriptions. For example, EDII-based studies commonly aggregate impacts over larger administrative regions [NUTS-1] or broader impact categories to obtain sufficient data for modelling \cite{Sutanto2019Moving, Blauhut2015Towards}. Although this enables forecasting, it reduces the ability to predict specific impacts at local scales.
+
+This creates a need for impact datasets that provide a larger number of observations while maintaining detailed spatial and impact information. Newspaper articles offer a complementary data source by providing a long historical record of locally reported drought impacts. However, these sources introduce uncertainties related to reporting bias, inconsistent terminology, and incomplete descriptions.
+
+Therefore, this thesis investigates whether large-scale extraction of newspaper-based drought impact information using large language models (LLMs) can be used to construct a Dutch drought impact database. The objective is to develop a scalable approach for generating spatially detailed impact-location records that can support the development of impact-based drought forecasting models in the Netherlands.

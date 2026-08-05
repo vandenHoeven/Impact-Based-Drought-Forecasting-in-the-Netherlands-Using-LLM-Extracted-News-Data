@@ -1,0 +1,21 @@
+classification,theme,weighted_count,share_pct
+Crop Failure & Yield Reduction,agriculture,1946.0,19.63673057517659
+Reservoir & Surface Water Shortage,water,987.0,9.959636730575177
+Freshwater Ecosystem Degradation,ecosystem,868.0,8.75882946518668
+Groundwater Depletion,water,777.0,7.8405650857719476
+Water Use Restrictions,water,776.0,7.830474268415742
+Forest Dieback & Vegetation Stress,ecosystem,759.0,7.658930373360242
+Agricultural Economic Loss,agriculture,613.0,6.185671039354188
+Irrigation Shortage,agriculture,536.0,5.408678102926337
+Water Supply & Sanitation Issues,water,506.0,5.105953582240161
+Wildfire Occurrence,fire_heat,490.0,4.944500504540867
+Wildfire Risk Increase,fire_heat,443.0,4.470232088799193
+Broader Economic Disruption,economy,332.0,3.350151362260343
+Social Impacts,social,296.0,2.9868819374369324
+Inland Waterway Disruption,water,220.0,2.2199798183652875
+Wetland Loss,ecosystem,131.0,1.3218970736629667
+Livestock Stress & Mortality,agriculture,116.0,1.170534813319879
+Heat & Air Quality Health Impacts,fire_heat,60.0,0.6054490413723511
+Industrial Water Shortages,water,38.0,0.3834510595358224
+Thermal/Nuclear Cooling Constraints,water,9.0,0.09081735620585267
+Hydropower Reduction,water,7.0,0.07063572149344097

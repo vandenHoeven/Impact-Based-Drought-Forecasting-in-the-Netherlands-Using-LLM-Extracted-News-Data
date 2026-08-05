@@ -1,0 +1,17 @@
+# Large local data — keep on disk, do not push to GitHub
+data/raw/
+data/static/**/*.tif
+data/processed/*.gpkg
+data/processed/qa_predictor_july_maps/
+data/processed/soil_eda/
+data/processed/images_for_elevation_eda/
+*.tif
+*.gml
+*.gpkg
+
+**/__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.env
+.venv/
+_build_notebooks.py

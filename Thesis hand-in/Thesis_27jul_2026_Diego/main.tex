@@ -1,0 +1,392 @@
+\documentclass[11pt, a4paper, oneside]{book}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm} 
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb} 
+\usepackage{framed}
+
+\usepackage{setspace}
+\onehalfspacing 
+
+%%
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
+\usepackage{subcaption}
+
+
+%%
+
+
+% --- Formatting ---
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=black, urlcolor=blue}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+% --- Metadata ---
+\title{\textbf{Impact-Based Drought Forecasting in the Netherlands Using LLM-Extracted News Data}}
+\author{Diego van den Hoeven}
+\date{\today}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\chapter*{Abstract}
+\chapter*{Acknowledgements}
+
+{\small
+  \singlespacing
+  \tableofcontents
+}
+
+\listoffigures
+\listoftables
+
+\mainmatter
+
+% ==========================================
+\chapter{Introduction}
+% ==========================================
+
+% \section{Thesis schrijf-methode}
+% Voorlopig is het  brede litatuur revieuw, uit de prep-phase, er niet in. ik conentreer me op 6 papers. 
+
+% Ik heb het idee dat ik een brede litateratuur sectie mis.
+
+
+% Ik wil eerst echt een solide versie van de code hebben voordat ik de litatuur ga opscherpen.
+
+% Verder, zijn andere dingen uit de prep phase ook weg-gevallen. zoals data magamgent. 
+
+% Ik probeer me eigenlijk te richten op een stabalie kern momenteel. 
+
+
+
+\section{Motivation: The Evolution of Dutch Drought Risk}
+\input{sections/1.1_motivation.tex}
+
+\section{Problem Statement: The Data and Forecasting Gap}
+\input{sections/1.2_problem_statement.tex}
+
+\section{Research Objectives, Scope, and Questions}
+\input{sections/1.3_Research_Questions.tex}
+
+
+% ==========================================
+\chapter{Theoretical Background \& Literature}
+% ==========================================
+
+\input{sections/2.0_intro_litature.tex}
+
+\section{Theoretical Background of Large Language Models and Information Extraction}
+\input{sections/background_llm_extraction.tex}
+
+
+\section{Drought Risk Framework: Impact Chain Theory}
+
+
+\input{sections/2.1_Drought_Risk_frameworks.tex}
+\label{sec:impact_chain_theory}
+
+
+
+
+
+
+
+\section{Impact-Based Drought Forecasting: Concept and Literature}
+\label{sec:ibf_literature}
+\input{sections/2.2_ibf_paradigms.tex}
+
+
+\section{Text-Based Extraction of Geospatial Drought Impact Information}
+\label{sec:text_extraction}
+\input{sections/2.3_geospatial_extraction.tex}
+
+
+
+
+
+
+%\section{The Dutch Hydrological and Socio-Economic Context} later;depends on steak holder
+
+
+% ==========================================
+\chapter{Problem Definition \& System Requirements}
+\label{ch:problem_definition}
+
+In this chapter we define the problem and establishes the theoretical data requirements that guide the design of the drought impact database. \textit{What are the requirements of impacts of an drought impact dataset satisfy to support regional impact-based forecasting?} 
+
+% ==========================================
+\section{Defining the Data and Modelling Gap in Drought Impact Research}
+\input{sections/3.1_Problem_DEF_system_req}
+
+
+\section{Drought Impact Requirements for Impact-Based Forecasting}
+\input{sections/3.2_Dataset_Req.tex}
+
+
+% ==========================================
+\part{Impact Data Construction and Validation}
+\label{part A}
+% ==========================================
+
+\chapter{Drought Impact Database Construction Framework}
+\label{ch:llm_pipeline}
+
+\section{Drought Impact Database Construction Framework}
+\input{sections/4.1_System_Architecture.tex}
+
+\newpage
+\section{Data Acquisition: News Archives and Pre-processing}
+In this section, a synthetic sample of a news article is presented to illustrate the type of data used in this study. Subsequently, the data acquisition and preprocessing steps are described.
+
+\input{sections/4.2_Data_Acquisition.tex}
+\section{LLM Extraction Framework}
+
+
+This section describes the design of the LLM-based extraction framework. First, the system prompt and Pydantic schema used to structure the LLM output are introduced. Afterwards, the extracted variables and their representation within the drought impact event structure are described.
+
+\label{Extraction Framework Design}
+
+\input{sections/4.3_LLM_Extraction_Framework.tex}
+
+% \newpage
+% \section{Geocoding}
+% \input{sections/4.4_Geocoding.tex}
+
+
+% \section{Visualization and Evaluation Framework}
+
+
+% \input{sections/4.5_Viss.tex}
+
+% ==========================================
+\chapter{LLM Evaluation and Extraction Framework Refinement}
+
+This chapter evaluates different LLM architectures for extracting structured drought impact events from unstructured newspaper articles. The objective is to identify a suitable extraction model for constructing the drought impact database.
+
+The chapter first presents the evaluation methodology, the tested LLMs, and the construction of the evaluation dataset. Next, the extraction performance of the different models are compared. Based on the observed limitations, a post-hoc analysis is performed to refine the extraction framework and evaluate the final extraction configuration.
+
+This chapter addresses the following research question:
+
+\textit{How do different LLM architectures influence the extraction of location, impact, severity, and temporal information from unstructured text?}
+
+\label{ch:extraction_performance}
+
+% ==========================================
+
+\section{Evaluation Methodology}
+
+\input{sections/5.1_evaluation_dataset.tex}
+
+% ------------------------------------------------
+
+% \section{Comparison Setup and Model Configurations [move to 5.1]}
+% \label{sec:model_comparison}
+% \input{sections/5.2_model_conf.tex}
+
+
+\section{LLM Extraction Performance}
+\input{sections/5.3_extraction_peformance.tex}
+
+\section{Post-hoc Results, and Model Selection}
+\label{ch:Post-hoc Results}
+\input{sections/5.4_post-hoc_results.tex}
+
+
+
+% ==========================================
+\chapter{Geocoding}
+
+In this chapter, we geocode the location mentions extracted by the LLMs. The research questions addressed is:
+How can a hierarchical geocoding pipeline be constructed to translate informal textual location references into NUTS-3 representations?
+\label{ch:geocoding}
+% ==========================================
+
+\input{sections/6.1_Geocoding_Pipeline.tex}
+\label{ch:geocoding_pipe}
+
+\newpage
+\chapter{Visualization and Dataset Reliability}
+In this chapter, we visualise the extracted drought impact data and conduct a reliability analysis. The research question addressed in this chapter is:
+
+Which systematic biases, including regional reporting differences and environmental factors, affect the correspondence between news-derived impact data and reference datasets?
+
+\section{Visualization of Extracted Impact Data}
+\input{sections/6.2_vis_data.tex}
+
+
+
+\newpage
+\section{External Validation Using a Wildfire Case Study}
+\input{sections/6.3_Dataset_checks.tex}
+\section{Expert consultation Deltares}
+\input{sections/6.4_expert_consultation.tex}
+
+
+% ==========================================
+\part{Impact-Based Forecasting }
+\label{part b}
+% ==========================================
+comment: This part is still heavily under-construction, i do want some feedback on it,  but i do think there is nothing to give feedback on yet. I just left a draft here.
+
+
+\chapter{Exploratory data analysis}
+
+\input{sections/EDA.tex}
+
+
+
+
+
+
+
+
+
+
+\chapter{Baseline Drought Impact Forecasting Model}
+
+
+\input{sections/machine_learning_problem_definition.tex}
+
+
+\section{Results}
+
+\input{sections/9.4_results.tex}
+
+
+
+
+%here methods
+%resutls 
+%disscusion
+%limitations
+\label{ch:baseline_model}
+
+
+
+
+
+
+
+% -----
+% -----
+
+
+
+
+
+
+% \section{Data Synthesis: Meteorological and Impact Data}
+
+% ideaziation, 
+
+% we peform , ibf, but then
+% we let the user show most likely 
+% repeated news's artilce's.
+
+% So basilay we show the set of news-artilce's,
+
+% the prediction was based on the.
+
+% The user can go back to source artilcle,  
+% then be like oh, 
+% these article's,  might repeat itself or might not
+% repeat itself.
+
+
+
+% \section{Baseline Predictive Models}
+%     \subsection{Linear Models}
+%     \subsection{Tree-Based Models}
+%     \subsection{Meteorological-Only Benchmark}
+
+% \section{Baseline Performance Evaluation}
+
+
+
+
+\chapter{Research outputs}
+
+\section{Drought impact Database}
+\input{sections/9.1_drought_impact_database.tex}
+
+
+
+
+\section{Impact based forecasting}
+
+
+
+% ==========================================
+% \chapter{Multi-Source Feature Integration and Analysis}
+% \label{ch:feature_integration}
+% % ==========================================
+
+% \section{Hydrological Feature Integration}
+%     \subsection{Groundwater Dynamics}
+%     \subsection{River Discharge Variables}
+
+% \section{Socio-Economic Exposure Indicators}
+
+% \section{Feature Contribution and Importance Analysis}
+
+% \section{Ablation Study on Data Source Contribution}
+
+
+% % ==========================================
+% \chapter{Results and Discussion}
+% \label{ch:results}
+% % ==========================================
+
+% \section{Predictive Performance Comparison}
+
+% \section{Spatial Patterns of Drought Impact Risk in the Netherlands}
+
+% \section{Implications for Dutch Water Management}
+
+% \section{Limitations and Sources of Uncertainty}
+
+
+% ==========================================
+\chapter{Conclusion}
+% ==========================================
+
+\section{Synthesis of Research Contributions}
+
+
+
+\section{Implications for Impact-Based Forecasting}
+
+\section{Recommendations for Dutch Water Management}
+
+\section{Future Research Directions}
+
+% --- Back Matter ---
+\appendix
+\chapter{Technical Specifications}
+\chapter{Supplementary Results and Data Tables}
+contact personen Femke strasvoort
+margreet van landne (zie droogte 2022)
+
+\chapter{Drought Impact Database}
+\input{sections/Appendix_C.tex}
+
+%add how much it costed and why it went wrong lopl
+
+\backmatter
+\bibliographystyle{alpha}
+\bibliography{references,IBF_references, Location_extraction, LLMN_references}
+
+\end{document}

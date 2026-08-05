@@ -1,0 +1,27 @@
+The previous section highlighted the need for a Dutch drought impact database suitable for impact-based forecasting. However, constructing such a database requires careful consideration of the information needed by predictive models. This section defines the requirements for the drought impacts extracted from newspaper articles. The structure of the dataset determines the spatial detail, impact specificity, and temporal information available for forecasting. Therefore, the database developed in this thesis is designed around four key requirements: spatial resolution, impact categorisation, temporal representation, and explicit impact-location relationships.
+
+\subsection{Spatial Resolution (NUTS-2 / NUTS-3)}
+
+Spatial resolution is a key requirement for impact-based drought forecasting. Existing studies often operate at aggregated administrative scales because impact observations are rarely available at finer spatial levels. However, this limits the ability to capture regional differences in drought impacts.
+
+The database developed in this thesis aims to preserve point-level impact information and provide spatial information at NUTS-2 and NUTS-3 levels. This resolution provides a balance between spatial detail, data availability, and compatibility with meteorological, hydrological, and socio-economic datasets used for forecasting.
+
+\subsection{Impact Categorisation and Severity Information}
+
+Impact-based drought forecasting requires information on the specific consequences of drought rather than drought conditions alone. However, existing impact datasets often combine multiple impacts into broad categories to compensate for limited observations. While this increases the number of available samples, it reduces the detail and interpretability of predicted impacts.
+
+The database developed in this thesis aims to preserve sector-specific impact information during extraction. This includes categories such as agriculture, ecology, forestry, navigation, water supply, and infrastructure-related impacts. Maintaining detailed categories during database construction provides flexibility during later modelling stages, where categories can be combined if required.
+
+The database also aims to capture impact severity information where available. Distinguishing between minor disruptions and severe impacts provides additional information for predictive modelling.
+
+\subsection{Temporal Representation}
+
+Drought impacts often occur with a delay after changes in meteorological conditions. Agricultural losses, ecological impacts, groundwater depletion, and economic disruptions may develop weeks or months after drought onset. Furthermore, newspaper articles are not always published at the time an impact occurs, meaning publication date does not necessarily represent impact timing.
+
+Therefore, the database should capture temporal information beyond article publication date where possible. This enables a better representation of the relationship between drought conditions and observed impacts, which is important for forecasting models using different lead times.
+
+\subsection{Multi-Location Impact Extraction}
+
+A limitation of many conventional geoparsing approaches is that they often assume a document contains one dominant location. However, drought-related articles frequently describe multiple impacts occurring across different regions. When locations are extracted only at the document level, the relationship between individual impacts and their associated locations can be lost.
+
+The extraction framework developed in this thesis therefore focuses on identifying explicit impact-location relationships. Instead of assigning a single location to an entire document, individual impact descriptions are linked to their corresponding geographic regions. This increases the spatial detail of the resulting database and improves its suitability for regional impact-based drought forecasting.

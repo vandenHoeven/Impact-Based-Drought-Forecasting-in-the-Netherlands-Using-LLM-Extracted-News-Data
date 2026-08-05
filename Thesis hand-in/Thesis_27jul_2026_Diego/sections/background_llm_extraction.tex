@@ -1,0 +1,28 @@
+
+
+\subsection{General Definition of Large Language Models}
+
+Large Language Models (LLMs) are neural network-based models designed to learn statistical patterns in large collections of text. By modelling the probability distribution of sequences of tokens, LLMs can generate, transform, and extract information from natural language. In recent years, the application of LLMs has expanded rapidly, driven by advances in model architecture, computational resources, and large-scale training datasets.
+
+The fundamental objective of an LLM is to predict the most likely next token given a preceding sequence of tokens. A token represents a discrete unit of text, such as a word or part of a word. Given an input sequence of tokens $x_1, x_2, ..., x_{t-1}$, the model estimates the probability distribution of the next token $x_t$:
+
+\[
+P(x_t \mid x_1, x_2, ..., x_{t-1})
+\] During text generation, the next token can be selected based on this probability distribution, commonly by selecting the token with the highest estimated probability:
+
+\[
+x_t = \arg\max_x P(x \mid x_1, x_2, ..., x_{t-1})
+\] Through this iterative process, LLMs generate coherent sequences of text based on the contextual information provided in the input. Modern LLMs are primarily based on the Transformer architecture introduced by Vaswani et al. \cite{vaswani2017attention}, which enables efficient processing of long text sequences and allows models to capture contextual relationships between tokens.
+
+\subsection{Information Extraction with Large Language Models}
+
+Information extraction (IE) refers to the transformation of unstructured text into structured representations, such as entities, attributes, and event-level records. Traditional IE approaches rely on supervised learning pipelines, including named entity recognition and relation extraction, which require manually annotated datasets and often generalise poorly beyond  training.
+
+Large Language Models (LLMs) have shifted IE towards generative information extraction (GenIE), where extraction is formulated as structured generation guided by natural language instructions and output constraints \cite{gao2023llmsgenie}. Instead of requiring task-specific model training, LLMs can perform classification by adapting their behaviour through prompting and predefined output schemas \cite{gao2023llmsgenie}.
+
+LLM-based extraction systems typically rely on several core mechanisms \cite{gao2023llmsgenie}. 
+\textbf{(1) Generative information extraction}, where extraction tasks are reformulated as conditional text generation, allowing entities, relations, and events to be generated directly from input text using prompts and predefined schemas. 
+\textbf{(2) Prompt design and structured generation}, where task instructions, demonstrations, and schema descriptions guide the model towards consistent extraction formats. 
+\textbf{(3) Reasoning and refinement strategies}, where approaches such as chain-of-thought prompting, self-verification, or iterative refinement are explored to improve extraction accuracy and reduce errors \cite{gao2023llmsgenie}.
+
+Despite these advances, ensuring that extracted information is both structurally valid and faithful to the source text remains a key challenge. LLMs may generate plausible but incorrect information, commonly referred to as hallucinations. Therefore, validation procedures and reliability assessments remain essential when applying LLM-based extraction methods for scientific dataset construction.

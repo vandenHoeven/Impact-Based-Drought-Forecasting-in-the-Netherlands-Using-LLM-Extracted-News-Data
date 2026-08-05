@@ -1,0 +1,41 @@
+NUTS_ID,NAME_LATN,dominant_main_class,dominant_fraction,rank_group
+NL224,Zuidwest-Gelderland,Rivierkleigronden,0.9769950247511497,high_dominance
+NL112,Delfzijl en omgeving,Zeekleigronden,0.947138383670178,high_dominance
+NL341,Zeeuwsch-Vlaanderen,Zeekleigronden,0.8093838174986933,high_dominance
+NL33C,Groot-Rijnmond,Zeekleigronden,0.804551647130377,high_dominance
+NL230,Flevoland,Zeekleigronden,0.7956177752183552,high_dominance
+NL342,Overig Zeeland,Zeekleigronden,0.7852924158864235,high_dominance
+NL325,Zaanstreek,Veengronden,0.6559325530759256,high_dominance
+NL131,Noord-Drenthe,Podzolgronden,0.6478316942888577,high_dominance
+NL124,Noord-Friesland,Zeekleigronden,0.6282861589594625,high_dominance
+NL226,Arnhem/Nijmegen,Rivierkleigronden,0.6223879638819309,high_dominance
+NL33B,Oost-Zuid-Holland,Veengronden,0.588213480347459,mid
+NL113,Overig Groningen,Zeekleigronden,0.5746193675523739,mid
+NL324,Agglomeratie Haarlem,Kalkhoudende zandgronden,0.5418248836627392,mid
+NL133,Zuidwest-Drenthe,Podzolgronden,0.5396904544614857,mid
+NL321,Kop van Noord-Holland,Zeekleigronden,0.5293872313151767,mid
+NL329,Groot-Amsterdam,Zeekleigronden,0.5099644283261595,mid
+NL126,Zuidoost-Friesland,Podzolgronden,0.5091730712724492,mid
+NL328,Alkmaar en omgeving,Zeekleigronden,0.508915902422826,mid
+NL414,Zuidoost-Noord-Brabant,Podzolgronden,0.49768342626783013,mid
+NL221,Veluwe,Podzolgronden,0.496382370124459,mid
+NL213,Twente,Podzolgronden,0.47112524430355085,mid
+NL423,Zuid-Limburg,Brikgronden,0.4521717265668363,mid
+NL212,Zuidwest-Overijssel,Podzolgronden,0.4508405989719703,mid
+NL33A,Zuidoost-Zuid-Holland,Veengronden,0.4497191558047059,mid
+NL323,IJmond,Kalkhoudende zandgronden,0.43904121115535083,mid
+NL132,Zuidoost-Drenthe,Podzolgronden,0.4374158893550593,mid
+NL125,Zuidwest-Friesland,Zeekleigronden,0.425512852120581,mid
+NL111,Oost-Groningen,Podzolgronden,0.3933586572340902,mid
+NL332,Agglomeratie ’s-Gravenhage,Zeekleigronden,0.39195751304596377,mid
+NL421,Noord-Limburg,Podzolgronden,0.3799435442270177,mid
+NL411,West-Noord-Brabant,Zeekleigronden,0.37429726074464903,low_dominance
+NL310,Utrecht,Rivierkleigronden,0.3735699387644433,low_dominance
+NL412,Midden-Noord-Brabant,Podzolgronden,0.37067121570921063,low_dominance
+NL225,Achterhoek,Podzolgronden,0.36704695918508234,low_dominance
+NL327,Het Gooi en Vechtstreek,Podzolgronden,0.3532423419970317,low_dominance
+NL333,Delft en Westland,Zeekleigronden,0.3443405720542577,low_dominance
+NL337,Agglomeratie Leiden en Bollenstreek,Zeekleigronden,0.3378008976025587,low_dominance
+NL413,Noordoost-Noord-Brabant,Podzolgronden,0.3272574584669498,low_dominance
+NL211,Noord-Overijssel,Podzolgronden,0.3030854886157095,low_dominance
+NL422,Midden-Limburg,Kalkloze zandgronden,0.26727405263626036,low_dominance

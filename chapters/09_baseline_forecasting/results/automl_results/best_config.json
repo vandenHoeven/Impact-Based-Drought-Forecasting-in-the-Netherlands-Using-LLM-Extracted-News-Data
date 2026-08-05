@@ -1,0 +1,52 @@
+{
+  "model_name": "logistic_regression",
+  "features": [
+    "spei_09",
+    "spei_12",
+    "spei_24",
+    "spi_09",
+    "spi_12",
+    "spi_24",
+    "soil_moisture_anom",
+    "cdd_days",
+    "month_sin",
+    "month_cos",
+    "elevation_mean",
+    "elevation_std",
+    "soil_brikgronden",
+    "soil_dikke_eerdgronden",
+    "soil_gedefinieerde_associaties",
+    "soil_kalkhoudende_zandgronden",
+    "soil_kalkloze_zandgronden",
+    "soil_kalksteen_verweringsgronden",
+    "soil_keileemgronden",
+    "soil_leemgronden",
+    "soil_moerige_gronden",
+    "soil_niet_gerijpte_minerale_gronden",
+    "soil_oude_rivierkleigronden",
+    "soil_podzolgronden",
+    "soil_rivierkleigronden",
+    "soil_veengronden",
+    "soil_zeekleigronden",
+    "soil_zeer_oude_fluviatiele_afzettingen",
+    "soil_zeer_oude_mariene_afzettingen",
+    "soil_dominant_fraction"
+  ],
+  "params": {
+    "C": 0.03384313229479467
+  },
+  "cv_macro_pr_auc": 0.33501974879731256,
+  "trial_number": 88,
+  "feature_groups_used": [
+    "meteo",
+    "temporal",
+    "static_elev",
+    "static_soil"
+  ],
+  "group_subsets": {
+    "meteo": "long",
+    "temporal": "seasonality",
+    "static_elev": "both",
+    "static_soil": "all"
+  }
+}

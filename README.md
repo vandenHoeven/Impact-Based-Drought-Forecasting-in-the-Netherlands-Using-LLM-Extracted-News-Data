@@ -15,13 +15,14 @@ Code and resources accompanying an MSc thesis on impact-based drought forecastin
 │   ├── 05_llm_evaluation/             # frozen eval metrics + report notebook
 │   ├── 06_geocoding/                  # Nominatim points + NUTS-3 + viewer/EDA
 │   ├── 07_visualization_reliability/
-│   ├── 08_exploratory_data_analysis/
-│   └── 09_baseline_forecasting/
+│   ├── 08_exploratory_data_analysis/  # report EDA figures + tables
+│   └── 09_baseline_forecasting/       # NUTS-3 AutoML forecasting
 └── reproducibility_and_robustness_testing/
     ├── check_imports.py
     ├── run_all_scripts.py             # PASS / SKIPPED / FAIL summary
     ├── chapter_04_database_construction/
-    └── chapter_05_llm_evaluation/
+    ├── chapter_05_llm_evaluation/
+    └── chapter_06_geocoding/
 ```
 
 ## Environment setup
@@ -39,11 +40,11 @@ pip install -r requirements.txt
 
 playwright install chromium   # once, after playwright is added
 
-# automated procedure checks (imports → ch05 → ch04; optional blank API key = skip)
+# automated procedure checks (imports → ch05 → ch06 → ch04; optional blank API key = skip)
 python reproducibility_and_robustness_testing/run_all_scripts.py
 ```
 
-`requirements.txt` covers Chapter 04–06 stacks (Playwright/LiteLLM, pandas/matplotlib/streamlit, and geopandas/shapely/pyproj/pydeck for geocoding).
+`requirements.txt` covers Chapters 04–09 stacks (Playwright/LiteLLM, pandas/matplotlib/streamlit/geopandas, plus seaborn/networkx for Ch08 and scikit-learn/optuna/shap/xgboost/rasterio/pyarrow for Ch09).
 
 ## Chapter 04 (database construction)
 
@@ -72,11 +73,20 @@ python src/nuts3_coder.py
 streamlit run src/combined_viewer.py
 ```
 
+## Chapter 08 (exploratory data analysis)
+
+Report figures and Overleaf summary tables under [`chapters/08_exploratory_data_analysis/`](chapters/08_exploratory_data_analysis/README.md). Run `notebooks/01_report_final_figures.ipynb` (current-month NUTS-3 impacts, 2005–2025).
+
+## Chapter 09 (baseline forecasting)
+
+NUTS-3 multi-label AutoML under [`chapters/09_baseline_forecasting/`](chapters/09_baseline_forecasting/README.md). Notebooks `00`–`03` + `src/run_automl.py`; frozen metrics in `results/automl_results/`. Large DEM/BRO/CLC rasters are kept **locally** for rebuilds but gitignored (see that README).
+
 ## Reproducibility notes
 
 - Full Lexis news corpora **cannot be redistributed** (copyright). The repo ships code, fixtures, and frozen evaluation/geocoding outputs—not the full thesis corpus.
 - Chapter 04 **acquisition procedure** and **preprocessing** are reproducible as code; full downloads need Lexis credentials.
 - **LLMn outputs** depend on third-party APIs; exact extractions are hard to bit-reproduce. Leave the Chapter 04 suite API prompt blank to **skip** the live call without failing the suite.
 - Chapter 06 **NUTS-3 / viewer** paths are offline-reproducible from frozen files; **Nominatim** may change over time.
+- Chapters 08–09 ship frozen figures/metrics; full Ch09 static rebuilds need local gitignored rasters under `09_baseline_forecasting/data/`.
 
 Procedure checks: [`reproducibility_and_robustness_testing/README.md`](reproducibility_and_robustness_testing/README.md).

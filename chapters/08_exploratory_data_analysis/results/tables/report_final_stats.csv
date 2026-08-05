@@ -1,0 +1,44 @@
+metric,value
+filter,nuts3 + recency_in_months==0
+n_rows,16082
+n_rows_2005_2025,15588
+n_articles,4369
+early_total_2005_2017,3038
+late_total_2018_2025,12550
+early_mean_per_year,233.7
+late_mean_per_year,1568.8
+count_2017,244
+count_2018,2095
+peak_year,2020
+peak_count,2615
+may_sep_pct,74.2
+jul_aug_pct,41.0
+dec_feb_pct,6.6
+meteo_divergent_years,"2007 (Δ=0.62, impacts higher); 2009 (Δ=0.60, deficit higher); 2011 (Δ=0.69, impacts higher); 2013 (Δ=0.41, deficit higher); 2016 (Δ=0.58, deficit higher)"
+nuts3_top1,Achterhoek (797)
+nuts3_top2,Veluwe (715)
+nuts3_top3,Zuidoost-Noord-Brabant (709)
+nuts3_top4,Overig Zeeland (616)
+nuts3_top5,West-Noord-Brabant (592)
+theme_water,3320 (33.5%)
+theme_agriculture,3211 (32.4%)
+theme_ecosystem,1758 (17.7%)
+theme_fire_heat,993 (10.0%)
+theme_economy,332 (3.4%)
+theme_social,296 (3.0%)
+class_top1,Crop Failure & Yield Reduction: 1946 (19.6%)
+class_top2,Reservoir & Surface Water Shortage: 987 (10.0%)
+class_top3,Freshwater Ecosystem Degradation: 868 (8.8%)
+class_top4,Groundwater Depletion: 777 (7.8%)
+class_top5,Water Use Restrictions: 776 (7.8%)
+class_bottom1,Hydropower Reduction: 7 (0.1%)
+article_cooc_top1,Agri economic -- Crop failure: 408
+article_cooc_top2,Freshwater eco -- Reservoir/SW: 280
+article_cooc_top3,Reservoir/SW -- Use restrictions: 255
+article_cooc_top4,Freshwater eco -- Groundwater: 227
+article_cooc_top5,Crop failure -- Irrigation: 227
+nuts3month_cooc_top1,Agri economic -- Crop failure: 470
+nuts3month_cooc_top2,Crop failure -- Reservoir/SW: 402
+nuts3month_cooc_top3,Crop failure -- Freshwater eco: 386
+nuts3month_cooc_top4,Freshwater eco -- Reservoir/SW: 382
+nuts3month_cooc_top5,Crop failure -- Groundwater: 369

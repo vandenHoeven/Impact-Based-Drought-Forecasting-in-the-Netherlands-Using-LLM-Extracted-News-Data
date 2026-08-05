@@ -1,0 +1,12 @@
+,value
+n_soil_polygons,48025.0
+n_interest_polygons,6192.0
+soil_area_km2,30426.2
+interest_area_km2,10478.7
+n_main_classes,17.0
+n_detailed_classes,305.0
+n_nuts3_with_soil,40.0
+bbox_xmin,13579.0
+bbox_ymin,306870.2
+bbox_xmax,278042.0
+bbox_ymax,619129.0

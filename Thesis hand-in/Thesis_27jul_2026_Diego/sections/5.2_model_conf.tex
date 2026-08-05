@@ -1,0 +1,222 @@
+% \subsection{Evaluated Models}
+
+% To evaluate the practical trade-off between extraction quality, structural consistency, and inference cost, a diverse set of Large Language Models (LLMs) was selected. The models were chosen to reflect different operational profiles relevant to structured drought impact extraction from news articles. These profiles include high-capability reasoning models, cost-efficient structured extraction models, and lightweight high-throughput systems. All models are accessed through cloud APIs and configured to return structured JSON outputs.
+
+% \begin{table}[h!]
+% \centering
+% \caption{Overview and Costs of Evaluated Models (May 2026)}
+% \label{tab:evaluated_models}
+% \small
+% \renewcommand{\arraystretch}{1.2}
+% \begin{tabular}{llccp{5.2cm}}
+% \hline
+% \textbf{Provider} & \textbf{Model} & \textbf{Input / 1M} & \textbf{Output / 1M} & \textbf{Main Reason for Testing} \\ \hline
+% Anthropic & Claude 4.6 Sonnet & \$3.00 & \$15.00 & Strong instruction following, long-context processing, and consistent performance on complex multi-step language tasks. \\
+% OpenAI & GPT-5.4 mini & \$0.75 & \$4.50 & Fast, low-cost reasoning model with structured output support and large context capacity. \\
+% Google & Gemini 3.1 Pro & \$2.00 & \$12.00 & High-capacity reasoning model used as a flagship benchmark for extraction quality. \\
+% Google & Gemini 3.5 Flash & \$1.50 & \$9.00 & Faster inference model balancing extraction quality, latency, and cost. \\
+% Google & Gemini 3.1 Flash-Lite & \$0.25 & \$1.50 & Low-cost model for evaluating minimum viable extraction performance. \\ \hline
+% \end{tabular}
+% \end{table}
+
+
+% The selected models represent different trade-offs between reasoning capability, throughput, cost efficiency, and structured generation reliability. The cost of each model quantitively are summarised in Table ~\ref{tab:evaluated_models}, next to that we get the reason for it.
+
+% Claude 4.6 Sonnet is evaluated as a high-capability language model specialised in robust textual interpretation. News articles describing drought impacts often contain indirect causal relations, overlapping temporal references, and geographically dispersed events. This model is tested for its ability to preserve semantic consistency while generating structured outputs under ambiguous conditions.
+
+% GPT-5.4 mini is evaluated as a computationally efficient reasoning model with native support for structured outputs and tool-oriented workflows. The model supports large context windows while maintaining relatively low inference costs. This makes it particularly suitable for high-volume extraction scenarios in which structural consistency and scalability are important.
+
+% Gemini 3.1 Pro serves as the highest-capability benchmark model within the evaluated Google model family. The model is included to evaluate whether increased reasoning capacity improves extraction quality for complex event descriptions involving multiple locations, severity indicators, and temporal references.
+
+% Gemini 3.5 Flash is included as a lower-cost alternative designed for high-throughput inference. The model targets applications requiring reduced latency and operational cost while retaining performance levels close to larger flagship systems.
+
+% Gemini 3.1 Flash-Lite is evaluated as an ultra low-cost extraction model intended for large-scale processing pipelines. The model is primarily used to analyse the minimum computational cost required to construct structured drought impact datasets while maintaining acceptable extraction quality.
+
+
+
+% \subsection{Controlled Experimental Setup for Model Comparison}
+% \label{sec:controlled_experimental_setup}
+
+% To ensure fair comparison across models, the extraction pipeline is held constant across all experimental conditions. The objective is to isolate differences in output quality and cost efficiency to the underlying model behaviour rather than prompt design or preprocessing variation.
+
+% All models are evaluated using the same system prompt and the same structured extraction schema defined in Section~\ref{Extraction Framework Design}. They are also all evaluated using the same evaluation set. No model-specific prompt adaptations or optimisations are applied. This ensures that each model operates under identical task specifications and output constraints.
+
+% The input pipeline is also kept fixed across all experiments. Articles undergo the same preprocessing steps, and no additional filtering, reformatting, or content selection is applied at the model level. This guarantees that all models receive equivalent input representations.
+
+% For the temperature across all models, we use 0, to reduce stochastic variation in outputs. In combination with the fixed schema enforcement layer, this ensures that observed differences reflect model capability rather than sampling variability or prompt sensitivity. The library little llmn is used facilitate this.
+
+
+% Overall, this controlled setup enables a direct comparison of models under identical conditions, allowing systematic evaluation of extraction quality, structural validity, and inference cost across different model families.
+
+% \subsection{Evaluation Dimensions}
+
+
+% \subsubsection{Extraction Quality Metrics}
+
+% Extraction quality is evaluated at the event level, where each predicted event is matched against a reference event. Let $\mathcal{E}^{(g)}$ denote the set of ground-truth events and $\mathcal{E}^{(p)}$ the set of predicted events for a given article.
+% %Evaluation is performed after optimal one-to-one alignment between predicted and reference events, ensuring that each prediction is evaluated against at most one reference instance.
+
+% \paragraph{Impact classification accuracy}
+% Impact classification is evaluated as a categorical matching problem. For each aligned event pair $(e_i^{(p)}, e_i^{(g)})$, the model prediction is considered correct if the predicted class matches the ground-truth class exactly:
+
+% \[
+% \mathrm{Acc}_{class} = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}\big(c_i^{(p)} = c_i^{(g)}\big)
+% \]
+
+% where $c_i$ denotes the drought impact class and $N$ is the total number of aligned events.
+
+% \paragraph{Severity agreement}
+% Severity is treated as a low-cardinality ordinal variable $s \in \{1, 2, 3\}$. Given this restricted range, we evaluate performance using simple accuracy rather than error-based metrics such as MAE. This choice avoids over-penalising small ordinal deviations that are not meaningful at this scale:
+
+% \[
+% \mathrm{Acc}_{sev} = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}\big(s_i^{(p)} = s_i^{(g)}\big)
+% \]
+
+% \paragraph{Recency agreement}
+% Recency is defined in discrete temporal bins expressed in months:
+% \[
+% r \in \{0, 1, 2, 3, 4, 5, 6, 12, 24\}
+% \]
+
+% To evaluate temporal correctness, we report both exact-bin accuracy and mean absolute error (MAE). The MAE captures how far predictions deviate in time:
+
+% \[
+% \mathrm{MAE}_{rec} = \frac{1}{N} \sum_{i=1}^{N} \left| r_i^{(p)} - r_i^{(g)} \right|
+% \]
+
+% In addition, exact agreement is defined as:
+
+% \[
+% \mathrm{Acc}_{rec} = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}\big(r_i^{(p)} = r_i^{(g)}\big)
+% \]
+
+% \paragraph{Location correctness}
+% Location correctness evaluates whether the model extracts the correct location mention as it appears in the source text. Since the LLM is not responsible for geographic resolution or spatial standardisation, evaluation is restricted to textual agreement with the reference annotation.
+
+% Let $l_i^{(p)}$ denote the predicted location string and $l_i^{(g)}$ the ground-truth location mention. Correctness is defined using a normalised exact match:
+
+% \[
+% \mathrm{Acc}_{loc} = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}\big(\mathrm{norm}(l_i^{(p)}) = \mathrm{norm}(l_i^{(g)})\big)
+% \]
+
+% where $\mathrm{norm}(\cdot)$ removes differences in casing, punctuation, and leading or trailing whitespace.
+
+% Geographic resolution to NUTS-3 level is handled in a separate geocoding stage (in .. ) and is therefore excluded from this evaluation.
+
+% \paragraph{Event detection success}
+% Event detection evaluates whether the model correctly identifies the presence of at least one drought impact event in an article. Let $y^{(g)} \in \{0,1\}$ denote whether any event exists in the ground truth and $y^{(p)}$ the corresponding prediction. We define detection accuracy as:
+
+% \[
+% \mathrm{Acc}_{event} = \frac{1}{M} \sum_{j=1}^{M} \mathbb{1}\big(y_j^{(p)} = y_j^{(g)}\big)
+% \]
+
+% where $M$ is the number of evaluated articles.
+
+% Together, these metrics capture both semantic correctness (impact class, severity, recency, location) and the model’s ability to detect whether relevant events exist at all. This separation allows us to distinguish between extraction quality and extraction completeness, which is critical for evaluating large language models in structured information extraction tasks.
+
+% % Main evaluation axis.
+% %
+% % Suggested metrics:
+% % - impact classification accuracy
+% % - severity agreement
+% % - recency agreement
+% % - location mention correctness
+% % - event detection success
+% %
+% % Keep metrics simple.
+% % Avoid overengineering unless dataset size supports it.
+% %
+% % Mention:
+% % evaluation occurs at event level.
+
+% \subsubsection{Structural Validity Metrics}
+
+% to do needs work, didn't think this out yet enough.
+
+% All models generate outputs under the same structured schema. Because of this, we mainly check whether the output can be correctly parsed into the required format.
+
+% Let $N$ be the total number of model outputs. We define a binary variable $v_i$, where $v_i = 1$ if the output can be parsed successfully into the target schema, and $v_i = 0$ otherwise. Structural validity is then:
+
+% \[
+% \mathrm{Validity} = \frac{1}{N} \sum_{i=1}^{N} v_i
+% \]
+
+% An output is counted as valid if it follows the required structure and contains all required fields. If parsing fails or fields are missing, it is counted as invalid.
+
+% Because all models are forced to follow the same schema, we expect this score to be very high in most cases. This metric mainly ensures that the pipeline works correctly and that no structural errors occur during generation.
+
+% \subsubsection{Inference Cost and Computational Efficiency}
+% %Later after running the code and having the dataset
+
+
+% % Keep lightweight.
+% %
+% % Suggested measures:
+% % - average inference time per article
+% % - approximate API cost per article / dataset
+% %
+% % Do NOT overfocus on benchmarking hardware.
+% %
+% % Goal:
+% % practical feasibility for large-scale extraction.
+
+% \subsection{Aggregation and Comparative Evaluation}
+
+% To compare models fairly, all evaluation metrics are computed at the event level and then aggregated across the full dataset. Each predicted event is matched with a reference event, and scores are calculated per event before averaging.
+
+% Let $M$ be the number of matched events, and let $s_i$ denote the score for event $i$. The overall performance for a given metric is computed as:
+
+% \[
+% \mathrm{Score} = \frac{1}{M} \sum_{i=1}^{M} s_i
+% \]
+
+% % Final results are reported using simple averages across all events. This includes the main extraction quality metrics (classification, severity, recency, and location correctness) as well as structural validity. This ensures that each model is evaluated under the same conditions and contributes equally to the final score. For recency, we use exact agreement accuracy, as this aligns more naturally with the averaging framework compared to mean absolute error (MAE). 
+% \subsubsection{Evaluation Metrics [needs work later]}
+
+% Model performance is evaluated using a series of precision-based metrics that measure extraction quality at increasing levels of detail.
+
+% \paragraph{Relevance Precision}
+
+% The first metric evaluates whether the model correctly identifies articles containing drought-related impacts. Articles are classified as \textit{relevant}, \textit{irrelevant}, or \textit{uncertain}. Relevance precision is defined as:
+
+% \[
+% P_{rel} = \frac{TP_{rel}}{TP_{rel} + FP_{rel}}
+% \]
+
+% where $TP_{rel}$ denotes the number of correctly identified relevant articles and $FP_{rel}$ denotes the number of articles incorrectly classified as relevant.
+
+% \paragraph{Location-Impact Precision}
+
+% Location-impact precision evaluates whether the model correctly extracts both the location and impact category. A prediction is considered correct only if both fields match the reference annotation.
+
+% \[
+% P_{LI} = \frac{TP_{LI}}{TP_{LI} + FP_{LI}}
+% \]
+
+% where $TP_{LI}$ is the number of correctly predicted location-impact tuples and $FP_{LI}$ is the number of incorrect or spurious tuples.
+
+% \paragraph{Location-Impact-Severity Precision}
+
+% This metric extends location-impact precision by additionally requiring the severity label to be correct.
+
+% \[
+% P_{LIS} = \frac{TP_{LIS}}{TP_{LIS} + FP_{LIS}}
+% \]
+
+% A tuple is counted as correct only if location, impact category, and severity all match the reference annotation.
+
+% \paragraph{Location-Impact-Recency Precision}
+
+% Finally, this metric evaluates whether the model correctly extracts location, impact category, and recency information simultaneously.
+
+% \[
+% P_{LIR} = \frac{TP_{LIR}}{TP_{LIR} + FP_{LIR}}
+% \]
+
+% A prediction is considered correct only if all three attributes match the reference tuple.
+
+% \paragraph{Summary}
+
+% Together, these metrics evaluate both the model's ability to identify relevant articles and its ability to extract increasingly detailed drought-impact information from text.
+
+

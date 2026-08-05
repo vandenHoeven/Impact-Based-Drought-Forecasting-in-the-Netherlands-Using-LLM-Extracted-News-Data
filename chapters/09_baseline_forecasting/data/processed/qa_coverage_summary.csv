@@ -1,0 +1,13 @@
+metric,value
+n_rows,3840
+n_nuts3,40
+n_months,96
+min_year_month,2018-01
+max_year_month,2025-12
+n_model_features,52
+n_target_cols,44
+n_supervised,3840
+n_complete,3714
+n_development_complete,2877
+n_test_complete,837
+pct_has_impact,43.75

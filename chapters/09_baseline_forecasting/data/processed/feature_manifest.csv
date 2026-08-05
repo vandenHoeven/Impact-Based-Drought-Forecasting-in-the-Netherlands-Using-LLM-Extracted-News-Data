@@ -1,0 +1,53 @@
+column,group
+spei_01,meteo
+spei_03,meteo
+spei_06,meteo
+spei_09,meteo
+spei_12,meteo
+spei_24,meteo
+spi_01,meteo
+spi_03,meteo
+spi_06,meteo
+spi_09,meteo
+spi_12,meteo
+spi_24,meteo
+soil_moisture_anom,meteo
+cdd_days,meteo
+has_impact_lag1,temporal
+month_sin,temporal
+month_cos,temporal
+year,temporal
+crop_cover_fraction,static_land
+tree_cover_fraction,static_land
+water_cover_fraction,static_land
+population_fraction,static_pop
+elevation_mean,static_elev
+elevation_std,static_elev
+soil_brikgronden,static_soil
+soil_dikke_eerdgronden,static_soil
+soil_gedefinieerde_associaties,static_soil
+soil_kalkhoudende_zandgronden,static_soil
+soil_kalkloze_zandgronden,static_soil
+soil_kalksteen_verweringsgronden,static_soil
+soil_keileemgronden,static_soil
+soil_leemgronden,static_soil
+soil_moerige_gronden,static_soil
+soil_niet_gerijpte_minerale_gronden,static_soil
+soil_oude_rivierkleigronden,static_soil
+soil_podzolgronden,static_soil
+soil_rivierkleigronden,static_soil
+soil_veengronden,static_soil
+soil_zeekleigronden,static_soil
+soil_zeer_oude_fluviatiele_afzettingen,static_soil
+soil_zeer_oude_mariene_afzettingen,static_soil
+soil_dominant_fraction,static_soil
+Crop Failure & Yield Reduction_lag1,class_lag
+Reservoir & Surface Water Shortage_lag1,class_lag
+Freshwater Ecosystem Degradation_lag1,class_lag
+Groundwater Depletion_lag1,class_lag
+Water Use Restrictions_lag1,class_lag
+Forest Dieback & Vegetation Stress_lag1,class_lag
+Agricultural Economic Loss_lag1,class_lag
+Irrigation Shortage_lag1,class_lag
+Water Supply & Sanitation Issues_lag1,class_lag
+Wildfire Occurrence_lag1,class_lag

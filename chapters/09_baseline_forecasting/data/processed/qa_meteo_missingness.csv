@@ -1,0 +1,16 @@
+feature,missing_pct
+spei_01,0.0
+spei_03,0.0
+spei_06,0.0
+spei_09,0.0
+spei_12,0.0
+spei_24,0.0
+spi_01,0.0
+spi_03,0.0
+spi_06,0.0
+spi_09,0.0
+spi_12,0.0
+spi_24,0.0
+soil_moisture_anom,0.0
+cdd_days,0.16
+cdd_station_count,0.0
