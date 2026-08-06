@@ -72,6 +72,7 @@ Frozen thesis results live under `results/automl_results/` (selected Random Fore
 | --- | --- | --- |
 | **Thesis-final AutoML results** | `results/automl_results/` | Frozen thesis run (no Optuna re-fit needed) |
 | **Shipped panels / meteo / inputs** | `data/meteo_nl/`, `data/input/`, processed CSVs/parquets | Enough for offline inspection and smoke checks |
+| **Curated statics figures (shipped)** | `results/figures/statics/` | Selected soil/elevation EDA maps for the thesis |
 | Local-only rasters (rebuild) | `data/raw/`, `data/static/**/*.tif` | DEM / BRO / CLC / WorldPop — gitignored |
 | Regenerable galleries | `data/processed/qa_predictor_july_maps/`, `soil_eda/`, … | Local only; rebuildable |
 
@@ -81,7 +82,7 @@ Local-only large files (keep on disk; do not push):
 | --- | --- | --- |
 | `data/raw/soil/BRO-SGM-Bodemkaart-V2025-01.tif` | ~299 MB | BRO soil map (statics notebook `01`) |
 | `data/static/land/U2018_CLC2018_V2020_20u1.tif` | ~197 MB | CLC 2018 land cover |
-| `data/raw/elevation/10_DEM_y50x0.tif` | ~125 MB | DEM for elevation statics |
+| `data/raw/elevation/10_DEM_y50x0.tif` | ~125 MB | Copernicus DEM (GLO-90) via [Eurostat GISCO](https://ec.europa.eu/eurostat/web/gisco/geodata/digital-elevation-model/copernicus#Elevation); elevation statics |
 | Other `data/static/**/*.tif` | varies | e.g. WorldPop population rasters |
 | `data/processed/*.gpkg` | varies | BRO soil GPKG caches (rebuildable) |
 

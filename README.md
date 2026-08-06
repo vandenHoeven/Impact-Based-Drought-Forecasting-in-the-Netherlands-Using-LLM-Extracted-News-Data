@@ -9,7 +9,7 @@ This repo is the **code + frozen artefacts** companion to the thesis write-up un
 | Goal | Where to look |
 | --- | --- |
 | Verify the hand-in package | `python reproducibility_and_robustness_testing/run_all_scripts.py` |
-| Data sources / what is shipped | [`data/README.md`](data/README.md) |
+| Data sources / what is shipped | [`DATA.md`](DATA.md) |
 | Frozen Ch05 tables / figures | `chapters/05_llm_evaluation/results/` |
 | Thesis-final geocoded points / NUTS-3 | `chapters/06_geocoding/data/final/` |
 | Frozen Ch08 EDA figures / tables | `chapters/08_exploratory_data_analysis/results/` |
@@ -31,8 +31,8 @@ flowchart LR
 .
 ├── README.md
 ├── .gitignore
+├── DATA.md                            # data overview / hand-in catalogue
 ├── requirements.txt
-├── data/                              # data overview / hand-in catalogue (see data/README.md)
 ├── chapters/
 │   ├── 04_database_construction/      # Lexis → preprocess → LLMn
 │   ├── 05_llm_evaluation/             # frozen eval metrics + report notebook
