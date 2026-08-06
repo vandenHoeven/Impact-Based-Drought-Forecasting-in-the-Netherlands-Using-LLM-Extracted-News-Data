@@ -1,4 +1,4 @@
-# Chapter 09 — NUTS-3 drought impact AutoML
+# Chapter 09: NUTS-3 drought impact AutoML
 
 Self-contained package for the thesis Chapter 9 main experiment: multi-label impact occurrence forecasting at NUTS-3, horizons \(h=0\ldots3\), top-10 classes, development 2018–2023 / test 2024–2025, Optuna model + predictor-subset search.
 
@@ -9,7 +9,7 @@ Self-contained package for the thesis Chapter 9 main experiment: multi-label imp
 3. Build supervised / dev / test panels from meteo + statics + impact labels (`02_data_preparation.ipynb`).
 4. Run Optuna CV + test + SHAP + diagnostics (`03_automl_nuts3.ipynb` or `src/run_automl.py`).
 
-**Not included:** NUTS-2 pipeline, class-aware / top-15 AutoML runners. Global SPEI/SPI archives (~50 GB) stay outside this package — only the NL meteo clip lives under `data/meteo_nl/`.
+**Not included:** NUTS-2 pipeline, class-aware / top-15 AutoML runners. Global SPEI/SPI archives (~50 GB) stay outside this package; only the NL meteo clip lives under `data/meteo_nl/`.
 
 ## Layout
 
@@ -40,7 +40,7 @@ Self-contained package for the thesis Chapter 9 main experiment: multi-label imp
 
 ```bash
 cd chapters/09_baseline_forecasting
-# 1. OPTIONAL — only if data/meteo_nl/ is empty or you want to re-clip from a
+# 1. OPTIONAL: only if data/meteo_nl/ is empty or you want to re-clip from a
 #    local ~50 GB global Meteo archive. The hand-in copy already ships meteo_nl/.
 #    Set CH09_METEO_GLOBAL_DIR, then open notebooks/00_subset_meteo_nl.ipynb
 #    If meteo_nl is already populated, the notebook sets SKIP_CLIP=True and does nothing.
@@ -73,7 +73,7 @@ Frozen thesis results live under `results/automl_results/` (selected Random Fore
 | **Thesis-final AutoML results** | `results/automl_results/` | Frozen thesis run (no Optuna re-fit needed) |
 | **Shipped panels / meteo / inputs** | `data/meteo_nl/`, `data/input/`, processed CSVs/parquets | Enough for offline inspection and smoke checks |
 | **Curated statics figures (shipped)** | `results/figures/statics/` | Selected soil/elevation EDA maps for the thesis |
-| Local-only rasters (rebuild) | `data/raw/`, `data/static/**/*.tif` | DEM / BRO / CLC / WorldPop — gitignored |
+| Local-only rasters (rebuild) | `data/raw/`, `data/static/**/*.tif` | DEM / BRO / CLC / WorldPop (gitignored) |
 | Regenerable galleries | `data/processed/qa_predictor_july_maps/`, `soil_eda/`, … | Local only; rebuildable |
 
 Local-only large files (keep on disk; do not push):

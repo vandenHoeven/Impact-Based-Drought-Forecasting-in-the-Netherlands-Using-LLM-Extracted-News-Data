@@ -1,13 +1,13 @@
-# Chapter 06 — Geocoding (point + NUTS-3)
+# Chapter 06: Geocoding (point + NUTS-3)
 
 Geocode drought-impact location mentions extracted in earlier chapters, assign Dutch NUTS-3 regions, and support a Streamlit map viewer plus wildfire validation EDA.
 
 ## What this does
 
-1. **Point geocoding (`point_coder.py`)** — Calls Nominatim (OpenStreetMap) once per location mention, with ranking/filtering, and writes geocoded points.
-2. **NUTS-3 assignment (`nuts3_coder.py`)** — Assigns NUTS-3 from those points using local `nuts_nl_simplified.geojson` (no network by default).
-3. **Combined viewer (`combined_viewer.py`)** — Streamlit UI for points, NUTS-3 polygons, and optional wildfire overlays.
-4. **Wildfire EDA (`notebooks/eda_wildfires.ipynb`)** — Uses frozen geocoded outputs and observational wildfire CSVs.
+1. **Point geocoding (`point_coder.py`)**: Calls Nominatim (OpenStreetMap) once per location mention, with ranking/filtering, and writes geocoded points.
+2. **NUTS-3 assignment (`nuts3_coder.py`)**: Assigns NUTS-3 from those points using local `nuts_nl_simplified.geojson` (no network by default).
+3. **Combined viewer (`combined_viewer.py`)**: Streamlit UI for points, NUTS-3 polygons, and optional wildfire overlays.
+4. **Wildfire EDA (`notebooks/eda_wildfires.ipynb`)**: Uses frozen geocoded outputs and observational wildfire CSVs.
 
 Thesis-final frozen files under `data/final/` support offline analysis without re-hitting Nominatim.
 
@@ -54,7 +54,7 @@ To re-run against the thesis-final LLM input, pass that JSON via the scripts’ 
 
 Offline viewer/EDA: use `data/final/` (or legacy `data/processed/` if you intentionally want the package sample).
 
-Legacy combined path (geocode + assign in one Nominatim pass — not required for the thesis pipeline):
+Legacy combined path (geocode + assign in one Nominatim pass, not required for the thesis pipeline):
 
 ```text
 python src/nuts3_coder.py --from-llm-json
@@ -72,7 +72,7 @@ python src/nuts3_coder.py --from-llm-json
 | --- | --- | --- |
 | **Thesis-final coder outputs (in repo)** | [`data/final/`](data/final/README.md) `points/*.csv`, `nuts3/*.csv` | Point + NUTS-3 tables for the viewer / offline analysis |
 | **Thesis-final LLM input / full JSON** | `data/input/chapter7_merged_..._flex.json` and `data/final/**/*.json` | **Local only** (gitignored; see below) |
-| Legacy package samples | `data/input/impacts_for_geocoding.json`, `data/processed/impacts_*.csv` | Older hand-in samples — **not** the thesis-final flex run |
+| Legacy package samples | `data/input/impacts_for_geocoding.json`, `data/processed/impacts_*.csv` | Older hand-in samples (**not** the thesis-final flex run) |
 | Geo layer | `data/geo/nuts_nl_simplified.geojson` | NL NUTS boundaries (in repo) |
 | KNMI deficit text | `data/wildfire/droogte_data_knmi.txt` | In repo |
 

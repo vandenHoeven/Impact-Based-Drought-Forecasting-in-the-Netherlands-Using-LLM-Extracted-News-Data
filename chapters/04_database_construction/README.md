@@ -1,12 +1,12 @@
-# Chapter 04 — Database construction
+# Chapter 04: Database construction
 
 Builds the drought-impact news database: acquire LexisNexis archives, clean and deduplicate them, then extract structured drought impacts with an LLM.
 
 ## What this does
 
-1. **Acquisition (`04_2`)** — Playwright session against LexisNexis; credentials at the terminal (not hard-coded). Saves page-range ZIP archives of DOCX articles into `data/raw/`.
-2. **Preprocessing (`04_3`)** — `clean_archive.py` unpacks DOCX files, extracts title / dates / body text, and runs MinHash + LSH near-duplicate removal.
-3. **LLMn extraction (`04_4`)** — Fixed Pydantic schema and system prompt (`schemas.py`); runner (`llmn_extraction.py`) calls models via LiteLLM with batching, checkpoints, and resume. Writes enriched articles under `data/llm_extracted/`.
+1. **Acquisition (`04_2`)**: Playwright session against LexisNexis; credentials at the terminal (not hard-coded). Saves page-range ZIP archives of DOCX articles into `data/raw/`.
+2. **Preprocessing (`04_3`)**: `clean_archive.py` unpacks DOCX files, extracts title / dates / body text, and runs MinHash + LSH near-duplicate removal.
+3. **LLMn extraction (`04_4`)**: Fixed Pydantic schema and system prompt (`schemas.py`); runner (`llmn_extraction.py`) calls models via LiteLLM with batching, checkpoints, and resume. Writes enriched articles under `data/llm_extracted/`.
 
 ## Layout
 
@@ -49,7 +49,7 @@ Optional extraction flags: `--mode test-one --index 0` or `--limit N`. Schema an
 | **Required outputs (local / gitignored)** | `data/raw/`, `data/preprocessed/`, `data/llm_extracted/` | Pipeline products; full Lexis corpus not shipped |
 | **Schema / prompt** | `04_4_LLMn_Extraction_Framework/schemas.py` | Fixed extraction contract for LLMn |
 | **Env template** | `04_4_LLMn_Extraction_Framework/.env.example` | Copy to `.env` for API keys |
-| Robustness fixture | `reproducibility_and_robustness_testing/chapter_04_database_construction/data/` | Small ZIP / smoke outputs — not the thesis corpus |
+| Robustness fixture | `reproducibility_and_robustness_testing/chapter_04_database_construction/data/` | Small ZIP / smoke outputs (not the thesis corpus) |
 
 ## Reproducibility and limits
 

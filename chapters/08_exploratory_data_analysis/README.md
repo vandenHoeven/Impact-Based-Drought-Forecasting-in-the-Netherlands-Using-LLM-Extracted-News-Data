@@ -1,4 +1,4 @@
-# Chapter 08 — Drought impact EDA (report figures)
+# Chapter 08: Drought impact EDA (report figures)
 
 Self-contained package for the thesis Chapter 8 exploratory data analysis figures and Overleaf summary stats. Filters to current-month impacts (`recency_in_months == 0`), NUTS-3, years 2005–2025.
 

@@ -2,7 +2,7 @@
 
 Code and resources accompanying an MSc thesis on impact-based drought forecasting using LLM-extracted news data, developed to ensure transparent and reproducible results.
 
-> **Data catalogue — what is / isn’t shipped**  
+> **Data catalogue: what is / isn’t shipped**  
 > Sources, sizes, and hand-in status for every major dataset: **[`DATA.md`](DATA.md)**
 
 ## Quick orientation
@@ -12,7 +12,6 @@ This repo is the **code + frozen artefacts** companion to the thesis write-up un
 | Goal | Where to look |
 | --- | --- |
 | Verify the hand-in package | `python reproducibility_and_robustness_testing/run_all_scripts.py` |
-| Data sources / what is shipped | [`DATA.md`](DATA.md) |
 | Frozen Ch05 tables / figures | `chapters/05_llm_evaluation/results/` |
 | Thesis-final geocoded points / NUTS-3 | `chapters/06_geocoding/data/final/` |
 | Frozen Ch08 EDA figures / tables | `chapters/08_exploratory_data_analysis/results/` |
@@ -111,7 +110,7 @@ NUTS-3 multi-label AutoML under [`chapters/09_baseline_forecasting/`](chapters/0
 
 ## Reproducibility notes
 
-- Full Lexis news corpora **cannot be redistributed** (copyright). The repo ships code, fixtures, and frozen evaluation/geocoding outputs—not the full thesis corpus.
+- Full Lexis news corpora **cannot be redistributed** (copyright). The repo ships code, fixtures, and frozen evaluation/geocoding outputs, not the full thesis corpus.
 - Chapter 04 **acquisition procedure** and **preprocessing** are reproducible as code; full downloads need Lexis credentials.
 - **LLMn outputs** depend on third-party APIs; exact extractions are hard to bit-reproduce. Leave the Chapter 04 suite API prompt blank to **skip** the live call without failing the suite.
 - Chapter 06 **NUTS-3 / viewer** paths are offline-reproducible from frozen files; **Nominatim** may change over time.

@@ -1,4 +1,4 @@
-# Chapter 05 — LLM evaluation
+# Chapter 05: LLM evaluation
 
 Evaluation of structured drought-impact extraction quality on a manually annotated event-level dataset. Thesis tables and figures are reproduced from frozen annotations/metrics (no article bodies required).
 
