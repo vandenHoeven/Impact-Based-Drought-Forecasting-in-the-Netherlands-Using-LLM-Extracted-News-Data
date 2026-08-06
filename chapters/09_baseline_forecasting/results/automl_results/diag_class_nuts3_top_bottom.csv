@@ -1,9 +1,9 @@
 class,kind,nuts3_id,nuts3_name,skill,brier,pr_auc,n_pos
 Agricultural Economic Loss,best,NL342,Overig Zeeland,0.4115079365079365,0.22743809530458822,0.7924603174603174,8.0
-Agricultural Economic Loss,best,NL341,Zeeuwsch-Vlaanderen,0.2851190476190476,0.2858600600252726,0.5708333333333333,6.0
+Agricultural Economic Loss,best,NL341,Zeeuwsch-Vlaanderen,0.2851190476190476,0.28586006002527264,0.5708333333333333,6.0
 Agricultural Economic Loss,best,NL33B,Oost-Zuid-Holland,,0.04197151073515847,,0.0
 Agricultural Economic Loss,worst,NL221,Veluwe,,0.33628041013974375,,1.0
-Agricultural Economic Loss,worst,NL225,Achterhoek,,0.33596815217677634,,2.0
+Agricultural Economic Loss,worst,NL225,Achterhoek,,0.3359681521767764,,2.0
 Agricultural Economic Loss,worst,NL421,Noord-Limburg,,0.3353271363239924,,1.0
 Crop Failure & Yield Reduction,best,NL33C,Groot-Rijnmond,0.6647619047619047,0.2123063106188398,0.9028571428571428,5.0
 Crop Failure & Yield Reduction,best,NL329,Groot-Amsterdam,0.5575757575757575,0.1304682630921731,0.8432900432900432,6.0
@@ -11,7 +11,7 @@ Crop Failure & Yield Reduction,best,NL412,Midden-Noord-Brabant,0.547619047619047
 Crop Failure & Yield Reduction,worst,NL221,Veluwe,,0.34658048147546033,,3.0
 Crop Failure & Yield Reduction,worst,NL212,Zuidwest-Overijssel,,0.32615465921715087,,1.0
 Crop Failure & Yield Reduction,worst,NL112,Delfzijl en omgeving,,0.31053110033008224,,0.0
-Forest Dieback & Vegetation Stress,best,NL411,West-Noord-Brabant,0.07098765432098769,0.2778469509845895,0.49955908289241624,9.0
+Forest Dieback & Vegetation Stress,best,NL411,West-Noord-Brabant,0.07098765432098769,0.27784695098458945,0.49955908289241624,9.0
 Forest Dieback & Vegetation Stress,best,NL221,Veluwe,0.06078262015762015,0.3285114492185192,0.4417350011100011,8.0
 Forest Dieback & Vegetation Stress,best,NL413,Noordoost-Noord-Brabant,0.0006628787878787956,0.37349424936807013,0.3816152597402597,8.0
 Forest Dieback & Vegetation Stress,worst,NL225,Achterhoek,,0.4076986266445684,,4.0
@@ -25,7 +25,7 @@ Freshwater Ecosystem Degradation,worst,NL213,Twente,,0.5131077430038159,,2.0
 Freshwater Ecosystem Degradation,worst,NL212,Zuidwest-Overijssel,,0.49266463595325083,,1.0
 Groundwater Depletion,best,NL225,Achterhoek,0.2864425770308124,0.36454848484723945,0.5245378151260505,5.0
 Groundwater Depletion,best,NL412,Midden-Noord-Brabant,0.23997746892483734,0.29784107986189384,0.6685488974962659,9.0
-Groundwater Depletion,best,NL414,Zuidoost-Noord-Brabant,0.22416457811194662,0.3429636592444759,0.6527360066833752,9.0
+Groundwater Depletion,best,NL414,Zuidoost-Noord-Brabant,0.22416457811194662,0.342963659244476,0.6527360066833752,9.0
 Groundwater Depletion,worst,NL221,Veluwe,,0.573448044492498,,2.0
 Groundwater Depletion,worst,NL212,Zuidwest-Overijssel,,0.5115393568490915,,1.0
 Groundwater Depletion,worst,NL213,Twente,,0.5110500019420989,,3.0
@@ -34,7 +34,7 @@ Irrigation Shortage,best,NL414,Zuidoost-Noord-Brabant,0.3061471861471861,0.24714
 Irrigation Shortage,best,NL342,Overig Zeeland,0.1766740136225431,0.2980375362666095,0.7481025850511145,12.0
 Irrigation Shortage,worst,NL225,Achterhoek,,0.4898822820811538,,1.0
 Irrigation Shortage,worst,NL33C,Groot-Rijnmond,,0.46071112529388164,,3.0
-Irrigation Shortage,worst,NL221,Veluwe,,0.4518481787349514,,1.0
+Irrigation Shortage,worst,NL221,Veluwe,,0.45184817873495153,,1.0
 Reservoir & Surface Water Shortage,best,NL341,Zeeuwsch-Vlaanderen,0.2728138528138528,0.17587991119084534,0.5109090909090909,5.0
 Reservoir & Surface Water Shortage,best,NL329,Groot-Amsterdam,0.19796536796536796,0.1660691781372234,0.43606060606060604,5.0
 Reservoir & Surface Water Shortage,best,NL342,Overig Zeeland,0.1910714285714285,0.20446773725181308,0.4291666666666666,5.0
@@ -56,6 +56,6 @@ Water Use Restrictions,worst,NL422,Midden-Limburg,,0.275673092971049,,1.0
 Wildfire Occurrence,best,NL325,Zaanstreek,,0.012952702006422942,,0.0
 Wildfire Occurrence,best,NL33B,Oost-Zuid-Holland,,0.015700943269864775,,0.0
 Wildfire Occurrence,best,NL230,Flevoland,,0.01841559991209119,,0.0
-Wildfire Occurrence,worst,NL412,Midden-Noord-Brabant,,0.3635370905185143,,0.0
+Wildfire Occurrence,worst,NL412,Midden-Noord-Brabant,,0.36353709051851424,,0.0
 Wildfire Occurrence,worst,NL213,Twente,,0.3457552190138256,,2.0
 Wildfire Occurrence,worst,NL413,Noordoost-Noord-Brabant,,0.34387534723506713,,1.0

@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import sys
 import warnings
+from importlib.metadata import PackageNotFoundError, version as pkg_version
 from pathlib import Path
 
 import matplotlib
@@ -48,6 +49,35 @@ FIG_DIR.mkdir(parents=True, exist_ok=True)
 N_TRIALS = 100
 RANDOM_SEED = 42
 PRIMARY_HORIZON = 1
+SHAP_N_MODELS_THRESHOLD = 0.05
+
+_ENV_PACKAGES = (
+    "numpy",
+    "pandas",
+    "scipy",
+    "joblib",
+    "scikit-learn",
+    "optuna",
+    "shap",
+    "xgboost",
+    "catboost",
+)
+
+
+def _environment_manifest() -> dict:
+    packages: dict[str, str] = {}
+    for name in _ENV_PACKAGES:
+        try:
+            packages[name] = pkg_version(name)
+        except PackageNotFoundError:
+            packages[name] = "not_installed"
+    return {
+        "python": sys.version.split()[0],
+        "packages": packages,
+        "random_seed": RANDOM_SEED,
+        "n_trials": N_TRIALS,
+        "shap_n_models_threshold": SHAP_N_MODELS_THRESHOLD,
+    }
 
 
 def main() -> None:
@@ -129,6 +159,7 @@ def main() -> None:
         model_name=best.model_name,
         max_samples=400,
         max_bg=200,
+        shap_threshold=SHAP_N_MODELS_THRESHOLD,
     )
     shap_imp.to_csv(RESULT_DIR / "shap_importance_h1.csv", index=False)
 
@@ -166,6 +197,7 @@ def main() -> None:
             int(r.horizon): float(r.macro_pr_auc) for r in macro_test.itertuples()
         },
         "diagnostics_exported": sorted(diag_paths.keys()),
+        "environment": _environment_manifest(),
     }
     (RESULT_DIR / "run_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(json.dumps(summary, indent=2))

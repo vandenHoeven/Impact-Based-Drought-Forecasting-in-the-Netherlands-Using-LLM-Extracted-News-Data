@@ -439,6 +439,8 @@ def build_estimator(model_name: str, params: dict[str, Any], y_tr: pd.Series):
             l2_leaf_reg=float(params.get("l2_leaf_reg", 3.0)),
             auto_class_weights="Balanced",
             random_seed=42,
+            # Fixed thread count for deterministic multi-threaded training.
+            thread_count=1,
             verbose=0,
             allow_writing_files=False,
         )
@@ -570,6 +572,13 @@ def make_optuna_objective(
 
         params = suggest_model_params(trial, model_name)
 
+        # Record config before the fold loop so pruned trials keep metadata.
+        trial.set_user_attr("features", features)
+        trial.set_user_attr("feature_groups_used", used_groups)
+        trial.set_user_attr("group_subsets", group_subsets)
+        trial.set_user_attr("model_params", params)
+        trial.set_user_attr("n_features", len(features))
+
         fold_scores: list[float] = []
         for fold in folds:
             score = macro_pr_auc_fold(
@@ -592,12 +601,7 @@ def make_optuna_objective(
             return 0.0
 
         mean_score = float(np.mean(fold_scores))
-        trial.set_user_attr("features", features)
-        trial.set_user_attr("feature_groups_used", used_groups)
-        trial.set_user_attr("group_subsets", group_subsets)
-        trial.set_user_attr("model_params", params)
         trial.set_user_attr("fold_scores", fold_scores)
-        trial.set_user_attr("n_features", len(features))
         return mean_score
 
     return objective
@@ -1300,8 +1304,14 @@ def shap_mean_abs_importance(
     model_name: str,
     max_samples: int = 400,
     max_bg: int = 200,
+    shap_threshold: float = 0.05,
 ) -> pd.DataFrame:
-    """Aggregate mean |SHAP| across Binary Relevance class models at one horizon."""
+    """Aggregate mean |SHAP| across Binary Relevance class models at one horizon.
+
+    ``n_models`` counts class-models where a feature's mean |SHAP| exceeds
+    ``shap_threshold``. ``n_models_evaluated`` is the number of class-models
+    that produced SHAP values successfully.
+    """
     import shap
 
     feats = [c for c in features if c in background_df.columns]
@@ -1316,8 +1326,7 @@ def shap_mean_abs_importance(
     else:
         bg = background_df[feats]
 
-    agg = np.zeros(len(feats), dtype=float)
-    n_used = 0
+    per_model_means: list[np.ndarray] = []
 
     for cls, est in models.items():
         try:
@@ -1342,18 +1351,26 @@ def shap_mean_abs_importance(
             sv = np.asarray(sv)
             if sv.ndim == 3:
                 sv = sv[:, :, 1]
-            agg += np.abs(sv).mean(axis=0)
-            n_used += 1
+            per_model_means.append(np.abs(sv).mean(axis=0))
         except Exception as exc:
             print(f"SHAP skipped for {cls}: {exc}")
             continue
 
-    if n_used == 0:
-        return pd.DataFrame(columns=["feature", "mean_abs_shap", "n_models"])
+    if not per_model_means:
+        return pd.DataFrame(
+            columns=["feature", "mean_abs_shap", "n_models", "n_models_evaluated"]
+        )
 
-    agg /= n_used
+    mat = np.vstack(per_model_means)
+    mean_abs_shap = mat.mean(axis=0)
+    n_models = (mat > shap_threshold).sum(axis=0).astype(int)
     out = pd.DataFrame(
-        {"feature": feats, "mean_abs_shap": agg, "n_models": n_used}
+        {
+            "feature": feats,
+            "mean_abs_shap": mean_abs_shap,
+            "n_models": n_models,
+            "n_models_evaluated": mat.shape[0],
+        }
     ).sort_values("mean_abs_shap", ascending=False)
     return out.reset_index(drop=True)
 
@@ -1450,6 +1467,13 @@ def make_per_class_objective(
             return 0.0
         params = suggest_model_params(trial, model_name)
 
+        # Record config before the fold loop so pruned trials keep metadata.
+        trial.set_user_attr("features", features)
+        trial.set_user_attr("feature_groups_used", used_groups)
+        trial.set_user_attr("group_subsets", group_subsets)
+        trial.set_user_attr("model_params", params)
+        trial.set_user_attr("n_features", len(features))
+
         fold_scores: list[float] = []
         for fold in folds:
             score = _class_fold_pr_auc(
@@ -1472,12 +1496,7 @@ def make_per_class_objective(
             return 0.0
 
         mean_score = float(np.mean(fold_scores))
-        trial.set_user_attr("features", features)
-        trial.set_user_attr("feature_groups_used", used_groups)
-        trial.set_user_attr("group_subsets", group_subsets)
-        trial.set_user_attr("model_params", params)
         trial.set_user_attr("fold_scores", fold_scores)
-        trial.set_user_attr("n_features", len(features))
         return mean_score
 
     return objective

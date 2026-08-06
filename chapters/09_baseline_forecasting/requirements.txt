@@ -1,0 +1,15 @@
+# Pinned versions for reproducible Chapter 09 AutoML (seeded Optuna + models).
+# Install from the repo root:
+#   pip install -r chapters/09_baseline_forecasting/requirements.txt
+numpy==2.4.1
+pandas==2.3.3
+scipy==1.17.0
+joblib==1.5.3
+scikit-learn==1.8.0
+optuna==4.9.0
+shap==0.52.0
+xgboost==3.3.0
+catboost==1.2.10
+pyarrow>=14.0.0
+matplotlib>=3.8.0
+seaborn>=0.13.0

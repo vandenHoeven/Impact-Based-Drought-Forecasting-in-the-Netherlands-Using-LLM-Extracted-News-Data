@@ -39,6 +39,9 @@ This chapter uses the NL meteo clip under `data/meteo_nl/` (global SPEI/SPI arch
 ## How to run
 
 ```bash
+# From the repo root: pin ML stack versions for bit-for-bit Optuna / model reproducibility
+pip install -r chapters/09_baseline_forecasting/requirements.txt
+
 cd chapters/09_baseline_forecasting
 # 1. OPTIONAL: only if data/meteo_nl/ is empty or you want to re-clip from a
 #    local ~50 GB global Meteo archive. The hand-in copy already ships meteo_nl/.
@@ -98,6 +101,10 @@ Provenance detail:
 
 ## Reproducibility and limits
 
+- Install pinned deps from [`requirements.txt`](requirements.txt) before re-running AutoML (`TPESampler(seed=42)`, model `random_state`/`random_seed=42`, CatBoost `thread_count=1`, sequential Optuna trials).
+- Each full run writes an `environment` block into `results/automl_results/run_summary.json` (Python + package versions) so version drift is visible.
+- SHAP `n_models` counts class-models where a feature's mean |SHAP| exceeds `0.05` (`SHAP_N_MODELS_THRESHOLD`); `n_models_evaluated` is the number of class models that produced SHAP values.
+- Minor caveat: RF/XGBoost with `n_jobs=-1` are seed-deterministic on CPU, but float reduction order can theoretically differ across machines with different core counts.
 - Full static rebuilds need local gitignored rasters under `data/`.
 - The suite does **not** re-run Optuna / `run_automl.py` (100 trials); thesis metrics stay validated via frozen `results/automl_results/`.
 
