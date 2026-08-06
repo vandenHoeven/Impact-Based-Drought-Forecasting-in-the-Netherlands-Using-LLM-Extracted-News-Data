@@ -11,8 +11,6 @@ Geocode drought-impact location mentions extracted in earlier chapters, assign D
 
 Thesis-final frozen files under `data/final/` support offline analysis without re-hitting Nominatim.
 
-**Not included:** LLM extraction runner, NUTS-1/NUTS-2 coder outputs.
-
 ## Layout
 
 ```text
@@ -85,8 +83,6 @@ Local-only large files (GitHub 100 MB limit / full article bodies; keep on disk,
 | `data/final/nuts3/..._nuts3.json` | ~250 MB | Nested NUTS-3 assigned articles |
 | `data/wildfire/wildfires_2km_decade_2017-2022_no-military-bases.csv` | ~1.3 GB | Decade wildfire occurrence grid |
 | `data/wildfire/wildfires_2km_2018_2020.csv` | ~680 MB | 2018–2020 wildfire subset |
-
-**Shipped instead:** compact CSVs under `data/final/`, legacy `data/processed/` samples, geojson, and KNMI deficit text.
 
 ## Reproducibility and limits
 

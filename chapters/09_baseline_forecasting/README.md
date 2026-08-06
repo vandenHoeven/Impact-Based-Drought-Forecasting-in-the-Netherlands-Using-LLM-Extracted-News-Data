@@ -9,7 +9,7 @@ Self-contained package for the thesis Chapter 9 main experiment: multi-label imp
 3. Build supervised / dev / test panels from meteo + statics + impact labels (`02_data_preparation.ipynb`).
 4. Run Optuna CV + test + SHAP + diagnostics (`03_automl_nuts3.ipynb` or `src/run_automl.py`).
 
-**Not included:** NUTS-2 pipeline, class-aware / top-15 AutoML runners. Global SPEI/SPI archives (~50 GB) stay outside this package; only the NL meteo clip lives under `data/meteo_nl/`.
+This chapter uses the NL meteo clip under `data/meteo_nl/` (global SPEI/SPI archives stay external; see [`DATA.md`](../../DATA.md)).
 
 ## Layout
 

@@ -21,8 +21,3 @@ final/
 | `nuts3/..._nuts3.json` | **local only** | Nested articles + NUTS fields (~250 MB) |
 
 Matching full LLM input JSON (`../input/chapter7_merged_..._flex.json`, ~230 MB) is also **local only**. See the Chapter 06 README section *Local-only large files*.
-
-## Not here
-
-- Older package samples: `../processed/impacts_*.csv`, `../input/impacts_for_geocoding.json` (legacy; not this flex thesis run)
-- NUTS-1 / NUTS-2 coder outputs (not part of Chapter 06)

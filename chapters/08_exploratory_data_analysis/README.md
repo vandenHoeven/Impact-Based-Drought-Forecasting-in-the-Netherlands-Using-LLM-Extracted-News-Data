@@ -6,8 +6,6 @@ Self-contained package for the thesis Chapter 8 exploratory data analysis figure
 
 Runs `notebooks/01_report_final_figures.ipynb` to regenerate the thesis EDA figures and summary tables from frozen NUTS-3 impact inputs, NUTS boundaries, and the KNMI precipitation-deficit series.
 
-**Not included:** draft EDA notebooks (report 1–4, impact chains, ML EDA, LHM/LSW) and old image galleries.
-
 ## Layout
 
 ```text
@@ -42,7 +40,6 @@ Update Overleaf numbers from `results/tables/report_final_stats.csv`.
 | --- | --- | --- |
 | **Thesis-final inputs** | `data/input/impacts_nuts3.csv`, `nuts_nl_simplified.geojson`, `droogte_data_knmi.txt` | Frozen inputs for the report notebook |
 | **Thesis-final outputs** | `results/figures/`, `results/tables/` | Outputs of `01_report_final_figures.ipynb` |
-| Omitted drafts | (not in this package) | Draft notebooks, old `images for report*` / `outputs/` galleries |
 
 Provenance detail:
 
