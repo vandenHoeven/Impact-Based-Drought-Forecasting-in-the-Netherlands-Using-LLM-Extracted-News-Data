@@ -2,6 +2,9 @@
 
 Code and resources accompanying an MSc thesis on impact-based drought forecasting using LLM-extracted news data, developed to ensure transparent and reproducible results.
 
+> **Data catalogue — what is / isn’t shipped**  
+> Sources, sizes, and hand-in status for every major dataset: **[`DATA.md`](DATA.md)**
+
 ## Quick orientation
 
 This repo is the **code + frozen artefacts** companion to the thesis write-up under `Thesis hand-in/` (LaTeX source; separate from the pipeline).
