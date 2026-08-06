@@ -32,7 +32,7 @@ flowchart LR
 ├── README.md
 ├── .gitignore
 ├── requirements.txt
-├── data/                              # repo-root shared data (see data/README.md)
+├── data/                              # data overview / hand-in catalogue (see data/README.md)
 ├── chapters/
 │   ├── 04_database_construction/      # Lexis → preprocess → LLMn
 │   ├── 05_llm_evaluation/             # frozen eval metrics + report notebook
