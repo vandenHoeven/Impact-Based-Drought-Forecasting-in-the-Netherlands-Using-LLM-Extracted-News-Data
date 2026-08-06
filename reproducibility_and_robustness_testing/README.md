@@ -1,6 +1,8 @@
 # Reproducibility and Robustness Testing
 
-Procedure **checks** for thesis chapter code—not a substitute for the full copyrighted corpus or bit-exact thesis LLMn outputs.
+Procedure **checks** (smokes) for thesis chapter code—not a substitute for the full copyrighted corpus or bit-exact thesis LLMn outputs.
+
+Each chapter README ends with a **Links** section pointing here. Prefer those READMEs for how to run the real pipeline; use this suite to verify the hand-in package still imports and that offline/fixture paths pass.
 
 See also:
 - [`chapters/04_database_construction/README.md`](../chapters/04_database_construction/README.md)

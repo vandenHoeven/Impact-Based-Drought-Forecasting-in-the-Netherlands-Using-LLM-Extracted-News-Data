@@ -18,7 +18,7 @@ SCRAPER_PATH = (
     REPO_ROOT
     / "chapters"
     / "04_database_construction"
-    / "04_2_Automated Data Acquisition"
+    / "04_2_automated_data_acquisition"
     / "lexis_nexis_scraper.py"
 )
 

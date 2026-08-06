@@ -1,14 +1,12 @@
 # Chapter 08 — Drought impact EDA (report figures)
 
-Self-contained package for the thesis **Chapter 8** exploratory data analysis
-figures and Overleaf summary stats. Filters to current-month impacts
-(`recency_in_months == 0`), NUTS-3, years 2005–2025.
+Self-contained package for the thesis Chapter 8 exploratory data analysis figures and Overleaf summary stats. Filters to current-month impacts (`recency_in_months == 0`), NUTS-3, years 2005–2025.
 
-Location in this repo: `chapters/08_exploratory_data_analysis/`.
+## What this does
 
-Upstream geocoding / NUTS-3: [`../06_geocoding/README.md`](../06_geocoding/README.md).
+Runs `notebooks/01_report_final_figures.ipynb` to regenerate the thesis EDA figures and summary tables from frozen NUTS-3 impact inputs, NUTS boundaries, and the KNMI precipitation-deficit series.
 
-**Not included:** draft EDA notebooks (report 1–4, impact chains, ML EDA, LHM/LSW).
+**Not included:** draft EDA notebooks (report 1–4, impact chains, ML EDA, LHM/LSW) and old image galleries.
 
 ## Layout
 
@@ -36,20 +34,35 @@ cd chapters/08_exploratory_data_analysis
 
 Requires: `pandas`, `geopandas`, `matplotlib`, `seaborn`, `networkx`, `numpy`.
 
-## Provenance
+Update Overleaf numbers from `results/tables/report_final_stats.csv`.
+
+## Data and provenance
+
+| Use this | Path | Meaning |
+| --- | --- | --- |
+| **Thesis-final inputs** | `data/input/impacts_nuts3.csv`, `nuts_nl_simplified.geojson`, `droogte_data_knmi.txt` | Frozen inputs for the report notebook |
+| **Thesis-final outputs** | `results/figures/`, `results/tables/` | Outputs of `01_report_final_figures.ipynb` |
+| Omitted drafts | (not in this package) | Draft notebooks, old `images for report*` / `outputs/` galleries |
+
+Provenance detail:
 
 | Artifact | Built from |
 |----------|------------|
 | `impacts_nuts3.csv` | Chapter 6 geocoding + LLM feature merge (same freeze as `09_baseline_forecasting/data/input/`) |
 | `nuts_nl_simplified.geojson` | Chapter 6 NUTS-3 coder geo layer |
 | `droogte_data_knmi.txt` | KNMI drought / precipitation-deficit series used in Ch6 viewers |
-| `results/figures|tables/` | Outputs of `01_report_final_figures.ipynb` |
 
-## What’s included / omitted
+## Reproducibility and limits
 
-| Included | Omitted |
-|----------|---------|
-| Report notebook + 3 frozen inputs | Draft notebooks (`EDA-data_base_plots`, impact chains, ML EDA, LHM/`tkt`, …) |
-| Frozen thesis figures/tables under `results/` | Old `images for report{, 2, 3, 4}/` and `outputs/` galleries |
+- Thesis figures/tables ship frozen under `results/`; re-run the notebook to regenerate them from the shipped inputs.
+- The robustness suite does **not** re-run the notebook; it checks package integrity and imports offline:
 
-Update Overleaf numbers from `results/tables/report_final_stats.csv`.
+```text
+python reproducibility_and_robustness_testing/chapter_08_exploratory_data_analysis/run_src_smoke.py
+```
+
+## Links
+
+- Upstream geocoding / NUTS-3: [`../06_geocoding/README.md`](../06_geocoding/README.md)
+- Downstream forecasting: [`../09_baseline_forecasting/README.md`](../09_baseline_forecasting/README.md)
+- Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)

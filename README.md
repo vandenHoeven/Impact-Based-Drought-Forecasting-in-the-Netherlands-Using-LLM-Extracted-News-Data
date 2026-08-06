@@ -2,6 +2,28 @@
 
 Code and resources accompanying an MSc thesis on impact-based drought forecasting using LLM-extracted news data, developed to ensure transparent and reproducible results.
 
+## Quick orientation
+
+This repo is the **code + frozen artefacts** companion to the thesis write-up under `Thesis hand-in/` (LaTeX source; separate from the pipeline).
+
+| Goal | Where to look |
+| --- | --- |
+| Verify the hand-in package | `python reproducibility_and_robustness_testing/run_all_scripts.py` |
+| Frozen Ch05 tables / figures | `chapters/05_llm_evaluation/results/` |
+| Thesis-final geocoded points / NUTS-3 | `chapters/06_geocoding/data/final/` |
+| Frozen Ch08 EDA figures / tables | `chapters/08_exploratory_data_analysis/results/` |
+| Frozen Ch09 AutoML metrics | `chapters/09_baseline_forecasting/results/automl_results/` |
+
+Pipeline (data flow between chapters):
+
+```mermaid
+flowchart LR
+  ch04[Ch04_extract] --> ch05[Ch05_evaluate]
+  ch04 --> ch06[Ch06_geocode]
+  ch06 --> ch08[Ch08_EDA]
+  ch06 --> ch09[Ch09_forecast]
+```
+
 ## Repository structure
 
 ```text
@@ -14,15 +36,17 @@ Code and resources accompanying an MSc thesis on impact-based drought forecastin
 │   ├── 04_database_construction/      # Lexis → preprocess → LLMn
 │   ├── 05_llm_evaluation/             # frozen eval metrics + report notebook
 │   ├── 06_geocoding/                  # Nominatim points + NUTS-3 + viewer/EDA
-│   ├── 07_visualization_reliability/
 │   ├── 08_exploratory_data_analysis/  # report EDA figures + tables
 │   └── 09_baseline_forecasting/       # NUTS-3 AutoML forecasting
-└── reproducibility_and_robustness_testing/
-    ├── check_imports.py
-    ├── run_all_scripts.py             # PASS / SKIPPED / FAIL summary
-    ├── chapter_04_database_construction/
-    ├── chapter_05_llm_evaluation/
-    └── chapter_06_geocoding/
+├── reproducibility_and_robustness_testing/
+│   ├── check_imports.py
+│   ├── run_all_scripts.py             # PASS / SKIPPED / FAIL summary
+│   ├── chapter_04_database_construction/
+│   ├── chapter_05_llm_evaluation/
+│   ├── chapter_06_geocoding/
+│   ├── chapter_08_exploratory_data_analysis/
+│   └── chapter_09_baseline_forecasting/
+└── Thesis hand-in/                    # thesis write-up (separate from code)
 ```
 
 ## Environment setup
@@ -53,7 +77,7 @@ Acquires LexisNexis article ZIPs, cleans and deduplicates them, then extracts st
 Details: [`chapters/04_database_construction/README.md`](chapters/04_database_construction/README.md).
 
 ```text
-python chapters/04_database_construction/04_2_Automated Data Acquisition/lexis_nexis_scraper.py
+python chapters/04_database_construction/04_2_automated_data_acquisition/lexis_nexis_scraper.py
 python chapters/04_database_construction/04_3_LLM_Input_Preprocessing/clean_archive.py
 python chapters/04_database_construction/04_4_LLMn_Extraction_Framework/llmn_extraction.py
 ```
@@ -64,7 +88,7 @@ Frozen annotations and metrics under [`chapters/05_llm_evaluation/`](chapters/05
 
 ## Chapter 06 (geocoding)
 
-Point geocoding (Nominatim) + NUTS-3 assignment, Streamlit viewer, and wildfire EDA under [`chapters/06_geocoding/`](chapters/06_geocoding/README.md). Frozen `data/processed/` CSVs support offline viewing without re-running Nominatim.
+Point geocoding (Nominatim) + NUTS-3 assignment, Streamlit viewer, and wildfire EDA under [`chapters/06_geocoding/`](chapters/06_geocoding/README.md). Frozen `data/final/` CSVs support offline viewing without re-running Nominatim.
 
 ```text
 cd chapters/06_geocoding

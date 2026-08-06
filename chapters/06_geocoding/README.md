@@ -1,43 +1,17 @@
 # Chapter 06 — Geocoding (point + NUTS-3)
 
-Geocode drought-impact location mentions extracted in earlier chapters, assign Dutch **NUTS-3** regions, and support a Streamlit map viewer plus wildfire validation EDA.
+Geocode drought-impact location mentions extracted in earlier chapters, assign Dutch NUTS-3 regions, and support a Streamlit map viewer plus wildfire validation EDA.
 
-Location in this repo: `chapters/06_geocoding/`.
-
-Upstream extraction / evaluation: [`../04_database_construction/README.md`](../04_database_construction/README.md), [`../05_llm_evaluation/README.md`](../05_llm_evaluation/README.md).
-
-## Which data to use (important)
-
-| Use this | Path | Meaning |
-| --- | --- | --- |
-| **Thesis-final coder outputs (in repo)** | [`data/final/`](data/final/README.md) `points/*.csv`, `nuts3/*.csv` | Point + NUTS-3 tables for the viewer / offline analysis |
-| **Thesis-final LLM input / full JSON** | `data/input/chapter7_merged_..._flex.json` and `data/final/**/*.json` | **Local only** (not on GitHub; see below) |
-| Legacy package samples | `data/input/impacts_for_geocoding.json`, `data/processed/impacts_*.csv` | Older hand-in package samples — **not** the thesis-final flex run |
-
-Default script paths still point at the legacy `impacts_*` / `processed/` names unless you pass CLI args. Prefer `data/final/` CSVs when analysing thesis results.
-
-## Local-only large files (not in Git)
-
-These exceed GitHub’s 100 MB limit and/or contain full newspaper article bodies. They remain on your machine for thesis work but are **gitignored** and must not be pushed:
-
-| Local path | Approx. size | Role |
-| --- | --- | --- |
-| `data/input/chapter7_merged_with_llm_features_gemini_gemini-3.5-flash_flex.json` | ~230 MB | Full LLM-enriched articles (pre-geocode input) |
-| `data/final/points/..._geocoded.json` | ~240 MB | Nested point-geocoded articles |
-| `data/final/nuts3/..._nuts3.json` | ~250 MB | Nested NUTS-3 assigned articles |
-| `data/wildfire/wildfires_2km_decade_2017-2022_no-military-bases.csv` | ~1.3 GB | Decade wildfire occurrence grid (viewer / EDA) |
-| `data/wildfire/wildfires_2km_2018_2020.csv` | ~680 MB | 2018–2020 wildfire subset |
-
-**Shipped instead:** compact CSVs under `data/final/points/` and `data/final/nuts3/` (viewer defaults), legacy `data/processed/` samples, `data/geo/nuts_nl_simplified.geojson`, and `data/wildfire/droogte_data_knmi.txt`.
-
-## What the code does
+## What this does
 
 1. **Point geocoding (`point_coder.py`)** — Calls Nominatim (OpenStreetMap) once per location mention, with ranking/filtering, and writes geocoded points.
 2. **NUTS-3 assignment (`nuts3_coder.py`)** — Assigns NUTS-3 from those points using local `nuts_nl_simplified.geojson` (no network by default).
 3. **Combined viewer (`combined_viewer.py`)** — Streamlit UI for points, NUTS-3 polygons, and optional wildfire overlays.
-4. **Wildfire EDA (`notebooks/eda_wildfires.ipynb`)** — Notebook that uses frozen geocoded outputs and observational wildfire CSVs.
+4. **Wildfire EDA (`notebooks/eda_wildfires.ipynb`)** — Uses frozen geocoded outputs and observational wildfire CSVs.
 
-Thesis-final frozen files under `data/final/` (and geo/wildfire assets) support offline analysis without re-hitting Nominatim.
+Thesis-final frozen files under `data/final/` support offline analysis without re-hitting Nominatim.
+
+**Not included:** LLM extraction runner, NUTS-1/NUTS-2 coder outputs.
 
 ## Layout
 
@@ -59,8 +33,6 @@ Thesis-final frozen files under `data/final/` (and geo/wildfire assets) support 
   src/
   results/figures/
 ```
-
-**Not included:** LLM extraction runner, NUTS-1/NUTS-2 coder outputs.
 
 ## How to run
 
@@ -88,38 +60,43 @@ Legacy combined path (geocode + assign in one Nominatim pass — not required fo
 python src/nuts3_coder.py --from-llm-json
 ```
 
-## Combined viewer
+**Combined viewer.** By default the Data sidebar loads thesis-final CSVs under `data/final/points/` and `data/final/nuts3/`. Optionally switch to Upload / Local file (lists `data/final/` and legacy `data/processed/`). Also uses `data/geo/nuts_nl_simplified.geojson` and the decade wildfire CSV if present.
 
-```text
-cd chapters/06_geocoding
-streamlit run src/combined_viewer.py
-```
+**Wildfire EDA.** Open `notebooks/eda_wildfires.ipynb`. Paths resolve to `data/wildfire/` and `data/processed/` by default; prefer thesis-final paths under `data/final/` when comparing to the thesis. One optional cell may look for a private Chapter 04 corpus; **skip that cell** if the file is missing.
 
-By default the Data sidebar loads the thesis-final CSVs under `data/final/points/..._geocoded.csv` and `data/final/nuts3/..._nuts3.csv`. Optionally switch to **Upload file** or **Local file** (lists `data/final/` and legacy `data/processed/`). Also uses `data/geo/nuts_nl_simplified.geojson` and the decade wildfire CSV if present.
+**Thesis figures.** Under `results/figures/`. Some development-folder filenames contained `Nuts2` but show **NUTS-3** regions; packaged copies use `*Nuts3*` names (e.g. `Wildfires-July-2019-Nuts3.png`). Also included: Jul 2018 / Apr 2019 / Oct 2019 Nuts+point pairs, monthly geocoded vs observed wildfires, wildfire-risk-increase plot.
 
-## Wildfire EDA
+## Data and provenance
 
-Open `notebooks/eda_wildfires.ipynb` (from `notebooks/` or `06_geocoding/`). Paths resolve to `data/wildfire/` and `data/processed/` by default; prefer thesis-final paths under `data/final/` when comparing to the thesis.
+| Use this | Path | Meaning |
+| --- | --- | --- |
+| **Thesis-final coder outputs (in repo)** | [`data/final/`](data/final/README.md) `points/*.csv`, `nuts3/*.csv` | Point + NUTS-3 tables for the viewer / offline analysis |
+| **Thesis-final LLM input / full JSON** | `data/input/chapter7_merged_..._flex.json` and `data/final/**/*.json` | **Local only** (gitignored; see below) |
+| Legacy package samples | `data/input/impacts_for_geocoding.json`, `data/processed/impacts_*.csv` | Older hand-in samples — **not** the thesis-final flex run |
+| Geo layer | `data/geo/nuts_nl_simplified.geojson` | NL NUTS boundaries (in repo) |
+| KNMI deficit text | `data/wildfire/droogte_data_knmi.txt` | In repo |
 
-One optional cell may look for a private Chapter 04 corpus (`all_articles_deduplicated.json`); **skip that cell** if the file is missing — article bodies are not shipped here (copyright).
+Local-only large files (GitHub 100 MB limit / full article bodies; keep on disk, do not push):
 
-## Thesis figures
+| Local path | Approx. size | Role |
+| --- | --- | --- |
+| `data/input/chapter7_merged_with_llm_features_gemini_gemini-3.5-flash_flex.json` | ~230 MB | Full LLM-enriched articles (pre-geocode input) |
+| `data/final/points/..._geocoded.json` | ~240 MB | Nested point-geocoded articles |
+| `data/final/nuts3/..._nuts3.json` | ~250 MB | Nested NUTS-3 assigned articles |
+| `data/wildfire/wildfires_2km_decade_2017-2022_no-military-bases.csv` | ~1.3 GB | Decade wildfire occurrence grid |
+| `data/wildfire/wildfires_2km_2018_2020.csv` | ~680 MB | 2018–2020 wildfire subset |
 
-Under `results/figures/`. Filenames that originally contained `Nuts2` were misnamed in the working folder — they are **NUTS-3** maps and were renamed on packaging:
+**Shipped instead:** compact CSVs under `data/final/`, legacy `data/processed/` samples, geojson, and KNMI deficit text.
 
-| Original (misnamed) | In this package |
-|---------------------|-----------------|
-| `Wildfires-July-2019-Nuts2.png` | `Wildfires-July-2019-Nuts3.png` |
-| `Wildfires-risk-increase-July-2019-nuts2.png` | `Wildfires-risk-increase-July-2019-nuts3.png` |
-
-Also included: Jul 2018 / Apr 2019 / Oct 2019 Nuts+point pairs, monthly geocoded vs observed wildfires, wildfire-risk-increase plot.
-
-## Data size note
-
-Full article JSONs and the multi‑GB wildfire grids are **local only** (see [Local-only large files](#local-only-large-files-not-in-git)). The GitHub package keeps the thesis-final **CSVs**, figures, geojson, and KNMI deficit text.
-
-## Reproducibility notes
+## Reproducibility and limits
 
 - **Thesis-final NUTS-3 / points** under `data/final/` are frozen offline artefacts of the flex geocoding run.
 - **Re-running Nominatim** may differ over time (rate limits, gazetteer drift).
-- Robustness smokes (5-impact Nominatim + offline NUTS-3 + 60s viewer) live under [`../../reproducibility_and_robustness_testing/chapter_06_geocoding/`](../../reproducibility_and_robustness_testing/chapter_06_geocoding/); see the suite [README](../../reproducibility_and_robustness_testing/README.md).
+- Robustness smokes (5-impact Nominatim + offline NUTS-3 + 60s viewer) live under [`../../reproducibility_and_robustness_testing/chapter_06_geocoding/`](../../reproducibility_and_robustness_testing/chapter_06_geocoding/); suite runners use a tiny fixture, not `data/final/`.
+
+## Links
+
+- Upstream extraction / evaluation: [`../04_database_construction/README.md`](../04_database_construction/README.md), [`../05_llm_evaluation/README.md`](../05_llm_evaluation/README.md)
+- Downstream EDA: [`../08_exploratory_data_analysis/README.md`](../08_exploratory_data_analysis/README.md)
+- Downstream forecasting: [`../09_baseline_forecasting/README.md`](../09_baseline_forecasting/README.md)
+- Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)
