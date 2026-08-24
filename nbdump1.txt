@@ -1,0 +1,411 @@
+﻿==================== CELL 10 ====================
+SOURCE:
+sampler = TPESampler(seed=RANDOM_SEED)
+pruner = MedianPruner(n_startup_trials=8, n_warmup_steps=1)
+study = optuna.create_study(
+    direction="maximize",
+    sampler=sampler,
+    pruner=pruner,
+    study_name="ch9_drought_impact_automl",
+)
+
+objective = make_optuna_objective(
+    dev,
+    feature_groups,
+    folds,
+    horizon=PRIMARY_HORIZON,
+    classes=TOP_10_CLASSES,
+)
+
+print(f"Starting Optuna search: {N_TRIALS} trials (primary horizon h={PRIMARY_HORIZON})...")
+study.optimize(objective, n_trials=N_TRIALS, show_progress_bar=True)
+
+print(f"\nBest trial #{study.best_trial.number}: macro PR-AUC h=1 = {study.best_value:.4f}")
+print(f"Best model: {study.best_trial.params['model']}")
+print(f"n_features: {study.best_trial.user_attrs.get('n_features')}")
+print(f"groups: {study.best_trial.user_attrs.get('feature_groups_used')}")
+print(f"group_subsets: {study.best_trial.user_attrs.get('group_subsets')}")
+
+----------OUTPUTS----------
+Starting Optuna search: 100 trials (primary horizon h=1)...
+
+Best trial: 88. Best value: 0.33502: 100%|██████████| 100/100 [10:18<00:00,  6.19s/it]
+
+Best trial #88: macro PR-AUC h=1 = 0.3350
+Best model: logistic_regression
+n_features: 30
+groups: ['meteo', 'temporal', 'static_elev', 'static_soil']
+group_subsets: {'meteo': 'long', 'temporal': 'seasonality', 'static_elev': 'both', 'static_soil': 'all'}
+
+
+
+==================== CELL 11 ====================
+SOURCE:
+trials_df = trials_dataframe(study)
+trials_df.to_csv(RESULT_DIR / "cv_trials.csv", index=False)
+display(trials_df.head(15))
+
+best = best_config_from_study(study)
+best.save(RESULT_DIR / "best_config.json")
+pd.DataFrame({"feature": best.features}).to_csv(RESULT_DIR / "selected_features.csv", index=False)
+
+print("Saved best_config.json and selected_features.csv")
+print(json.dumps({k: v for k, v in best.to_dict().items() if k != "features"}, indent=2))
+print(f"\nSelected features ({len(best.features)}):")
+print(best.features)
+
+----------OUTPUTS----------
+    trial              state  macro_pr_auc_h1                model  \
+89     89  TrialState.PRUNED         0.433309  logistic_regression   
+69     69  TrialState.PRUNED         0.420339              xgboost   
+98     98  TrialState.PRUNED         0.417128  logistic_regression   
+97     97  TrialState.PRUNED         0.414790  logistic_regression   
+75     75  TrialState.PRUNED         0.411894  logistic_regression   
+80     80  TrialState.PRUNED         0.409975        random_forest   
+90     90  TrialState.PRUNED         0.404910              xgboost   
+79     79  TrialState.PRUNED         0.400641  logistic_regression   
+29     29  TrialState.PRUNED         0.394302        random_forest   
+45     45  TrialState.PRUNED         0.392386  logistic_regression   
+86     86  TrialState.PRUNED         0.385833  logistic_regression   
+58     58  TrialState.PRUNED         0.384584        random_forest   
+36     36  TrialState.PRUNED         0.384238  logistic_regression   
+38     38  TrialState.PRUNED         0.384080             catboost   
+77     77  TrialState.PRUNED         0.380136  logistic_regression   
+
+    n_features                                     feature_groups  \
+89          14             meteo,temporal,static_elev,static_soil   
+69          37             meteo,temporal,static_elev,static_soil   
+98          27                      meteo,static_elev,static_soil   
+97          18             meteo,temporal,static_elev,static_soil   
+75          29   meteo,temporal,static_elev,static_soil,class_lag   
+80          14            meteo,static_elev,static_soil,class_lag   
+90          12                         meteo,temporal,static_elev   
+79          27         temporal,static_elev,static_soil,class_lag   
+29          27            meteo,static_elev,static_soil,class_lag   
+45           9             meteo,temporal,static_elev,static_soil   
+86          16               meteo,temporal,static_soil,class_lag   
+58          40  meteo,temporal,static_land,static_elev,static_...   
+36          23               meteo,temporal,static_elev,class_lag   
+38          33               meteo,temporal,static_soil,class_lag   
+77          17               meteo,temporal,static_elev,class_lag   
+
+                                        group_subsets  subset_meteo  \
+89  {"meteo": "long", "static_elev": "both", "stat...          long   
+69  {"meteo": "all", "static_elev": "both", "stati...           all   
+98  {"meteo": "long", "static_elev": "mean_only", ...          long   
+97  {"meteo": "long", "static_elev": "both", "stat...          long   
+75  {"class_lag": "agriculture", "meteo": "all", "...           all   
+80  {"class_lag": "fire", "meteo": "spi_only", "st...      spi_only   
+90  {"meteo": "long", "static_elev": "both", "temp...          long   
+79  {"class_lag": "agriculture", "static_elev": "b...           NaN   
+29  {"class_lag": "all", "meteo": "all", "static_e...           all   
+45  {"meteo": "aux_only", "static_elev": "std_only...      aux_only   
+86  {"class_lag": "agriculture", "meteo": "long", ...          long   
+58  {"class_lag": "agriculture", "meteo": "indices...  indices_only   
+36  {"class_lag": "all", "meteo": "spei_only", "st...     spei_only   
+38  {"class_lag": "water", "meteo": "spei_only", "...     spei_only   
+77  {"class_lag": "agriculture", "meteo": "short",...         short   
+
+   subset_static_pop subset_static_elev  ... param_class_lag_subset  \
+89               NaN               both  ...                    NaN   
+69               NaN               both  ...                    NaN   
+98               NaN          mean_only  ...                    NaN   
+97               NaN               both  ...                    NaN   
+75               NaN               both  ...            agriculture   
+80               NaN               both  ...                   fire   
+90               NaN               both  ...                    NaN   
+79               NaN               both  ...            agriculture   
+29               NaN               both  ...                    all   
+45               NaN           std_only  ...                    NaN   
+86               NaN                NaN  ...            agriculture   
+58               NaN               both  ...            agriculture   
+36               NaN               both  ...                    all   
+38               NaN                NaN  ...                  water   
+77               NaN               both  ...            agriculture   
+
+    param_max_depth param_n_estimators  param_min_samples_leaf  \
+89              NaN                NaN                     NaN   
+69              4.0              200.0                     NaN   
+98              NaN                NaN                     NaN   
+97              NaN                NaN                     NaN   
+75              NaN                NaN                     NaN   
+80             13.0              600.0                    16.0   
+90              7.0              450.0                     NaN   
+79              NaN                NaN                     NaN   
+29             16.0              500.0                    22.0   
+45              NaN                NaN                     NaN   
+86              NaN                NaN                     NaN   
+58             16.0              200.0                     1.0   
+36              NaN                NaN                     NaN   
+38              NaN                NaN                     NaN   
+77              NaN                NaN                     NaN   
+
+    param_iterations  param_depth  param_learning_rate param_l2_leaf_reg  \
+89               NaN          NaN                  NaN               NaN   
+69               NaN          NaN             0.026526               NaN   
+98               NaN          NaN                  NaN               NaN   
+97               NaN          NaN                  NaN               NaN   
+75               NaN          NaN                  NaN               NaN   
+80               NaN          NaN                  NaN               NaN   
+90               NaN          NaN             0.041281               NaN   
+79               NaN          NaN                  NaN               NaN   
+29               NaN          NaN                  NaN               NaN   
+45               NaN          NaN                  NaN               NaN   
+86               NaN          NaN                  NaN               NaN   
+58               NaN          NaN                  NaN               NaN   
+36               NaN          NaN                  NaN               NaN   
+38             600.0          2.0             0.276076          0.857523   
+77               NaN          NaN                  NaN               NaN   
+
+    param_subsample param_colsample_bytree  
+89              NaN                    NaN  
+69         0.650469               0.664730  
+98              NaN                    NaN  
+97              NaN                    NaN  
+75              NaN                    NaN  
+80              NaN                    NaN  
+90         0.995927               0.692043  
+79              NaN                    NaN  
+29              NaN                    NaN  
+45              NaN                    NaN  
+86              NaN                    NaN  
+58              NaN                    NaN  
+36              NaN                    NaN  
+38              NaN                    NaN  
+77              NaN                    NaN  
+
+[15 rows x 38 columns]
+Saved best_config.json and selected_features.csv
+{
+  "model_name": "logistic_regression",
+  "params": {
+    "C": 0.03384313229479467
+  },
+  "cv_macro_pr_auc": 0.33501974879731256,
+  "trial_number": 88,
+  "feature_groups_used": [
+    "meteo",
+    "temporal",
+    "static_elev",
+    "static_soil"
+  ],
+  "group_subsets": {
+    "meteo": "long",
+    "temporal": "seasonality",
+    "static_elev": "both",
+    "static_soil": "all"
+  }
+}
+
+Selected features (30):
+['spei_09', 'spei_12', 'spei_24', 'spi_09', 'spi_12', 'spi_24', 'soil_moisture_anom', 'cdd_days', 'month_sin', 'month_cos', 'elevation_mean', 'elevation_std', 'soil_brikgronden', 'soil_dikke_eerdgronden', 'soil_gedefinieerde_associaties', 'soil_kalkhoudende_zandgronden', 'soil_kalkloze_zandgronden', 'soil_kalksteen_verweringsgronden', 'soil_keileemgronden', 'soil_leemgronden', 'soil_moerige_gronden', 'soil_niet_gerijpte_minerale_gronden', 'soil_oude_rivierkleigronden', 'soil_podzolgronden', 'soil_rivierkleigronden', 'soil_veengronden', 'soil_zeekleigronden', 'soil_zeer_oude_fluviatiele_afzettingen', 'soil_zeer_oude_mariene_afzettingen', 'soil_dominant_fraction']
+
+==================== CELL 12 ====================
+SOURCE:
+# CV fold scores for the winning configuration (transparency)
+cv_best = cv_score_config(dev, best, folds, horizon=PRIMARY_HORIZON)
+cv_best.to_csv(RESULT_DIR / "best_config_cv_folds.csv", index=False)
+display(cv_best)
+print(
+    f"Mean CV macro PR-AUC h=1: "
+    f"{cv_best['macro_pr_auc'].mean():.4f} ± {cv_best['macro_pr_auc'].std():.4f}"
+)
+
+top_by_model = (
+    trials_df.dropna(subset=["macro_pr_auc_h1"])
+    .groupby("model", as_index=False)["macro_pr_auc_h1"]
+    .max()
+    .sort_values("macro_pr_auc_h1", ascending=False)
+)
+display(top_by_model)
+
+----------OUTPUTS----------
+   fold               train_years  valid_year  macro_pr_auc  horizon
+0     1                 2018-2019        2020      0.485453        1
+1     2            2018-2019-2020        2021      0.157670        1
+2     3       2018-2019-2020-2021        2022      0.373375        1
+3     4  2018-2019-2020-2021-2022        2023      0.323581        1
+Mean CV macro PR-AUC h=1: 0.3350 ± 0.1362
+
+                 model  macro_pr_auc_h1
+2  logistic_regression         0.433309
+4              xgboost         0.420339
+3        random_forest         0.409975
+0             catboost         0.384080
+1          elastic_net         0.338400
+==================== CELL 14 ====================
+SOURCE:
+test_metrics, models_by_h, proba_by_h = evaluate_config_all_horizons(
+    dev,
+    test,
+    best,
+    horizons=FORECAST_HORIZONS,
+    classes=TOP_10_CLASSES,
+)
+
+test_metrics.to_csv(RESULT_DIR / "test_metrics_by_class_horizon.csv", index=False)
+macro_test = macro_from_class_metrics(test_metrics)
+macro_test.to_csv(RESULT_DIR / "test_macro_by_horizon.csv", index=False)
+
+print("Test macro metrics by horizon:")
+display(macro_test.round(4))
+
+print("\nPer-class PR-AUC at h=1:")
+display(
+    test_metrics.loc[test_metrics["horizon"] == 1, ["class", "pr_auc", "roc_auc", "f1", "prevalence"]]
+    .sort_values("pr_auc", ascending=False)
+    .round(4)
+)
+
+----------OUTPUTS----------
+Test macro metrics by horizon:
+
+   horizon  macro_pr_auc  macro_roc_auc  macro_precision  macro_recall  \
+0        0        0.3033         0.7624           0.1686        0.7417   
+1        1        0.2590         0.7499           0.1684        0.7026   
+2        2        0.2248         0.7196           0.1505        0.7366   
+3        3        0.2303         0.7119           0.1658        0.6872   
+
+   macro_f1  macro_brier  macro_prevalence  
+0    0.2690       0.2268            0.0931  
+1    0.2646       0.2146            0.0909  
+2    0.2450       0.2468            0.0939  
+3    0.2609       0.2165            0.0953  
+
+Per-class PR-AUC at h=1:
+
+                                 class  pr_auc  roc_auc      f1  prevalence
+10      Crop Failure & Yield Reduction  0.4926   0.7924  0.4276      0.1481
+14              Water Use Restrictions  0.4047   0.8000  0.2526      0.0585
+17                 Irrigation Shortage  0.2972   0.7809  0.2648      0.0884
+13               Groundwater Depletion  0.2766   0.7165  0.2742      0.1087
+18    Water Supply & Sanitation Issues  0.2447   0.7449  0.2407      0.1111
+15  Forest Dieback & Vegetation Stress  0.2171   0.6978  0.3127      0.1111
+16          Agricultural Economic Loss  0.2065   0.8260  0.1533      0.0346
+11  Reservoir & Surface Water Shortage  0.2028   0.7466  0.3313      0.1027
+12    Freshwater Ecosystem Degradation  0.1651   0.6225  0.2589      0.1171
+19                 Wildfire Occurrence  0.0825   0.7713  0.1300      0.0287
+==================== CELL 15 ====================
+SOURCE:
+# Prevalence baseline skill: PR-AUC - prevalence
+skill = test_metrics.copy()
+skill["pr_auc_skill"] = skill["pr_auc"] - skill["prevalence"]
+skill_h1 = skill.loc[
+    skill["horizon"] == 1, ["class", "pr_auc", "prevalence", "pr_auc_skill"]
+].sort_values("pr_auc_skill", ascending=False)
+display(skill_h1.round(4))
+skill.to_csv(RESULT_DIR / "test_metrics_with_skill.csv", index=False)
+
+fig, ax = plt.subplots(figsize=(7, 4))
+ax.plot(macro_test["horizon"], macro_test["macro_pr_auc"], marker="o", label="macro PR-AUC")
+ax.plot(
+    macro_test["horizon"],
+    macro_test["macro_prevalence"],
+    marker="s",
+    linestyle="--",
+    label="macro prevalence",
+)
+ax.set_xlabel("Forecast horizon h (months)")
+ax.set_ylabel("Score")
+ax.set_xticks(FORECAST_HORIZONS)
+ax.set_title(f"Test performance by horizon — {best.model_name}")
+ax.legend()
+ax.grid(True, alpha=0.3)
+fig.tight_layout()
+fig.savefig(FIG_DIR / "fig_test_macro_by_horizon.png", dpi=150)
+plt.show()
+
+----------OUTPUTS----------
+                                 class  pr_auc  prevalence  pr_auc_skill
+14              Water Use Restrictions  0.4047      0.0585        0.3461
+10      Crop Failure & Yield Reduction  0.4926      0.1481        0.3445
+17                 Irrigation Shortage  0.2972      0.0884        0.2088
+16          Agricultural Economic Loss  0.2065      0.0346        0.1719
+13               Groundwater Depletion  0.2766      0.1087        0.1679
+18    Water Supply & Sanitation Issues  0.2447      0.1111        0.1336
+15  Forest Dieback & Vegetation Stress  0.2171      0.1111        0.1060
+11  Reservoir & Surface Water Shortage  0.2028      0.1027        0.1001
+19                 Wildfire Occurrence  0.0825      0.0287        0.0539
+12    Freshwater Ecosystem Degradation  0.1651      0.1171        0.0481
+<Figure size 700x400 with 1 Axes>
+==================== CELL 17 ====================
+SOURCE:
+models_h1 = models_by_h[PRIMARY_HORIZON]
+shap_imp = shap_mean_abs_importance(
+    models_h1,
+    test,
+    best.features,
+    model_name=best.model_name,
+    max_samples=400,
+    max_bg=200,
+    shap_threshold=SHAP_N_MODELS_THRESHOLD,
+)
+shap_imp.to_csv(RESULT_DIR / "shap_importance_h1.csv", index=False)
+display(shap_imp.head(20))
+
+top_n = min(20, len(shap_imp))
+plot_df = shap_imp.head(top_n).iloc[::-1]
+fig, ax = plt.subplots(figsize=(8, max(4, top_n * 0.28)))
+ax.barh(plot_df["feature"], plot_df["mean_abs_shap"], color="#4C72B0")
+ax.set_xlabel("Mean |SHAP| (averaged over classes)")
+ax.set_title(f"Global predictor importance — {best.model_name}, h={PRIMARY_HORIZON}")
+fig.tight_layout()
+fig.savefig(FIG_DIR / "fig_shap_importance_h1.png", dpi=150)
+plt.show()
+
+----------OUTPUTS----------
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+Background dataset has 200 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=200 when initializing the masker.
+
+                                feature  mean_abs_shap  n_models  \
+0                               spei_09       0.894891        10   
+1                                spi_12       0.754351        10   
+2                             month_cos       0.669581        10   
+3                                spi_09       0.291017         8   
+4                  soil_moerige_gronden       0.266734        10   
+5                               spei_12       0.247168         8   
+6                              cdd_days       0.172666         9   
+7                             month_sin       0.150155         9   
+8                    soil_podzolgronden       0.138410         8   
+9         soil_kalkhoudende_zandgronden       0.113380        10   
+10                   soil_moisture_anom       0.108249         9   
+11                     soil_veengronden       0.101474         7   
+12            soil_kalkloze_zandgronden       0.100623         9   
+13               soil_dominant_fraction       0.097643         7   
+14       soil_gedefinieerde_associaties       0.092396         6   
+15  soil_niet_gerijpte_minerale_gronden       0.091774         7   
+16                        elevation_std       0.091059         6   
+17               soil_dikke_eerdgronden       0.090264         5   
+18                       elevation_mean       0.086372         7   
+19                               spi_24       0.085048         7   
+
+    n_models_evaluated  
+0                   10  
+1                   10  
+2                   10  
+3                   10  
+4                   10  
+5                   10  
+6                   10  
+7                   10  
+8                   10  
+9                   10  
+10                  10  
+11                  10  
+12                  10  
+13                  10  
+14                  10  
+15                  10  
+16                  10  
+17                  10  
+18                  10  
+19                  10  
+<Figure size 800x560 with 1 Axes>

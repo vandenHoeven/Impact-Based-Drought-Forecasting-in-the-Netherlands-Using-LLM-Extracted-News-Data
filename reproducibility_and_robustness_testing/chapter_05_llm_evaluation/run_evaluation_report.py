@@ -23,9 +23,14 @@ from typing import Any
 CHAPTER_TEST_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = CHAPTER_TEST_ROOT.parents[1]
 CHAPTER_ROOT = REPO_ROOT / "chapters" / "05_llm_evaluation"
+SRC_DIR = CHAPTER_ROOT / "src"
 DATA_DIR = CHAPTER_ROOT / "data"
 GOLDEN_TAB = CHAPTER_ROOT / "results" / "tables"
 OUT_DIR = CHAPTER_TEST_ROOT / "data" / "results"
+
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+import restrict_posthoc  # noqa: E402
 
 EXPECTED_REVIEWS = 65
 EXPECTED_EVENTS = 33
@@ -40,38 +45,6 @@ DISPLAY_NAMES = {
     "gemini_gemini-3.1-flash-lite": "Gemini 3.1 Flash-Lite",
     "gpt-5.4-mini": "GPT-5.4 mini",
 }
-
-POSTHOC_DISPLAY = {
-    "anthropic_claude-sonnet-4-5": "Claude Sonnet 4.5",
-    "gemini_gemini-3.5-flash": "Gemini 3.5 Flash",
-    "gemini_gemini-3.1-flash-lite": "Gemini 3.1 Flash Lite",
-    "gemini_gemini-3.1-pro-preview": "Gemini 3.1 Pro Preview",
-    "gpt-5.4-mini": "GPT-5.4 Mini",
-}
-
-# Thesis attribute table applies a manual spatial-usability filter (not recomputed from JSON).
-THESIS_ATTRIBUTES = [
-    {
-        "model": "Gemini 3.5 Flash",
-        "loc_tp": 17,
-        "loc_fn": 5,
-        "sev_tp": 24,
-        "sev_fn": 0,
-        "rec_tp": 14,
-        "rec_fn": 0,
-        "source": "thesis_table_after_spatial_usability_filter",
-    },
-    {
-        "model": "Claude Sonnet 4.5",
-        "loc_tp": 14,
-        "loc_fn": 5,
-        "sev_tp": 29,
-        "sev_fn": 5,
-        "rec_tp": 14,
-        "rec_fn": 1,
-        "source": "thesis_table_after_spatial_usability_filter",
-    },
-]
 
 
 def _load_json(path: Path) -> Any:
@@ -244,48 +217,9 @@ def build_model_performance(metrics: dict) -> list[dict[str, Any]]:
     return rows
 
 
-def build_posthoc_impact_precision(posthoc: dict) -> list[dict[str, Any]]:
-    entries = posthoc["impact_labels"]["review_entries"]
-    agg = {m: {"tp": 0, "fp": 0} for m in POSTHOC_DISPLAY}
-    for entry in entries:
-        model = entry.get("model_name")
-        if model not in agg:
-            continue
-        agg[model]["tp"] += int(entry.get("tp_count") or 0)
-        agg[model]["fp"] += int(entry.get("fp_count") or 0)
-
-    rows: list[dict[str, Any]] = []
-    for model_id, name in POSTHOC_DISPLAY.items():
-        tp, fp = agg[model_id]["tp"], agg[model_id]["fp"]
-        precision = tp / (tp + fp) if (tp + fp) else float("nan")
-        rows.append(
-            {
-                "model": name,
-                "model_id": model_id,
-                "TP": tp,
-                "FP": fp,
-                "precision": round(precision, 3),
-            }
-        )
-    return rows
-
-
-def build_posthoc_attributes_raw(posthoc: dict) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    for item in posthoc["attribute_summary"].get("model_summary", []):
-        rows.append(
-            {
-                "model_id": item["model_name"],
-                "loc_tp_raw": item["total_location_tp"],
-                "loc_fn_raw": item["total_location_fn"],
-                "sev_tp_raw": item["total_severity_tp"],
-                "sev_fn_raw": item["total_severity_fn"],
-                "rec_tp_raw": item["total_recency_tp"],
-                "rec_fn_raw": item["total_recency_fn"],
-                "note": "raw_json_before_thesis_spatial_usability_filter",
-            }
-        )
-    return rows
+def build_posthoc_tables(posthoc: dict) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    _, impact_rows, raw_rows, reconstructed_rows = restrict_posthoc.build_restricted_payload(posthoc)
+    return impact_rows, raw_rows, reconstructed_rows
 
 
 def main() -> int:
@@ -306,9 +240,7 @@ def main() -> int:
 
         dataset_summary = build_dataset_summary(evaluation)
         model_performance = build_model_performance(metrics)
-        posthoc_precision = build_posthoc_impact_precision(posthoc)
-        attributes_raw = build_posthoc_attributes_raw(posthoc)
-        thesis_attributes = list(THESIS_ATTRIBUTES)
+        posthoc_precision, attributes_raw, thesis_attributes = build_posthoc_tables(posthoc)
 
         OUT_DIR.mkdir(parents=True, exist_ok=True)
         _write_csv(
@@ -342,6 +274,7 @@ def main() -> int:
                 "model_id",
                 "loc_tp_raw",
                 "loc_fn_raw",
+                "loc_count_raw",
                 "sev_tp_raw",
                 "sev_fn_raw",
                 "rec_tp_raw",
@@ -403,6 +336,7 @@ def main() -> int:
                 "model_id",
                 "loc_tp_raw",
                 "loc_fn_raw",
+                "loc_count_raw",
                 "sev_tp_raw",
                 "sev_fn_raw",
                 "rec_tp_raw",

@@ -39,7 +39,7 @@ def main() -> int:
     print("=" * 70)
 
     try:
-        for path in (LABEL_PATH, RUN_MODELS_PATH):
+        for path in (LABEL_PATH, RUN_MODELS_PATH, SRC_DIR / "restrict_posthoc.py"):
             if not path.is_file():
                 raise FileNotFoundError(f"Missing script: {path}")
             py_compile.compile(str(path), doraise=True)
