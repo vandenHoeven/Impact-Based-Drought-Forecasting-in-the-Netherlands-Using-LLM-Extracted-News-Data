@@ -17,54 +17,10 @@
     "static_soil": "all"
   },
   "n_trials": 100,
-  "n_trials_complete": 76,
-  "n_trials_pruned": 24,
-  "n_trials_fail": 0,
-  "year_excluded": true,
-  "split_rule": "target_year_t_plus_h",
   "test_macro_pr_auc_by_horizon": {
     "0": 0.324142770629219,
     "1": 0.2647828984160758,
     "2": 0.24304943728251435,
     "3": 0.2725266255114584
-  },
-  "diagnostics_exported": [
-    "class_by_calendar_month",
-    "class_by_drought_bin",
-    "class_by_nuts3",
-    "class_nuts3_top_bottom",
-    "fig_class_by_calendar_month",
-    "fig_class_by_drought_bin",
-    "fig_spatial_choropleth",
-    "fig_spatial_choropleth_jja",
-    "fig_temporal_by_calendar_month",
-    "fig_temporal_by_drought_bin",
-    "fig_temporal_by_month",
-    "prediction_long",
-    "spatial_all_vs_jja",
-    "spatial_by_nuts3",
-    "spatial_jja_by_nuts3",
-    "temporal_by_calendar_month",
-    "temporal_by_drought_bin",
-    "temporal_by_month"
-  ],
-  "environment": {
-    "python": "3.13.14",
-    "packages": {
-      "numpy": "2.4.1",
-      "pandas": "2.3.3",
-      "scipy": "1.17.0",
-      "joblib": "1.5.3",
-      "scikit-learn": "1.8.0",
-      "optuna": "4.9.0",
-      "shap": "0.52.0",
-      "xgboost": "3.3.0",
-      "catboost": "1.2.10"
-    },
-    "random_seed": 42,
-    "n_trials": 100,
-    "shap_n_models_threshold": 0.05,
-    "split_rule": "target_year_t_plus_h",
-    "primary_horizon": 1
   }
 }
