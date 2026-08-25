@@ -1,13 +1,13 @@
 # Chapter 09: NUTS-3 drought impact AutoML
 
-Self-contained package for the thesis Chapter 9 main experiment: multi-label impact occurrence forecasting at NUTS-3, horizons \(h=0\ldots3\), top-10 classes, development 2018–2023 / test 2024–2025, Optuna model + predictor-subset search.
+Self-contained package for the thesis Chapter 9 main experiment: multi-label impact occurrence forecasting at NUTS-3, horizons \(h=0\ldots3\), top-10 classes, **target-year** development (impact years 2018–2023) / test (impact years 2024–2025), Optuna model + predictor-subset search.
 
 ## What this does
 
 1. Optionally clip global meteo archives to NL (`00_subset_meteo_nl.ipynb`).
 2. Build static predictors from elevation / soil / land / population (`01_build_statics.ipynb`).
-3. Build supervised / dev / test panels from meteo + statics + impact labels (`02_data_preparation.ipynb`).
-4. Run Optuna CV + test + SHAP + diagnostics (`03_automl_nuts3.ipynb` or `src/run_automl.py`).
+3. Build the supervised complete panel from meteo + statics + impact labels (`02_data_preparation.ipynb`).
+4. Run Optuna CV + test + SHAP + diagnostics with target-year splits (`03_automl_nuts3.ipynb` or `src/run_automl.py`).
 
 This chapter uses the NL meteo clip under `data/meteo_nl/` (global SPEI/SPI archives stay external; see [`DATA.md`](../../DATA.md)).
 
@@ -18,10 +18,10 @@ This chapter uses the NL meteo clip under `data/meteo_nl/` (global SPEI/SPI arch
   notebooks/
     00_subset_meteo_nl.ipynb      # optional: global meteo → NL clip (~47 MB)
     01_build_statics.ipynb        # elevation + soil (+ land/pop) → static parquets
-    02_data_preparation.ipynb     # meteo zonal + labels → supervised / dev / test panels
-    03_automl_nuts3.ipynb         # Optuna CV + test + SHAP + diagnostics
+    02_data_preparation.ipynb     # meteo zonal + labels → supervised complete panel
+    03_automl_nuts3.ipynb         # Optuna CV + test + SHAP + diagnostics (target-year splits)
   src/
-    automl_search.py              # search space, CV, metrics, SHAP
+    automl_search.py              # search space, target-year CV, metrics, SHAP
     run_automl.py                 # headless twin of notebook 03
     soil_tif_utils.py
   data/
@@ -67,7 +67,7 @@ $env:CH09_METEO_GLOBAL_DIR = "D:\path\to\Meteo data"
 # then open notebooks/00_subset_meteo_nl.ipynb and Run All
 ```
 
-Frozen thesis results live under `results/automl_results/` (selected Random Forest, CV / test macro PR-AUC ≈0.324 at \(h=1\)). See `run_summary.json`, `best_config.json`, `test_macro_by_horizon.csv`, `test_metrics_with_skill.csv`, SHAP and diagnostic figures. Supplementary 15-class predictability freeze: `results/tables/predictability_all15.csv`.
+Frozen thesis results live under `results/automl_results/` (selected configuration, CV / test macro AP at \(h=1\)). See `run_summary.json`, `best_config.json`, `test_macro_by_horizon.csv`, `test_metrics_with_skill.csv`, SHAP and diagnostic figures. Temporal splits use **year of target month** \(t+h\). Supplementary 15-class predictability freeze: `results/tables/predictability_all15.csv`.
 
 ## Data and provenance
 

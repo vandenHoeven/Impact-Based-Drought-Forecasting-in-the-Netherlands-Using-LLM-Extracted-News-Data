@@ -1,7 +1,13 @@
 feature
+spei_01
+spei_03
+spei_06
 spei_09
 spei_12
 spei_24
+spi_01
+spi_03
+spi_06
 spi_09
 spi_12
 spi_24
@@ -9,8 +15,8 @@ soil_moisture_anom
 cdd_days
 month_sin
 month_cos
+population_fraction
 elevation_mean
-elevation_std
 soil_brikgronden
 soil_dikke_eerdgronden
 soil_gedefinieerde_associaties

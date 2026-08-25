@@ -1,4 +1,8 @@
-"""Run the Chapter 09 NUTS-3 AutoML pipeline (mirrors notebooks/03_automl_nuts3.ipynb)."""
+"""Run the Chapter 09 NUTS-3 AutoML pipeline (mirrors notebooks/03_automl_nuts3.ipynb).
+
+Temporal splits use the year of the impact target month t+h, not the predictor
+month t, so validation/test periods do not leak into training labels.
+"""
 from __future__ import annotations
 
 import json
@@ -25,8 +29,10 @@ if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
 from automl_search import (
+    DEV_TARGET_MAX_YEAR,
     FORECAST_HORIZONS,
     TOP_10_CLASSES,
+    assert_target_year_splits,
     best_config_from_study,
     cv_score_config,
     evaluate_config_all_horizons,
@@ -35,6 +41,8 @@ from automl_search import (
     macro_from_class_metrics,
     make_optuna_objective,
     shap_mean_abs_importance,
+    split_by_target_year,
+    target_years,
     trials_dataframe,
     year_expanding_folds,
 )
@@ -50,6 +58,7 @@ N_TRIALS = 100
 RANDOM_SEED = 42
 PRIMARY_HORIZON = 1
 SHAP_N_MODELS_THRESHOLD = 0.05
+PANEL_PATH = OUT_DIR / "supervised_nuts3_forecast_2018_2025_complete.parquet"
 
 _ENV_PACKAGES = (
     "numpy",
@@ -77,19 +86,37 @@ def _environment_manifest() -> dict:
         "random_seed": RANDOM_SEED,
         "n_trials": N_TRIALS,
         "shap_n_models_threshold": SHAP_N_MODELS_THRESHOLD,
+        "split_rule": "target_year_t_plus_h",
+        "primary_horizon": PRIMARY_HORIZON,
     }
 
 
 def main() -> None:
-    print("Loading data...")
-    dev = pd.read_parquet(OUT_DIR / "dev_nuts3_forecast_2018_2023.parquet")
-    test = pd.read_parquet(OUT_DIR / "test_nuts3_forecast_2024_2025.parquet")
+    print("Loading complete panel...")
+    if not PANEL_PATH.exists():
+        raise FileNotFoundError(PANEL_PATH)
+    panel = pd.read_parquet(PANEL_PATH)
+    panel["year_month"] = pd.to_datetime(panel["year_month"])
     feature_groups = load_feature_groups(OUT_DIR / "feature_manifest.csv")
-    dev["year_month"] = pd.to_datetime(dev["year_month"])
-    test["year_month"] = pd.to_datetime(test["year_month"])
 
-    folds = year_expanding_folds(dev)
-    print(f"Folds: {len(folds)} | Dev={dev.shape} Test={test.shape}")
+    print(f"Asserting target-year splits (h={PRIMARY_HORIZON})...")
+    assert_target_year_splits(panel, horizon=PRIMARY_HORIZON)
+    for h in FORECAST_HORIZONS:
+        assert_target_year_splits(panel, horizon=h)
+
+    # CV uses development target years only (impact years <= 2023).
+    cv_mask = target_years(panel, PRIMARY_HORIZON) <= DEV_TARGET_MAX_YEAR
+    cv_panel = panel.loc[cv_mask].reset_index(drop=True)
+    folds = year_expanding_folds(cv_panel, horizon=PRIMARY_HORIZON)
+    print(
+        f"Folds: {len(folds)} | CV panel={cv_panel.shape} | "
+        f"Full panel={panel.shape} | split=target_year(t+h)"
+    )
+    for f in folds:
+        print(
+            f"  fold {f.fold}: train targets {f.train_years} -> "
+            f"val {f.valid_year} | n_train={len(f.train_idx)} n_val={len(f.val_idx)}"
+        )
 
     study = optuna.create_study(
         direction="maximize",
@@ -98,7 +125,7 @@ def main() -> None:
         study_name="ch9_drought_impact_automl",
     )
     objective = make_optuna_objective(
-        dev, feature_groups, folds, horizon=PRIMARY_HORIZON, classes=TOP_10_CLASSES
+        cv_panel, feature_groups, folds, horizon=PRIMARY_HORIZON, classes=TOP_10_CLASSES
     )
     print(f"Starting Optuna search: {N_TRIALS} trials...")
     study.optimize(objective, n_trials=N_TRIALS, show_progress_bar=True)
@@ -115,13 +142,13 @@ def main() -> None:
         RESULT_DIR / "selected_features.csv", index=False
     )
 
-    cv_best = cv_score_config(dev, best, folds, horizon=PRIMARY_HORIZON)
+    cv_best = cv_score_config(cv_panel, best, folds, horizon=PRIMARY_HORIZON)
     cv_best.to_csv(RESULT_DIR / "best_config_cv_folds.csv", index=False)
     print(cv_best.to_string(index=False))
 
-    print("Retraining + test evaluation...")
+    print("Retraining + test evaluation (per-horizon target-year splits)...")
     test_metrics, models_by_h, proba_by_h = evaluate_config_all_horizons(
-        dev, test, best, horizons=FORECAST_HORIZONS, classes=TOP_10_CLASSES
+        panel, best, horizons=FORECAST_HORIZONS, classes=TOP_10_CLASSES
     )
     test_metrics.to_csv(RESULT_DIR / "test_metrics_by_class_horizon.csv", index=False)
     macro_test = macro_from_class_metrics(test_metrics)
@@ -133,7 +160,7 @@ def main() -> None:
     skill.to_csv(RESULT_DIR / "test_metrics_with_skill.csv", index=False)
 
     fig, ax = plt.subplots(figsize=(7, 4))
-    ax.plot(macro_test["horizon"], macro_test["macro_pr_auc"], marker="o", label="macro PR-AUC")
+    ax.plot(macro_test["horizon"], macro_test["macro_pr_auc"], marker="o", label="macro AP")
     ax.plot(
         macro_test["horizon"],
         macro_test["macro_prevalence"],
@@ -151,10 +178,12 @@ def main() -> None:
     fig.savefig(FIG_DIR / "fig_test_macro_by_horizon.png", dpi=150)
     plt.close(fig)
 
+    _, test_h1 = split_by_target_year(panel, horizon=PRIMARY_HORIZON)
+
     print("Computing SHAP importance...")
     shap_imp = shap_mean_abs_importance(
         models_by_h[PRIMARY_HORIZON],
-        test,
+        test_h1,
         best.features,
         model_name=best.model_name,
         max_samples=400,
@@ -175,7 +204,7 @@ def main() -> None:
 
     print("Temporal / spatial diagnostics (h=1)...")
     diag_paths = export_temporal_spatial_diagnostics(
-        test,
+        test_h1,
         proba_by_h[PRIMARY_HORIZON],
         TOP_10_CLASSES,
         RESULT_DIR,
@@ -185,6 +214,10 @@ def main() -> None:
     for k, p in diag_paths.items():
         print(f"  {k}: {p.name}")
 
+    n_complete = sum(1 for t in study.trials if str(t.state).endswith("COMPLETE"))
+    n_pruned = sum(1 for t in study.trials if str(t.state).endswith("PRUNED"))
+    n_fail = sum(1 for t in study.trials if str(t.state).endswith("FAIL"))
+
     summary = {
         "best_model": best.model_name,
         "cv_macro_pr_auc_h1": best.cv_macro_pr_auc,
@@ -192,7 +225,11 @@ def main() -> None:
         "feature_groups": best.feature_groups_used,
         "group_subsets": best.group_subsets,
         "n_trials": N_TRIALS,
+        "n_trials_complete": n_complete,
+        "n_trials_pruned": n_pruned,
+        "n_trials_fail": n_fail,
         "year_excluded": True,
+        "split_rule": "target_year_t_plus_h",
         "test_macro_pr_auc_by_horizon": {
             int(r.horizon): float(r.macro_pr_auc) for r in macro_test.itertuples()
         },

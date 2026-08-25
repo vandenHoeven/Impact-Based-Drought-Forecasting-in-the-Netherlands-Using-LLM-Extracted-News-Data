@@ -1,7 +1,11 @@
 """AutoML search helpers for Chapter 9 drought-impact prediction.
 
-Year-based expanding-window CV, Binary Relevance multi-label modelling,
-and Optuna joint search over models / predictor groups / hyperparameters.
+Target-month year-based expanding-window CV, Binary Relevance multi-label
+modelling, and Optuna joint search over models / predictor groups /
+hyperparameters.
+
+Temporal splits use the year of the *target* month t+h (impact occurrence),
+not the predictor month t, so held-out periods do not leak into training labels.
 """
 
 from __future__ import annotations
@@ -57,13 +61,17 @@ PREDICTABLE_MIN_PR_AUC = 0.25
 FORECAST_HORIZONS = [0, 1, 2, 3]
 ID_COLS = ["year_month", "nuts3_id", "nuts3_name", "nuts2_id", "nuts2_name", "period"]
 
-# Year-based expanding window matching thesis Figure (temporal CV)
+# Target-year expanding window matching thesis Figure (temporal CV).
+# Years refer to the year of the impact target month t+h, not predictor month t.
 YEAR_EXPANDING_FOLDS: list[tuple[list[int], int]] = [
     ([2018, 2019], 2020),
     ([2018, 2019, 2020], 2021),
     ([2018, 2019, 2020, 2021], 2022),
     ([2018, 2019, 2020, 2021, 2022], 2023),
 ]
+
+DEV_TARGET_MAX_YEAR = 2023
+TEST_TARGET_YEARS = (2024, 2025)
 
 MODEL_NAMES = [
     "logistic_regression",
@@ -277,12 +285,27 @@ def class_target(cls: str, horizon: int) -> str:
     return f"{cls}_h{horizon}"
 
 
-def year_expanding_folds(df: pd.DataFrame) -> list[YearFold]:
-    """Build thesis year-based expanding-window folds on a development panel."""
-    if "year" not in df.columns:
-        years = pd.to_datetime(df["year_month"]).dt.year
-    else:
-        years = df["year"].astype(int)
+def target_year_month(year_month: pd.Series | pd.DatetimeIndex, horizon: int) -> pd.Series:
+    """Calendar month of the impact target: t_target = t + h."""
+    ym = pd.to_datetime(year_month)
+    if horizon == 0:
+        return ym.dt.to_period("M").dt.to_timestamp()
+    return (ym.dt.to_period("M") + horizon).dt.to_timestamp()
+
+
+def target_years(df: pd.DataFrame, horizon: int) -> pd.Series:
+    """Year of t+h for each row (used for temporal train/val/test masks)."""
+    return target_year_month(df["year_month"], horizon).dt.year.astype(int)
+
+
+def year_expanding_folds(df: pd.DataFrame, *, horizon: int = 1) -> list[YearFold]:
+    """Build expanding-window folds using the year of the target month t+h.
+
+    Training rows have year(t+h) in ``train_years``; validation rows have
+    year(t+h) == ``valid_year``. This automatically excludes predictors whose
+    labels fall inside the validation year (e.g. Dec 2019 at h=1 → Jan 2020).
+    """
+    years = target_years(df, horizon)
 
     folds: list[YearFold] = []
     for i, (train_years, valid_year) in enumerate(YEAR_EXPANDING_FOLDS, start=1):
@@ -302,6 +325,76 @@ def year_expanding_folds(df: pd.DataFrame) -> list[YearFold]:
             )
         )
     return folds
+
+
+def split_by_target_year(
+    df: pd.DataFrame,
+    *,
+    horizon: int,
+    max_train_year: int = DEV_TARGET_MAX_YEAR,
+    test_years: tuple[int, ...] = TEST_TARGET_YEARS,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Split panel by year of t+h into development train and independent test."""
+    years = target_years(df, horizon)
+    train_df = df.loc[years <= max_train_year].copy()
+    test_df = df.loc[years.isin(test_years)].copy()
+    return train_df, test_df
+
+
+def assert_target_year_splits(df: pd.DataFrame, *, horizon: int = 1) -> None:
+    """Fail fast if target-year CV/test masks still leak labels across boundaries."""
+    folds = year_expanding_folds(df, horizon=horizon)
+    years = target_years(df, horizon)
+    ym = pd.to_datetime(df["year_month"])
+
+    for fold in folds:
+        train_tgt = years.iloc[fold.train_idx]
+        if (train_tgt == fold.valid_year).any():
+            raise AssertionError(
+                f"h={horizon} fold {fold.fold}: train rows have target year "
+                f"{fold.valid_year} (label leakage)"
+            )
+        # At h=1, Dec of the last train calendar year must be in validation
+        # (target = next January in valid_year).
+        if horizon >= 1 and fold.valid_year - 1 in fold.train_years:
+            boundary = ym.eq(pd.Timestamp(fold.valid_year - 1, 12, 1))
+            boundary_idx = set(np.where(boundary.to_numpy())[0])
+            val_set = set(fold.val_idx.tolist())
+            train_set = set(fold.train_idx.tolist())
+            leaked = boundary_idx & train_set
+            if leaked:
+                raise AssertionError(
+                    f"h={horizon} fold {fold.fold}: Dec {fold.valid_year - 1} "
+                    f"predictors still in train ({len(leaked)} rows)"
+                )
+            if boundary_idx and not (boundary_idx <= val_set):
+                missing = boundary_idx - val_set
+                raise AssertionError(
+                    f"h={horizon} fold {fold.fold}: Dec {fold.valid_year - 1} "
+                    f"predictors not fully in validation ({len(missing)} missing)"
+                )
+
+    train_df, test_df = split_by_target_year(df, horizon=horizon)
+    train_years = target_years(train_df, horizon)
+    test_years = target_years(test_df, horizon)
+    if (train_years >= min(TEST_TARGET_YEARS)).any():
+        raise AssertionError(
+            f"h={horizon}: final train contains target years >= {min(TEST_TARGET_YEARS)}"
+        )
+    if horizon >= 1:
+        dec_train = pd.to_datetime(train_df["year_month"]).eq(pd.Timestamp(DEV_TARGET_MAX_YEAR, 12, 1))
+        if dec_train.any():
+            raise AssertionError(
+                f"h={horizon}: Dec {DEV_TARGET_MAX_YEAR} predictors still in final train"
+            )
+        dec_test = pd.to_datetime(test_df["year_month"]).eq(pd.Timestamp(DEV_TARGET_MAX_YEAR, 12, 1))
+        if not dec_test.any():
+            raise AssertionError(
+                f"h={horizon}: Dec {DEV_TARGET_MAX_YEAR} predictors missing from test "
+                f"(should predict Jan {min(TEST_TARGET_YEARS)})"
+            )
+    if len(test_df) == 0 or len(train_df) == 0:
+        raise AssertionError(f"h={horizon}: empty train ({len(train_df)}) or test ({len(test_df)})")
 
 
 def resolve_features(
@@ -623,13 +716,18 @@ def best_config_from_study(study) -> BestConfig:
 def trials_dataframe(study) -> pd.DataFrame:
     rows = []
     for t in study.trials:
-        if t.value is None:
+        # COMPLETE trials have t.value; PRUNED trials often have value=None but
+        # retain intermediate reports — use the last report so pruning is visible.
+        value = t.value
+        if value is None and t.intermediate_values:
+            value = float(t.intermediate_values[max(t.intermediate_values)])
+        if value is None:
             continue
         subsets = t.user_attrs.get("group_subsets", {}) or {}
         row = {
             "trial": t.number,
             "state": str(t.state),
-            "macro_pr_auc_h1": t.value,
+            "macro_pr_auc_h1": value,
             "model": t.params.get("model"),
             "n_features": t.user_attrs.get("n_features"),
             "feature_groups": ",".join(t.user_attrs.get("feature_groups_used", [])),
@@ -711,14 +809,19 @@ def macro_from_class_metrics(metrics_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def evaluate_config_all_horizons(
-    train_df: pd.DataFrame,
-    test_df: pd.DataFrame,
+    panel: pd.DataFrame,
     config: BestConfig,
     *,
     horizons: list[int] | None = None,
     classes: list[str] | None = None,
+    max_train_year: int = DEV_TARGET_MAX_YEAR,
+    test_years: tuple[int, ...] = TEST_TARGET_YEARS,
 ) -> tuple[pd.DataFrame, dict[int, dict[str, Any]], dict[int, pd.DataFrame]]:
-    """Retrain per horizon on train_df and score on test_df."""
+    """Retrain per horizon with target-year train/test masks on the full panel.
+
+    For each horizon h, train on rows with year(t+h) <= max_train_year and
+    score rows with year(t+h) in test_years.
+    """
     horizons = horizons or FORECAST_HORIZONS
     classes = classes or TOP_10_CLASSES
     all_metrics = []
@@ -726,6 +829,12 @@ def evaluate_config_all_horizons(
     proba_by_h: dict[int, pd.DataFrame] = {}
 
     for h in horizons:
+        train_df, test_df = split_by_target_year(
+            panel,
+            horizon=h,
+            max_train_year=max_train_year,
+            test_years=test_years,
+        )
         models = train_binary_relevance(
             train_df,
             config.features,
@@ -1616,19 +1725,26 @@ def apply_predictability_to_configs(
 
 
 def train_eval_per_class_configs(
-    train_df: pd.DataFrame,
-    test_df: pd.DataFrame,
+    panel: pd.DataFrame,
     configs: dict[str, ClassBestConfig],
     *,
     horizons: list[int] | None = None,
+    max_train_year: int = DEV_TARGET_MAX_YEAR,
+    test_years: tuple[int, ...] = TEST_TARGET_YEARS,
 ) -> tuple[pd.DataFrame, dict[int, dict[str, Any]], dict[int, pd.DataFrame]]:
-    """Retrain each class with its own config; evaluate all horizons on test."""
+    """Retrain each class with its own config; evaluate all horizons on target-year test."""
     horizons = horizons or FORECAST_HORIZONS
     all_metrics = []
     models_by_h: dict[int, dict[str, Any]] = {h: {} for h in horizons}
     proba_by_h: dict[int, pd.DataFrame] = {}
 
     for h in horizons:
+        train_df, test_df = split_by_target_year(
+            panel,
+            horizon=h,
+            max_train_year=max_train_year,
+            test_years=test_years,
+        )
         proba_cols = {}
         for cls, cfg in configs.items():
             target = class_target(cls, h)

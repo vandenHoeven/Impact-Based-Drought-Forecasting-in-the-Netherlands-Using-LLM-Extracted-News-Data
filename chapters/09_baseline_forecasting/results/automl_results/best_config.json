@@ -1,9 +1,15 @@
 {
   "model_name": "logistic_regression",
   "features": [
+    "spei_01",
+    "spei_03",
+    "spei_06",
     "spei_09",
     "spei_12",
     "spei_24",
+    "spi_01",
+    "spi_03",
+    "spi_06",
     "spi_09",
     "spi_12",
     "spi_24",
@@ -11,8 +17,8 @@
     "cdd_days",
     "month_sin",
     "month_cos",
+    "population_fraction",
     "elevation_mean",
-    "elevation_std",
     "soil_brikgronden",
     "soil_dikke_eerdgronden",
     "soil_gedefinieerde_associaties",
@@ -33,20 +39,22 @@
     "soil_dominant_fraction"
   ],
   "params": {
-    "C": 0.03384313229479467
+    "C": 0.017116947266545952
   },
-  "cv_macro_pr_auc": 0.33501974879731256,
-  "trial_number": 88,
+  "cv_macro_pr_auc": 0.3279821699368137,
+  "trial_number": 95,
   "feature_groups_used": [
     "meteo",
     "temporal",
+    "static_pop",
     "static_elev",
     "static_soil"
   ],
   "group_subsets": {
-    "meteo": "long",
+    "meteo": "all",
     "temporal": "seasonality",
-    "static_elev": "both",
+    "static_pop": "all",
+    "static_elev": "mean_only",
     "static_soil": "all"
   }
 }
