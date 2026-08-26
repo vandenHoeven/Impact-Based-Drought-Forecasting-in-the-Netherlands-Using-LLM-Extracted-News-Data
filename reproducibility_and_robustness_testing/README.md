@@ -98,6 +98,8 @@ Chapter 05 thesis numbers come from **frozen annotations/metrics**, not from a l
 
 ## Chapter 04 — what is tested and why
 
+Smokes use only the live Chapter 04 entry points (`clean_archive.py`, `schemas.py`, `llmn_extraction.py`, Lexis scraper). The archival folder [`chapters/04_database_construction/04_4_LLMn_Extraction_Framework/Reference/`](../chapters/04_database_construction/04_4_LLMn_Extraction_Framework/Reference/) (older schema + batch post-processing) is excluded from `check_imports.py` scans and has **no** run script here.
+
 | Check | What it tests | Why |
 | --- | --- | --- |
 | `run_preprocessing.py` | `clean_archive` on a small fixture ZIP → preprocessed JSON | Cleaning / MinHash dedup procedure without sharing the thesis corpus |

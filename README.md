@@ -75,7 +75,7 @@ python reproducibility_and_robustness_testing/run_all_scripts.py
 
 ## Chapter 04 (database construction)
 
-Acquires LexisNexis article ZIPs, cleans and deduplicates them, then extracts structured drought impacts with a fixed schema via LiteLLM (multi-provider, batch-capable).
+Acquires LexisNexis article ZIPs, cleans and deduplicates them, then extracts structured drought impacts with a fixed schema via LiteLLM (multi-provider, batch-capable). Historical schema / batch post-processing under `04_4_LLMn_Extraction_Framework/Reference/` is archival documentation only (do not run).
 
 Details: [`chapters/04_database_construction/README.md`](chapters/04_database_construction/README.md).
 

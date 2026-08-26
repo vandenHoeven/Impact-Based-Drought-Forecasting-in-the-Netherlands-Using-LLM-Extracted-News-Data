@@ -18,7 +18,7 @@ SCAN_DIRS = [
     REPO_ROOT / "chapters",
     REPO_ROOT / "reproducibility_and_robustness_testing",
 ]
-SKIP_DIR_NAMES = {"__pycache__", ".venv", "venv", ".git"}
+SKIP_DIR_NAMES = {"__pycache__", ".venv", "venv", ".git", "Reference"}
 
 # pip / distribution name -> import name (extend as chapters are added)
 IMPORT_NAME_OVERRIDES: dict[str, str] = {

@@ -23,10 +23,20 @@ Builds the drought-impact news database: acquire LexisNexis archives, clean and 
 └── 04_4_LLMn_Extraction_Framework/
     ├── schemas.py
     ├── llmn_extraction.py
-    └── .env.example
+    ├── .env.example
+    └── Reference/                   # archival only — do not run
+        ├── README.md
+        ├── old_schema.py
+        └── post-processing/
+            ├── fuzzy_title_dedup.py
+            └── post_proccesing_batches.py
 ```
 
 All three stages share one data tree under `data/`.
+
+## Historical reference (archival only)
+
+[`04_4_LLMn_Extraction_Framework/Reference/`](04_4_LLMn_Extraction_Framework/Reference/) keeps an earlier flat extraction schema and the second-stage batch post-processing scripts used before production LLMn runs. **Do not run this code.** It is not part of the current pipeline, is not smoke-tested, and hard-coded paths still point at an old external layout. Details: [`04_4_LLMn_Extraction_Framework/Reference/README.md`](04_4_LLMn_Extraction_Framework/Reference/README.md).
 
 ## How to run
 
