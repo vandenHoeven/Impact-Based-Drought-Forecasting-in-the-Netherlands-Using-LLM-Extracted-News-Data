@@ -25,3 +25,5 @@ pyarrow
 rasterio
 xarray
 netcdf4
+polars
+ipywidgets

@@ -34,7 +34,7 @@
     }
   },
   "impact_labels": {
-    "updated_at": "2026-08-24T13:11:58.882567+00:00",
+    "updated_at": "2026-08-27T11:40:16.081846+00:00",
     "review_entries": [
       {
         "review_key": "anthropic_claude-sonnet-4-5::20260529_084921::NEWS_2003_022690",
@@ -669,7 +669,7 @@
     ]
   },
   "attribute_labels": {
-    "updated_at": "2026-08-24T13:11:58.882567+00:00",
+    "updated_at": "2026-08-27T11:40:16.081846+00:00",
     "review_entries": [
       {
         "review_key": "anthropic_claude-sonnet-4-5::20260529_084921::NEWS_2003_022690",
@@ -980,7 +980,7 @@
     ]
   },
   "attribute_summary": {
-    "updated_at": "2026-08-24T13:11:58.882567+00:00",
+    "updated_at": "2026-08-27T11:40:16.081846+00:00",
     "totals": {
       "location_count": 31,
       "location_tp": 26,
@@ -990,7 +990,7 @@
       "recency_tp": 22,
       "recency_fn": 0,
       "total_rows": 18,
-      "updated_at": "2026-08-24T13:11:58.882567+00:00"
+      "updated_at": "2026-08-27T11:40:16.081846+00:00"
     },
     "model_summary": [
       {
