@@ -72,5 +72,5 @@ Optional extraction flags: `--mode test-one --index 0` or `--limit N`. Schema an
 ## Links
 
 - Downstream evaluation: [`../05_llm_evaluation/README.md`](../05_llm_evaluation/README.md)
-- Downstream geocoding: [`../06_geocoding/README.md`](../06_geocoding/README.md)
+- Downstream spatial post-processing: [`../06_spatial_postprocessing_visualization_dataset_reliability/README.md`](../06_spatial_postprocessing_visualization_dataset_reliability/README.md)
 - Robustness suite (fixture ZIP, 2-article live extraction, headed Lexis smoke): [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)

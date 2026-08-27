@@ -60,6 +60,6 @@ python reproducibility_and_robustness_testing/chapter_07_exploratory_data_analys
 
 ## Links
 
-- Upstream geocoding / NUTS-3: [`../06_geocoding/README.md`](../06_geocoding/README.md)
+- Upstream spatial post-processing / NUTS-3: [`../06_spatial_postprocessing_visualization_dataset_reliability/README.md`](../06_spatial_postprocessing_visualization_dataset_reliability/README.md)
 - Downstream forecasting: [`../08_09_baseline_forecasting/README.md`](../08_09_baseline_forecasting/README.md)
 - Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)

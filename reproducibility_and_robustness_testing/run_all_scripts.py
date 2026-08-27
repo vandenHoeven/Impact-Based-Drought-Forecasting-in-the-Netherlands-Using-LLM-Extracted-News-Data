@@ -1,7 +1,7 @@
 """
 Run all reproducibility / robustness checks.
 
-Order: imports → Chapter 05 offline/UI checks → Chapter 06 geocoding/viewer →
+Order: imports → Chapter 05 offline/UI checks → Chapter 06 spatial/viewer →
 Chapter 04 preprocessing → 2-article LLMn (optional if API key blank) →
 headed Lexis acquisition smoke.
 

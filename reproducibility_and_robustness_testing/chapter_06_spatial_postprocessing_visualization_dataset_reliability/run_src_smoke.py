@@ -3,7 +3,7 @@ Chapter 06 src wiring smoke (no Nominatim / no Streamlit server).
 
 Compiles and imports geocoding modules; confirms NUTS geojson is present.
 
-    python reproducibility_and_robustness_testing/chapter_06_geocoding/run_src_smoke.py
+    python reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/run_src_smoke.py
 """
 
 from __future__ import annotations
@@ -15,9 +15,9 @@ from pathlib import Path
 
 CHAPTER_TEST_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = CHAPTER_TEST_ROOT.parents[1]
-SRC_DIR = REPO_ROOT / "chapters" / "06_geocoding" / "src"
+SRC_DIR = REPO_ROOT / "chapters" / "06_spatial_postprocessing_visualization_dataset_reliability" / "src"
 GEOJSON_PATH = (
-    REPO_ROOT / "chapters" / "06_geocoding" / "data" / "geo" / "nuts_nl_simplified.geojson"
+    REPO_ROOT / "chapters" / "06_spatial_postprocessing_visualization_dataset_reliability" / "data" / "geo" / "nuts_nl_simplified.geojson"
 )
 
 COMPILE_MODULES = [

@@ -7,7 +7,7 @@ Each chapter README ends with a **Links** section pointing here. Prefer those RE
 See also:
 - [`chapters/04_database_construction/README.md`](../chapters/04_database_construction/README.md)
 - [`chapters/05_llm_evaluation/README.md`](../chapters/05_llm_evaluation/README.md)
-- [`chapters/06_geocoding/README.md`](../chapters/06_geocoding/README.md)
+- [`chapters/06_spatial_postprocessing_visualization_dataset_reliability/README.md`](../chapters/06_spatial_postprocessing_visualization_dataset_reliability/README.md)
 - [`chapters/07_exploratory_data_analysis/README.md`](../chapters/07_exploratory_data_analysis/README.md)
 - [`chapters/08_09_baseline_forecasting/README.md`](../chapters/08_09_baseline_forecasting/README.md)
 
@@ -31,7 +31,7 @@ reproducibility_and_robustness_testing/
 │   ├── run_evaluation_report.py
 │   ├── run_src_smoke.py
 │   └── run_labeller_smoke.py
-├── chapter_06_geocoding/
+├── chapter_06_spatial_postprocessing_visualization_dataset_reliability/
 │   ├── data/fixture/            # 5 real impacts from chapter input (bodies truncated)
 │   ├── data/results/            # geocode + NUTS-3 smoke outputs (gitignored)
 │   ├── run_geocoding.py
@@ -55,9 +55,9 @@ python reproducibility_and_robustness_testing/chapter_05_llm_evaluation/run_src_
 python reproducibility_and_robustness_testing/chapter_05_llm_evaluation/run_labeller_smoke.py
 
 # Chapter 06 only
-python reproducibility_and_robustness_testing/chapter_06_geocoding/run_src_smoke.py
-python reproducibility_and_robustness_testing/chapter_06_geocoding/run_geocoding.py
-python reproducibility_and_robustness_testing/chapter_06_geocoding/run_viewer_smoke.py
+python reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/run_src_smoke.py
+python reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/run_geocoding.py
+python reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/run_viewer_smoke.py
 
 # Chapter 07 only
 python reproducibility_and_robustness_testing/chapter_07_exploratory_data_analysis/run_src_smoke.py
@@ -66,7 +66,7 @@ python reproducibility_and_robustness_testing/chapter_07_exploratory_data_analys
 python reproducibility_and_robustness_testing/chapter_08_09_baseline_forecasting/run_src_smoke.py
 ```
 
-`run_all_scripts.py` order: imports → Chapter 05 checks → Chapter 06 geocoding/viewer → Chapter 04 preprocessing → 2-article LLMn → headed Lexis acquisition.
+`run_all_scripts.py` order: imports → Chapter 05 checks → Chapter 06 spatial/viewer → Chapter 04 preprocessing → 2-article LLMn → headed Lexis acquisition.
 
 At the end it prints a **Robustness-check summary** with `PASS` / `SKIPPED` / `FAIL` for every runner (plus totals and a list of failed checks). The suite exits non-zero only when one or more checks are `FAIL`; skipped optional checks do not fail the suite.
 
@@ -78,13 +78,13 @@ At the end it prints a **Robustness-check summary** with `PASS` / `SKIPPED` / `F
 - Leave blank / press Enter → check is **SKIPPED** (no API call); this does **not** fail `run_all_scripts.py`.
 - If the key is already in the environment, the live call runs without prompting.
 
-### Optional live Nominatim (Chapter 06 geocoding)
+### Optional live Nominatim (Chapter 06)
 
 `run_geocoding.py` calls OpenStreetMap Nominatim for 5 real locations from the chapter input fixture:
 
 - Network reachable → live geocode + offline NUTS-3 (`PASS` if all 5 get coordinates).
 - Nominatim unreachable → check is **SKIPPED**; this does **not** fail `run_all_scripts.py`.
-- Viewer smoke (`run_viewer_smoke.py`) expects those results under `chapter_06_geocoding/data/results/` (run geocoding first; the full suite does that automatically).
+- Viewer smoke (`run_viewer_smoke.py`) expects those results under `chapter_06_spatial_postprocessing_visualization_dataset_reliability/data/results/` (run geocoding first; the full suite does that automatically).
 
 ## Chapter 05 — what is tested and why
 
@@ -110,7 +110,7 @@ Full Lexis downloads / full-corpus extraction / full evaluation re-runs use the 
 
 ## Chapter 06 — what is tested and why
 
-Geocoding code and frozen thesis outputs live under [`chapters/06_geocoding/`](../chapters/06_geocoding/README.md). Suite runners use a **tiny self-contained fixture** of 5 real non-geocoded impacts excerpted from `impacts_for_geocoding.json` (article bodies truncated); they do **not** load `data/final/` thesis CSVs.
+Spatial post-processing / visualization / reliability code and frozen thesis outputs live under [`chapters/06_spatial_postprocessing_visualization_dataset_reliability/`](../chapters/06_spatial_postprocessing_visualization_dataset_reliability/README.md). Suite runners use a **tiny self-contained fixture** of 5 real non-geocoded impacts excerpted from `impacts_for_geocoding.json` (article bodies truncated); they do **not** load `data/final/` thesis CSVs.
 
 | Check | What it tests | Why |
 | --- | --- | --- |

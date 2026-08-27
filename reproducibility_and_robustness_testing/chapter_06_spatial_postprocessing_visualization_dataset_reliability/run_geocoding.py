@@ -1,11 +1,11 @@
 """
-Chapter 06 geocoding smoke: Nominatim on 5 fixture impacts, then offline NUTS-3.
+Chapter 06 spatial post-processing smoke: Nominatim on 5 fixture impacts, then offline NUTS-3.
 
 Uses five real non-geocoded article/impact excerpts from
-chapters/06_geocoding/data/input/impacts_for_geocoding.json (bodies truncated).
+chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/input/impacts_for_geocoding.json (bodies truncated).
 Needs network for Nominatim; unreachable Nominatim is reported as SKIPPED.
 
-    python reproducibility_and_robustness_testing/chapter_06_geocoding/run_geocoding.py
+    python reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/run_geocoding.py
 """
 
 from __future__ import annotations
@@ -19,9 +19,9 @@ from pathlib import Path
 
 CHAPTER_TEST_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = CHAPTER_TEST_ROOT.parents[1]
-SRC_DIR = REPO_ROOT / "chapters" / "06_geocoding" / "src"
+SRC_DIR = REPO_ROOT / "chapters" / "06_spatial_postprocessing_visualization_dataset_reliability" / "src"
 GEOJSON_PATH = (
-    REPO_ROOT / "chapters" / "06_geocoding" / "data" / "geo" / "nuts_nl_simplified.geojson"
+    REPO_ROOT / "chapters" / "06_spatial_postprocessing_visualization_dataset_reliability" / "data" / "geo" / "nuts_nl_simplified.geojson"
 )
 FIXTURE_PATH = CHAPTER_TEST_ROOT / "data" / "fixture" / "sample_impacts.json"
 RESULTS_DIR = CHAPTER_TEST_ROOT / "data" / "results"
@@ -111,7 +111,7 @@ def _print_nuts_summary(records: list[dict]) -> None:
 
 def main() -> int:
     print("=" * 70)
-    print("Chapter 06 geocoding smoke (5 impacts + offline NUTS-3)")
+    print("Chapter 06 spatial smoke (5 impacts + offline NUTS-3)")
     print(f"fixture: {FIXTURE_PATH}")
     print(f"results: {RESULTS_DIR}")
     print(f"geojson: {GEOJSON_PATH}")

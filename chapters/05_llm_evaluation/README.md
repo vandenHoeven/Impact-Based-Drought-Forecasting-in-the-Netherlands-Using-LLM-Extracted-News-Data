@@ -104,5 +104,5 @@ python reproducibility_and_robustness_testing/chapter_05_llm_evaluation/run_labe
 ## Links
 
 - Upstream extraction: [`../04_database_construction/README.md`](../04_database_construction/README.md)
-- Downstream geocoding: [`../06_geocoding/README.md`](../06_geocoding/README.md)
+- Downstream spatial post-processing: [`../06_spatial_postprocessing_visualization_dataset_reliability/README.md`](../06_spatial_postprocessing_visualization_dataset_reliability/README.md)
 - Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)

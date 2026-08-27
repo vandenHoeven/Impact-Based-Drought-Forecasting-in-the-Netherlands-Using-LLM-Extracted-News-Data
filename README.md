@@ -13,7 +13,7 @@ This repo is the **code + frozen artefacts** for the thesis pipeline.
 | --- | --- |
 | Run procedure checks | `python reproducibility_and_robustness_testing/run_all_scripts.py` |
 | Frozen Ch05 tables / figures | `chapters/05_llm_evaluation/results/` |
-| Thesis-final geocoded points / NUTS-3 | `chapters/06_geocoding/data/final/` |
+| Thesis-final geocoded points / NUTS-3 | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/` |
 | Frozen Ch07 EDA figures / tables | `chapters/07_exploratory_data_analysis/results/` |
 | Frozen Ch08–09 AutoML metrics | `chapters/08_09_baseline_forecasting/results/automl_results/` |
 
@@ -22,7 +22,7 @@ Pipeline (data flow between chapters):
 ```mermaid
 flowchart LR
   ch04[Ch04_extract] --> ch05[Ch05_evaluate]
-  ch04 --> ch06[Ch06_geocode]
+  ch04 --> ch06[Ch06_spatial]
   ch06 --> ch07[Ch07_EDA]
   ch06 --> ch0809[Ch08_09_forecast]
 ```
@@ -38,7 +38,7 @@ flowchart LR
 ├── chapters/
 │   ├── 04_database_construction/      # Lexis → preprocess → LLMn
 │   ├── 05_llm_evaluation/             # frozen eval metrics + report notebook
-│   ├── 06_geocoding/                  # Nominatim points + NUTS-3 + viewer/EDA
+│   ├── 06_spatial_postprocessing_visualization_dataset_reliability/  # spatial post-processing + viz + reliability
 │   ├── 07_exploratory_data_analysis/  # report EDA figures + tables
 │   └── 08_09_baseline_forecasting/    # Ch08 methods + Ch09 NUTS-3 AutoML
 └── reproducibility_and_robustness_testing/
@@ -46,7 +46,7 @@ flowchart LR
     ├── run_all_scripts.py             # PASS / SKIPPED / FAIL summary
     ├── chapter_04_database_construction/
     ├── chapter_05_llm_evaluation/
-    ├── chapter_06_geocoding/
+    ├── chapter_06_spatial_postprocessing_visualization_dataset_reliability/
     ├── chapter_07_exploratory_data_analysis/
     └── chapter_08_09_baseline_forecasting/
 ```
@@ -88,12 +88,12 @@ python chapters/04_database_construction/04_4_LLMn_Extraction_Framework/llmn_ext
 
 Frozen annotations and metrics under [`chapters/05_llm_evaluation/`](chapters/05_llm_evaluation/README.md). Run `notebooks/report_chapter5.ipynb` to regenerate thesis tables/figures (no article bodies or API keys).
 
-## Chapter 06 (geocoding)
+## Chapter 06 (spatial post-processing, visualization, dataset reliability)
 
-Point geocoding (Nominatim) + NUTS-3 assignment, Streamlit viewer, and wildfire EDA under [`chapters/06_geocoding/`](chapters/06_geocoding/README.md). Frozen `data/final/` CSVs support offline viewing without re-running Nominatim.
+Point geocoding (Nominatim) + NUTS-3 assignment, Streamlit viewer, and wildfire EDA under [`chapters/06_spatial_postprocessing_visualization_dataset_reliability/`](chapters/06_spatial_postprocessing_visualization_dataset_reliability/README.md). Frozen `data/final/` CSVs support offline viewing without re-running Nominatim.
 
 ```text
-cd chapters/06_geocoding
+cd chapters/06_spatial_postprocessing_visualization_dataset_reliability
 python src/point_coder.py
 python src/nuts3_coder.py
 streamlit run src/combined_viewer.py

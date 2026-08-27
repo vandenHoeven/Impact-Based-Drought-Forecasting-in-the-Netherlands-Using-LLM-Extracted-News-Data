@@ -4,7 +4,7 @@ Chapter 06 Streamlit combined viewer UI smoke: launch → health OK → keep up 
 Uses geocoding smoke results under data/results/ (run run_geocoding.py first).
 Opens the Streamlit UI on port 8506 for manual inspection, then terminates.
 
-    python reproducibility_and_robustness_testing/chapter_06_geocoding/run_viewer_smoke.py
+    python reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/run_viewer_smoke.py
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from pathlib import Path
 CHAPTER_TEST_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = CHAPTER_TEST_ROOT.parents[1]
 VIEWER_SCRIPT = (
-    REPO_ROOT / "chapters" / "06_geocoding" / "src" / "combined_viewer.py"
+    REPO_ROOT / "chapters" / "06_spatial_postprocessing_visualization_dataset_reliability" / "src" / "combined_viewer.py"
 )
 RESULTS_DIR = CHAPTER_TEST_ROOT / "data" / "results"
 POINT_CSV = RESULTS_DIR / "impacts_geocoded_points.csv"

@@ -22,11 +22,11 @@ reproducibility_and_robustness_testing/**/data/labeller_state/*
 .env
 
 # Chapter 06 — large / full-article artefacts (local only; GitHub 100 MB limit)
-# Kept on disk for thesis re-analysis; not versioned. See chapters/06_geocoding/README.md.
-chapters/06_geocoding/data/input/chapter7_merged_with_llm_features_gemini_gemini-3.5-flash_flex.json
-chapters/06_geocoding/data/final/points/*_geocoded.json
-chapters/06_geocoding/data/final/nuts3/*_nuts3.json
-chapters/06_geocoding/data/wildfire/wildfires_2km_*.csv
+# Kept on disk for thesis re-analysis; not versioned. See chapters/06_spatial_postprocessing_visualization_dataset_reliability/README.md.
+chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/input/chapter7_merged_with_llm_features_gemini_gemini-3.5-flash_flex.json
+chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/points/*_geocoded.json
+chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/nuts3/*_nuts3.json
+chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/wildfire/wildfires_2km_*.csv
 
 # Chapters 08–09 — large rasters / raw archives / regenerable galleries (local only)
 # Full tree is kept on disk for rebuilds; not versioned. See chapters/08_09_baseline_forecasting/README.md.

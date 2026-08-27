@@ -1,6 +1,6 @@
-# Chapter 06: Geocoding (point + NUTS-3)
+# Chapter 06: Spatial post-processing, Visualization and Dataset Reliability
 
-Geocode drought-impact location mentions extracted in earlier chapters, assign Dutch NUTS-3 regions, and support a Streamlit map viewer plus wildfire validation EDA.
+Geocode drought-impact location mentions extracted in earlier chapters, assign Dutch NUTS-3 regions, and support a Streamlit map viewer plus wildfire validation EDA (spatial post-processing, visualization, and dataset reliability).
 
 ## What this does
 
@@ -14,7 +14,7 @@ Thesis-final frozen files under `data/final/` support offline analysis without r
 ## Layout
 
 ```text
-06_geocoding/
+06_spatial_postprocessing_visualization_dataset_reliability/
   data/
     geo/nuts_nl_simplified.geojson
     input/
@@ -37,7 +37,7 @@ Thesis-final frozen files under `data/final/` support offline analysis without r
 From the repository root (with `.venv` activated and `pip install -r requirements.txt`):
 
 ```text
-cd chapters/06_geocoding
+cd chapters/06_spatial_postprocessing_visualization_dataset_reliability
 python src/point_coder.py          # Nominatim + ranking → points (network)
 python src/nuts3_coder.py          # NUTS-3 from geocoded points (offline)
 streamlit run src/combined_viewer.py
@@ -88,7 +88,7 @@ Local-only large files (GitHub 100 MB limit / full article bodies; keep on disk,
 
 - **Thesis-final NUTS-3 / points** under `data/final/` are frozen offline artefacts of the flex geocoding run.
 - **Re-running Nominatim** may differ over time (rate limits, gazetteer drift).
-- Robustness smokes (5-impact Nominatim + offline NUTS-3 + 60s viewer) live under [`../../reproducibility_and_robustness_testing/chapter_06_geocoding/`](../../reproducibility_and_robustness_testing/chapter_06_geocoding/); suite runners use a tiny fixture, not `data/final/`.
+- Robustness smokes (5-impact Nominatim + offline NUTS-3 + 60s viewer) live under [`../../reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/`](../../reproducibility_and_robustness_testing/chapter_06_spatial_postprocessing_visualization_dataset_reliability/); suite runners use a tiny fixture, not `data/final/`.
 
 ## Links
 

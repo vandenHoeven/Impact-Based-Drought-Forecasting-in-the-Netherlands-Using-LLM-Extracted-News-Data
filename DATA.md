@@ -35,17 +35,17 @@ Sizes are approximate (measured on disk where present, or as documented in chapt
 | 05 | Model metrics (P/R/F1) | Offline matching of model outputs vs annotations | ~8 KB | **Yes** | `chapters/05_llm_evaluation/data/model_metrics.json` |
 | 05 | Post-hoc impact / attribute labels | Manual post-hoc labelling | ~40 KB | **Yes** | `chapters/05_llm_evaluation/data/posthoc.json` |
 | 05 | Optional API run dumps | Optional LiteLLM re-run (`run_models.py`) | varies | **No** (copyright) | `chapters/05_llm_evaluation/data/runs/` (gitignored) |
-| 06 | Merged LLM + features input JSON (full text) | Derived from Ch04 LLM extraction (thesis-final flex run) | ~230 MB | **No** (copyright + size) | `chapters/06_geocoding/data/input/chapter7_merged_…_flex.json` |
-| 06 | Legacy geocoding input sample | Legacy package sample (not thesis-final flex) | ~50 KB | **Yes** | `chapters/06_geocoding/data/input/impacts_for_geocoding.json` |
-| 06 | Point-geocoded nested JSON (with article text) | Nominatim / OpenStreetMap + ranking | ~240 MB | **No** (copyright + size) | `chapters/06_geocoding/data/final/points/*_geocoded.json` |
-| 06 | Point-geocoded flat CSV (+ filtered) | Derived from point-geocoded JSON | ~16 KB / ~14 KB | **Yes** | `chapters/06_geocoding/data/final/points/*.csv` |
-| 06 | NUTS-3 assigned nested JSON (with article text) | Local spatial join of geocoded points to NUTS polygons | ~250 MB | **No** (copyright + size) | `chapters/06_geocoding/data/final/nuts3/*_nuts3.json` |
-| 06 | NUTS-3 assigned flat CSV | Derived from NUTS-3 nested JSON | ~22 KB | **Yes** | `chapters/06_geocoding/data/final/nuts3/*.csv` |
-| 06 | Legacy processed CSVs | Legacy package samples (script defaults) | a few KB each | **Yes** | `chapters/06_geocoding/data/processed/*.csv` |
-| 06 | NUTS-3 boundaries (simplified) | Eurostat / Statistics Netherlands NUTS classification, simplified for this repo | ~290 KB | **Yes** | `chapters/06_geocoding/data/geo/nuts_nl_simplified.geojson` (also copied into Ch07/Ch08–09 inputs) |
-| 06 | KNMI precipitation-deficit series | KNMI (Royal Netherlands Meteorological Institute) open drought / Sep-30 deficit series | ~0.6 MB | **Yes** | `chapters/06_geocoding/data/wildfire/droogte_data_knmi.txt` |
-| 06 | Wildfire occurrence grid 2018–2020 | Observational wildfire occurrence data (upstream provider not documented in-repo) | ~680 MB | **No** (size) | `chapters/06_geocoding/data/wildfire/wildfires_2km_2018_2020.csv` |
-| 06 | Wildfire decade grid 2017–2022 | Same observational wildfire source as above | ~1.3 GB | **No** (size) | `chapters/06_geocoding/data/wildfire/wildfires_2km_decade_2017-2022_no-military-bases.csv` |
+| 06 | Merged LLM + features input JSON (full text) | Derived from Ch04 LLM extraction (thesis-final flex run) | ~230 MB | **No** (copyright + size) | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/input/chapter7_merged_…_flex.json` |
+| 06 | Legacy geocoding input sample | Legacy package sample (not thesis-final flex) | ~50 KB | **Yes** | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/input/impacts_for_geocoding.json` |
+| 06 | Point-geocoded nested JSON (with article text) | Nominatim / OpenStreetMap + ranking | ~240 MB | **No** (copyright + size) | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/points/*_geocoded.json` |
+| 06 | Point-geocoded flat CSV (+ filtered) | Derived from point-geocoded JSON | ~16 KB / ~14 KB | **Yes** | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/points/*.csv` |
+| 06 | NUTS-3 assigned nested JSON (with article text) | Local spatial join of geocoded points to NUTS polygons | ~250 MB | **No** (copyright + size) | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/nuts3/*_nuts3.json` |
+| 06 | NUTS-3 assigned flat CSV | Derived from NUTS-3 nested JSON | ~22 KB | **Yes** | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/nuts3/*.csv` |
+| 06 | Legacy processed CSVs | Legacy package samples (script defaults) | a few KB each | **Yes** | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/processed/*.csv` |
+| 06 | NUTS-3 boundaries (simplified) | Eurostat / Statistics Netherlands NUTS classification, simplified for this repo | ~290 KB | **Yes** | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/geo/nuts_nl_simplified.geojson` (also copied into Ch07/Ch08–09 inputs) |
+| 06 | KNMI precipitation-deficit series | KNMI (Royal Netherlands Meteorological Institute) open drought / Sep-30 deficit series | ~0.6 MB | **Yes** | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/wildfire/droogte_data_knmi.txt` |
+| 06 | Wildfire occurrence grid 2018–2020 | Observational wildfire occurrence data (upstream provider not documented in-repo) | ~680 MB | **No** (size) | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/wildfire/wildfires_2km_2018_2020.csv` |
+| 06 | Wildfire decade grid 2017–2022 | Same observational wildfire source as above | ~1.3 GB | **No** (size) | `chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/wildfire/wildfires_2km_decade_2017-2022_no-military-bases.csv` |
 | 07 | `impacts_nuts3.csv` | Ch06 NUTS-3 coder output + LLM feature merge (same freeze as Ch08–09 input) | ~21 MB | **Yes** | `chapters/07_exploratory_data_analysis/data/input/impacts_nuts3.csv` |
 | 07 | Frozen EDA figures / tables | Generated by `01_report_final_figures.ipynb` | small PNGs / CSVs | **Yes** | `chapters/07_exploratory_data_analysis/results/` |
 | 08–09 | NL meteo clip (SPEI/SPI/soil anomaly + ECAD CDD) | Clipped from the external global meteo archive below; ECAD indices from [ecad.eu](http://www.ecad.eu) | ~47 MB | **Yes** | `chapters/08_09_baseline_forecasting/data/meteo_nl/` |
@@ -66,10 +66,10 @@ Sizes are approximate (measured on disk where present, or as documented in chapt
 | --- | --- | --- |
 | 04 Database construction | [`chapters/04_database_construction/data/`](chapters/04_database_construction/README.md) | `raw/` → `preprocessed/` → `llm_extracted/` (gitignored corpus) |
 | 05 LLM evaluation | [`chapters/05_llm_evaluation/data/`](chapters/05_llm_evaluation/README.md) | Frozen evaluation JSON (no article bodies) |
-| 06 Geocoding | [`chapters/06_geocoding/data/`](chapters/06_geocoding/README.md) | Input, geojson, `final/` CSVs, wildfire assets |
+| 06 Spatial post-processing, visualization, dataset reliability | [`chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/`](chapters/06_spatial_postprocessing_visualization_dataset_reliability/README.md) | Input, geojson, `final/` CSVs, wildfire assets |
 | 07 Exploratory data analysis | [`chapters/07_exploratory_data_analysis/data/`](chapters/07_exploratory_data_analysis/README.md) | Report inputs (`impacts_nuts3.csv`, geojson, KNMI) |
 | 08–09 Baseline forecasting | [`chapters/08_09_baseline_forecasting/data/`](chapters/08_09_baseline_forecasting/README.md) | `meteo_nl/`, inputs, processed panels; large rasters local-only |
 
 ## Where details live
 
-Each chapter README has a **Data and provenance** section. For thesis-final vs legacy geocoding files, see [`chapters/06_geocoding/data/final/README.md`](chapters/06_geocoding/data/final/README.md). Full local-only size tables for Ch06/Ch08–09 remain in those chapter READMEs.
+Each chapter README has a **Data and provenance** section. For thesis-final vs legacy geocoding files, see [`chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/README.md`](chapters/06_spatial_postprocessing_visualization_dataset_reliability/data/final/README.md). Full local-only size tables for Ch06/Ch08–09 remain in those chapter READMEs.

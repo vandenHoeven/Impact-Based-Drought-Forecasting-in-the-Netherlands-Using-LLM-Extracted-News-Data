@@ -116,6 +116,6 @@ python reproducibility_and_robustness_testing/chapter_08_09_baseline_forecasting
 
 ## Links
 
-- Upstream geocoding labels: [`../06_geocoding/README.md`](../06_geocoding/README.md)
+- Upstream spatial labels: [`../06_spatial_postprocessing_visualization_dataset_reliability/README.md`](../06_spatial_postprocessing_visualization_dataset_reliability/README.md)
 - Upstream EDA: [`../07_exploratory_data_analysis/README.md`](../07_exploratory_data_analysis/README.md)
 - Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)
