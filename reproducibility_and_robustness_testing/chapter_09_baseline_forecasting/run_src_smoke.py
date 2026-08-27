@@ -40,8 +40,7 @@ REQUIRED_INPUTS = (
 )
 
 REQUIRED_PROCESSED = (
-    "dev_nuts3_forecast_2018_2023.parquet",
-    "test_nuts3_forecast_2024_2025.parquet",
+    "supervised_nuts3_forecast_2018_2025_complete.parquet",
     "feature_manifest.csv",
     "target_manifest.csv",
 )
@@ -70,6 +69,8 @@ REQUIRED_SYMBOLS = (
     "make_optuna_objective",
     "load_feature_groups",
     "year_expanding_folds",
+    "split_by_target_year",
+    "assert_target_year_splits",
 )
 
 REQUIRED_IMPORTS = (
@@ -192,10 +193,13 @@ def main() -> int:
             raise ValueError(f"Impacts CSV has no rows: {INPUT_DIR / 'impacts_nuts3.csv'}")
         print(f"Loaded impacts CSV sample: {len(impacts)} rows")
 
-        dev = pd.read_parquet(PROCESSED_DIR / "dev_nuts3_forecast_2018_2023.parquet")
-        if dev.empty:
-            raise ValueError("dev panel parquet is empty")
-        print(f"Loaded dev panel parquet: {len(dev)} rows, {dev.shape[1]} cols")
+        complete_path = PROCESSED_DIR / "supervised_nuts3_forecast_2018_2025_complete.parquet"
+        panel = pd.read_parquet(complete_path)
+        if panel.empty:
+            raise ValueError("complete supervised panel parquet is empty")
+        print(
+            f"Loaded complete supervised panel: {len(panel)} rows, {panel.shape[1]} cols"
+        )
 
         for filename in COMPILE_MODULES:
             path = SRC_DIR / filename
@@ -212,6 +216,9 @@ def main() -> int:
             f"Imported automl_search "
             f"(symbols: {', '.join(REQUIRED_SYMBOLS)})"
         )
+
+        automl_search.assert_target_year_splits(panel, horizon=1)
+        print("assert_target_year_splits(panel, horizon=1) OK")
 
         for mod_name in REQUIRED_IMPORTS:
             importlib.import_module(mod_name)

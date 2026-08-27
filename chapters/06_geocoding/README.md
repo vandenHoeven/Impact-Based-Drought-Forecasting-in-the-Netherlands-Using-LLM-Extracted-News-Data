@@ -70,7 +70,7 @@ python src/nuts3_coder.py --from-llm-json
 | --- | --- | --- |
 | **Thesis-final coder outputs (in repo)** | [`data/final/`](data/final/README.md) `points/*.csv`, `nuts3/*.csv` | Point + NUTS-3 tables for the viewer / offline analysis |
 | **Thesis-final LLM input / full JSON** | `data/input/chapter7_merged_..._flex.json` and `data/final/**/*.json` | **Local only** (gitignored; see below) |
-| Legacy package samples | `data/input/impacts_for_geocoding.json`, `data/processed/impacts_*.csv` | Older hand-in samples (**not** the thesis-final flex run) |
+| Legacy package samples | `data/input/impacts_for_geocoding.json`, `data/processed/impacts_*.csv` | Older package samples (**not** the thesis-final flex run) |
 | Geo layer | `data/geo/nuts_nl_simplified.geojson` | NL NUTS boundaries (in repo) |
 | KNMI deficit text | `data/wildfire/droogte_data_knmi.txt` | In repo |
 

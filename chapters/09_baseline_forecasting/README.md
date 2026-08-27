@@ -44,7 +44,7 @@ pip install -r chapters/09_baseline_forecasting/requirements.txt
 
 cd chapters/09_baseline_forecasting
 # 1. OPTIONAL: only if data/meteo_nl/ is empty or you want to re-clip from a
-#    local ~50 GB global Meteo archive. The hand-in copy already ships meteo_nl/.
+#    local ~50 GB global Meteo archive. This repo already ships meteo_nl/.
 #    Set CH09_METEO_GLOBAL_DIR, then open notebooks/00_subset_meteo_nl.ipynb
 #    If meteo_nl is already populated, the notebook sets SKIP_CLIP=True and does nothing.
 
@@ -97,7 +97,7 @@ Provenance detail:
 | `meteo_nuts3_monthly_2018_2025.parquet` | Zonal means of SPI/SPEI 1–24, soil anomaly, CDD over NUTS-3 (`02_…`) |
 | `static_land_cover_*` / `static_population_*` | CLC 2018 + WorldPop rasters in `data/static/` |
 | `static_elevation_*` / `static_soil_*` | DEM + BRO soil under `data/raw/` (`01_…`) |
-| `dev_*` / `test_*` panels | Meteo + statics + impact labels (`02_…`) |
+| `supervised_nuts3_forecast_2018_2025.parquet` / `_complete.parquet` | Meteo + statics + impact labels (`02_…`); AutoML splits by target year in memory |
 
 ## Reproducibility and limits
 

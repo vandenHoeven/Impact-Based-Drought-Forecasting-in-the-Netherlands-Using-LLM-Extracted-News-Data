@@ -3,15 +3,15 @@
 Code and resources accompanying an MSc thesis on impact-based drought forecasting using LLM-extracted news data, developed to ensure transparent and reproducible results.
 
 > **Data catalogue: what is / isn’t shipped**  
-> Sources, sizes, and hand-in status for every major dataset: **[`DATA.md`](DATA.md)**
+> Sources, sizes, and what is shipped for every major dataset: **[`DATA.md`](DATA.md)**
 
 ## Quick orientation
 
-This repo is the **code + frozen artefacts** companion to the thesis write-up under `Thesis hand-in/` (LaTeX source; separate from the pipeline).
+This repo is the **code + frozen artefacts** for the thesis pipeline.
 
 | Goal | Where to look |
 | --- | --- |
-| Verify the hand-in package | `python reproducibility_and_robustness_testing/run_all_scripts.py` |
+| Run procedure checks | `python reproducibility_and_robustness_testing/run_all_scripts.py` |
 | Frozen Ch05 tables / figures | `chapters/05_llm_evaluation/results/` |
 | Thesis-final geocoded points / NUTS-3 | `chapters/06_geocoding/data/final/` |
 | Frozen Ch08 EDA figures / tables | `chapters/08_exploratory_data_analysis/results/` |
@@ -33,7 +33,7 @@ flowchart LR
 .
 ├── README.md
 ├── .gitignore
-├── DATA.md                            # data overview / hand-in catalogue
+├── DATA.md                            # data overview / catalogue
 ├── requirements.txt
 ├── chapters/
 │   ├── 04_database_construction/      # Lexis → preprocess → LLMn
@@ -41,15 +41,14 @@ flowchart LR
 │   ├── 06_geocoding/                  # Nominatim points + NUTS-3 + viewer/EDA
 │   ├── 08_exploratory_data_analysis/  # report EDA figures + tables
 │   └── 09_baseline_forecasting/       # NUTS-3 AutoML forecasting
-├── reproducibility_and_robustness_testing/
-│   ├── check_imports.py
-│   ├── run_all_scripts.py             # PASS / SKIPPED / FAIL summary
-│   ├── chapter_04_database_construction/
-│   ├── chapter_05_llm_evaluation/
-│   ├── chapter_06_geocoding/
-│   ├── chapter_08_exploratory_data_analysis/
-│   └── chapter_09_baseline_forecasting/
-└── Thesis hand-in/                    # thesis write-up (separate from code)
+└── reproducibility_and_robustness_testing/
+    ├── check_imports.py
+    ├── run_all_scripts.py             # PASS / SKIPPED / FAIL summary
+    ├── chapter_04_database_construction/
+    ├── chapter_05_llm_evaluation/
+    ├── chapter_06_geocoding/
+    ├── chapter_08_exploratory_data_analysis/
+    └── chapter_09_baseline_forecasting/
 ```
 
 ## Environment setup
@@ -67,7 +66,7 @@ pip install -r requirements.txt
 
 playwright install chromium   # once, after playwright is added
 
-# automated procedure checks (imports → ch05 → ch06 → ch04; optional blank API key = skip)
+# automated procedure checks (imports → ch04–09 smokes; optional blank API key = skip)
 python reproducibility_and_robustness_testing/run_all_scripts.py
 ```
 
