@@ -1,6 +1,6 @@
 # Thesis-final geocoding outputs
 
-These are the **correct thesis-final** products from the Gemini 3.5 Flash **flex** geocoding run used with the Chapter 7 baseline pipeline.
+These are the **correct thesis-final** products from the Gemini 3.5 Flash **flex** geocoding run used with the Chapters 08–09 baseline forecasting pipeline.
 
 Prefer this folder over `data/processed/` when you need the real thesis spatial data.
 

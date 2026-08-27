@@ -8,8 +8,8 @@ See also:
 - [`chapters/04_database_construction/README.md`](../chapters/04_database_construction/README.md)
 - [`chapters/05_llm_evaluation/README.md`](../chapters/05_llm_evaluation/README.md)
 - [`chapters/06_geocoding/README.md`](../chapters/06_geocoding/README.md)
-- [`chapters/08_exploratory_data_analysis/README.md`](../chapters/08_exploratory_data_analysis/README.md)
-- [`chapters/09_baseline_forecasting/README.md`](../chapters/09_baseline_forecasting/README.md)
+- [`chapters/07_exploratory_data_analysis/README.md`](../chapters/07_exploratory_data_analysis/README.md)
+- [`chapters/08_09_baseline_forecasting/README.md`](../chapters/08_09_baseline_forecasting/README.md)
 
 ## Layout
 
@@ -37,9 +37,9 @@ reproducibility_and_robustness_testing/
 │   ├── run_geocoding.py
 │   ├── run_viewer_smoke.py
 │   └── run_src_smoke.py
-├── chapter_08_exploratory_data_analysis/
+├── chapter_07_exploratory_data_analysis/
 │   └── run_src_smoke.py         # offline package + import smoke
-└── chapter_09_baseline_forecasting/
+└── chapter_08_09_baseline_forecasting/
     └── run_src_smoke.py         # offline package + frozen AutoML + src smoke
 ```
 
@@ -59,11 +59,11 @@ python reproducibility_and_robustness_testing/chapter_06_geocoding/run_src_smoke
 python reproducibility_and_robustness_testing/chapter_06_geocoding/run_geocoding.py
 python reproducibility_and_robustness_testing/chapter_06_geocoding/run_viewer_smoke.py
 
-# Chapter 08 only
-python reproducibility_and_robustness_testing/chapter_08_exploratory_data_analysis/run_src_smoke.py
+# Chapter 07 only
+python reproducibility_and_robustness_testing/chapter_07_exploratory_data_analysis/run_src_smoke.py
 
-# Chapter 09 only
-python reproducibility_and_robustness_testing/chapter_09_baseline_forecasting/run_src_smoke.py
+# Chapters 08–09 only
+python reproducibility_and_robustness_testing/chapter_08_09_baseline_forecasting/run_src_smoke.py
 ```
 
 `run_all_scripts.py` order: imports → Chapter 05 checks → Chapter 06 geocoding/viewer → Chapter 04 preprocessing → 2-article LLMn → headed Lexis acquisition.
@@ -118,17 +118,17 @@ Geocoding code and frozen thesis outputs live under [`chapters/06_geocoding/`](.
 | `run_geocoding.py` | Nominatim on 5 real Dutch locations from the chapter input; print lat/lon/display; offline NUTS-3 via local geojson; write CSVs under `data/results/` | End-to-end point + NUTS path on real excerpts; skippable if Nominatim is unreachable |
 | `run_viewer_smoke.py` | Streamlit `combined_viewer.py` on port 8506 for **60 seconds** (manual inspection), pointed at smoke CSVs via `GEOCODING_VIEWER_DATA_DIR` | Confirms the map UI still launches against the smoke outputs |
 
-## Chapter 08 — what is tested and why
+## Chapter 07 — what is tested and why
 
-EDA figures/tables live under [`chapters/08_exploratory_data_analysis/`](../chapters/08_exploratory_data_analysis/README.md). The suite does **not** re-run the notebook (already validated manually).
+EDA figures/tables live under [`chapters/07_exploratory_data_analysis/`](../chapters/07_exploratory_data_analysis/README.md). The suite does **not** re-run the notebook (already validated manually).
 
 | Check | What it tests | Why |
 | --- | --- | --- |
 | `run_src_smoke.py` | Notebook + inputs present; frozen `results/tables` (4 CSVs) and `results/figures` (10 PNGs); sample load of `impacts_nuts3.csv`; imports pandas/geopandas/matplotlib/seaborn/networkx/numpy | Confirms the shipped package is intact and EDA deps are importable offline |
 
-## Chapter 09 — what is tested and why
+## Chapters 08–09 — what is tested and why
 
-Baseline AutoML lives under [`chapters/09_baseline_forecasting/`](../chapters/09_baseline_forecasting/README.md). The suite does **not** re-run Optuna / `run_automl.py` (100 trials); thesis metrics stay validated via frozen `results/automl_results/`.
+Baseline AutoML (Chapters 08–09) lives under [`chapters/08_09_baseline_forecasting/`](../chapters/08_09_baseline_forecasting/README.md). The suite does **not** re-run Optuna / `run_automl.py` (100 trials); thesis metrics stay validated via frozen `results/automl_results/`.
 
 | Check | What it tests | Why |
 | --- | --- | --- |

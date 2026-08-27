@@ -1,4 +1,4 @@
-"""AutoML search helpers for Chapter 9 drought-impact prediction.
+"""AutoML search helpers for Chapters 08–09 drought-impact prediction.
 
 Target-month year-based expanding-window CV, Binary Relevance multi-label
 modelling, and Optuna joint search over models / predictor groups /
@@ -1089,10 +1089,10 @@ def macro_metrics_over_classes(
 
 
 def resolve_nuts_geojson(notebook_dir: Path | None = None) -> Path:
-    """Locate NL NUTS geojson relative to chapter_09 package / notebook dir."""
+    """Locate NL NUTS geojson relative to chapter_08_09 package / notebook dir."""
     candidates: list[Path] = []
-    here = Path(__file__).resolve().parent  # chapter_09/src
-    package_root = here.parent  # chapter_09
+    here = Path(__file__).resolve().parent  # chapter_08_09/src
+    package_root = here.parent  # chapter_08_09
     candidates.append(package_root / "data" / "input" / "nuts_nl_simplified.geojson")
     if notebook_dir is not None:
         nd = Path(notebook_dir)

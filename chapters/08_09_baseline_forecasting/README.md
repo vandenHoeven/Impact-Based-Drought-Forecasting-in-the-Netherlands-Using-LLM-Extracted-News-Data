@@ -1,6 +1,6 @@
-# Chapter 09: NUTS-3 drought impact AutoML
+# Chapters 08–09: NUTS-3 drought impact AutoML
 
-Self-contained package for the thesis Chapter 9 main experiment: multi-label impact occurrence forecasting at NUTS-3, horizons \(h=0\ldots3\), top-10 classes, **target-year** development (impact years 2018–2023) / test (impact years 2024–2025), Optuna model + predictor-subset search.
+Self-contained package for thesis Chapters 8 (methods) and 9 (forecasting): multi-label impact occurrence forecasting at NUTS-3, horizons \(h=0\ldots3\), top-10 classes, **target-year** development (impact years 2018–2023) / test (impact years 2024–2025), Optuna model + predictor-subset search.
 
 ## What this does
 
@@ -9,12 +9,12 @@ Self-contained package for the thesis Chapter 9 main experiment: multi-label imp
 3. Build the supervised complete panel from meteo + statics + impact labels (`02_data_preparation.ipynb`).
 4. Run Optuna CV + test + SHAP + diagnostics with target-year splits (`03_automl_nuts3.ipynb` or `src/run_automl.py`).
 
-This chapter uses the NL meteo clip under `data/meteo_nl/` (global SPEI/SPI archives stay external; see [`DATA.md`](../../DATA.md)).
+This package uses the NL meteo clip under `data/meteo_nl/` (global SPEI/SPI archives stay external; see [`DATA.md`](../../DATA.md)).
 
 ## Layout
 
 ```text
-09_baseline_forecasting/
+08_09_baseline_forecasting/
   notebooks/
     00_subset_meteo_nl.ipynb      # optional: global meteo → NL clip (~47 MB)
     01_build_statics.ipynb        # elevation + soil (+ land/pop) → static parquets
@@ -40,9 +40,9 @@ This chapter uses the NL meteo clip under `data/meteo_nl/` (global SPEI/SPI arch
 
 ```bash
 # From the repo root: pin ML stack versions for bit-for-bit Optuna / model reproducibility
-pip install -r chapters/09_baseline_forecasting/requirements.txt
+pip install -r chapters/08_09_baseline_forecasting/requirements.txt
 
-cd chapters/09_baseline_forecasting
+cd chapters/08_09_baseline_forecasting
 # 1. OPTIONAL: only if data/meteo_nl/ is empty or you want to re-clip from a
 #    local ~50 GB global Meteo archive. This repo already ships meteo_nl/.
 #    Set CH09_METEO_GLOBAL_DIR, then open notebooks/00_subset_meteo_nl.ipynb
@@ -111,11 +111,11 @@ Provenance detail:
 Offline package smoke:
 
 ```text
-python reproducibility_and_robustness_testing/chapter_09_baseline_forecasting/run_src_smoke.py
+python reproducibility_and_robustness_testing/chapter_08_09_baseline_forecasting/run_src_smoke.py
 ```
 
 ## Links
 
 - Upstream geocoding labels: [`../06_geocoding/README.md`](../06_geocoding/README.md)
-- Upstream EDA: [`../08_exploratory_data_analysis/README.md`](../08_exploratory_data_analysis/README.md)
+- Upstream EDA: [`../07_exploratory_data_analysis/README.md`](../07_exploratory_data_analysis/README.md)
 - Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)

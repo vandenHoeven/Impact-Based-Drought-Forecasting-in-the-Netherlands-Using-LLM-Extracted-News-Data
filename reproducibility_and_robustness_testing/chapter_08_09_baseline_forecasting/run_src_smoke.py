@@ -1,10 +1,10 @@
 """
-Chapter 09 baseline forecasting package smoke (offline; does not re-run Optuna).
+Chapters 08–09 baseline forecasting package smoke (offline; does not re-run Optuna).
 
 Checks notebooks, inputs, meteo clip, processed panels, frozen AutoML results,
 compile/import of src, and key ML dependencies.
 
-    python reproducibility_and_robustness_testing/chapter_09_baseline_forecasting/run_src_smoke.py
+    python reproducibility_and_robustness_testing/chapter_08_09_baseline_forecasting/run_src_smoke.py
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from pathlib import Path
 
 CHAPTER_TEST_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = CHAPTER_TEST_ROOT.parents[1]
-PACKAGE_ROOT = REPO_ROOT / "chapters" / "09_baseline_forecasting"
+PACKAGE_ROOT = REPO_ROOT / "chapters" / "08_09_baseline_forecasting"
 SRC_DIR = PACKAGE_ROOT / "src"
 NOTEBOOKS_DIR = PACKAGE_ROOT / "notebooks"
 INPUT_DIR = PACKAGE_ROOT / "data" / "input"
@@ -99,7 +99,7 @@ def _load_module(name: str, path: Path):
 
 def main() -> int:
     print("=" * 70)
-    print("Chapter 09 baseline forecasting smoke (paths + frozen results + src)")
+    print("Chapters 08–09 baseline forecasting smoke (paths + frozen results + src)")
     print(f"package: {PACKAGE_ROOT}")
     print("=" * 70)
 
@@ -230,7 +230,7 @@ def main() -> int:
         return 1
 
     print("TEST COMPLETE")
-    print("CHECK_RESULT: PASS - Chapter 09 package layout, results, and imports OK.")
+    print("CHECK_RESULT: PASS - Chapters 08–09 package layout, results, and imports OK.")
     return 0
 
 

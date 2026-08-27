@@ -1,6 +1,6 @@
-# Chapter 08: Drought impact EDA (report figures)
+# Chapter 07: Drought impact EDA (report figures)
 
-Self-contained package for the thesis Chapter 8 exploratory data analysis figures and Overleaf summary stats. Filters to current-month impacts (`recency_in_months == 0`), NUTS-3, years 2005–2025.
+Self-contained package for the thesis Chapter 7 exploratory data analysis figures and Overleaf summary stats. Filters to current-month impacts (`recency_in_months == 0`), NUTS-3, years 2005–2025.
 
 ## What this does
 
@@ -9,7 +9,7 @@ Runs `notebooks/01_report_final_figures.ipynb` to regenerate the thesis EDA figu
 ## Layout
 
 ```text
-08_exploratory_data_analysis/
+07_exploratory_data_analysis/
   notebooks/
     01_report_final_figures.ipynb   # all report figures + tables
   data/
@@ -25,7 +25,7 @@ Runs `notebooks/01_report_final_figures.ipynb` to regenerate the thesis EDA figu
 ## How to run
 
 ```bash
-cd chapters/08_exploratory_data_analysis
+cd chapters/07_exploratory_data_analysis
 # open notebooks/01_report_final_figures.ipynb and Run All
 # regenerates results/figures/*.png and results/tables/*.csv
 ```
@@ -45,7 +45,7 @@ Provenance detail:
 
 | Artifact | Built from |
 |----------|------------|
-| `impacts_nuts3.csv` | Chapter 6 geocoding + LLM feature merge (same freeze as `09_baseline_forecasting/data/input/`) |
+| `impacts_nuts3.csv` | Chapter 6 geocoding + LLM feature merge (same freeze as `08_09_baseline_forecasting/data/input/`) |
 | `nuts_nl_simplified.geojson` | Chapter 6 NUTS-3 coder geo layer |
 | `droogte_data_knmi.txt` | KNMI drought / precipitation-deficit series used in Ch6 viewers |
 
@@ -55,11 +55,11 @@ Provenance detail:
 - The robustness suite does **not** re-run the notebook; it checks package integrity and imports offline:
 
 ```text
-python reproducibility_and_robustness_testing/chapter_08_exploratory_data_analysis/run_src_smoke.py
+python reproducibility_and_robustness_testing/chapter_07_exploratory_data_analysis/run_src_smoke.py
 ```
 
 ## Links
 
 - Upstream geocoding / NUTS-3: [`../06_geocoding/README.md`](../06_geocoding/README.md)
-- Downstream forecasting: [`../09_baseline_forecasting/README.md`](../09_baseline_forecasting/README.md)
+- Downstream forecasting: [`../08_09_baseline_forecasting/README.md`](../08_09_baseline_forecasting/README.md)
 - Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)

@@ -1,4 +1,4 @@
-"""Run the Chapter 09 NUTS-3 AutoML pipeline (mirrors notebooks/03_automl_nuts3.ipynb).
+"""Run the Chapters 08–09 NUTS-3 AutoML pipeline (mirrors notebooks/03_automl_nuts3.ipynb).
 
 Temporal splits use the year of the impact target month t+h, not the predictor
 month t, so validation/test periods do not leak into training labels.

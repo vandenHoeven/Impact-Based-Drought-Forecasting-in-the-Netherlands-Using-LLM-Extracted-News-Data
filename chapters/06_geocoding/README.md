@@ -93,6 +93,6 @@ Local-only large files (GitHub 100 MB limit / full article bodies; keep on disk,
 ## Links
 
 - Upstream extraction / evaluation: [`../04_database_construction/README.md`](../04_database_construction/README.md), [`../05_llm_evaluation/README.md`](../05_llm_evaluation/README.md)
-- Downstream EDA: [`../08_exploratory_data_analysis/README.md`](../08_exploratory_data_analysis/README.md)
-- Downstream forecasting: [`../09_baseline_forecasting/README.md`](../09_baseline_forecasting/README.md)
+- Downstream EDA: [`../07_exploratory_data_analysis/README.md`](../07_exploratory_data_analysis/README.md)
+- Downstream forecasting: [`../08_09_baseline_forecasting/README.md`](../08_09_baseline_forecasting/README.md)
 - Robustness suite: [`../../reproducibility_and_robustness_testing/README.md`](../../reproducibility_and_robustness_testing/README.md)

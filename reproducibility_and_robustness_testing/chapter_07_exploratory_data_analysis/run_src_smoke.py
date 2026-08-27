@@ -1,9 +1,9 @@
 """
-Chapter 08 EDA package smoke (offline; does not re-run the notebook).
+Chapter 07 EDA package smoke (offline; does not re-run the notebook).
 
 Checks inputs, frozen tables/figures, notebook presence, CSV load, and key imports.
 
-    python reproducibility_and_robustness_testing/chapter_08_exploratory_data_analysis/run_src_smoke.py
+    python reproducibility_and_robustness_testing/chapter_07_exploratory_data_analysis/run_src_smoke.py
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from pathlib import Path
 
 CHAPTER_TEST_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = CHAPTER_TEST_ROOT.parents[1]
-PACKAGE_ROOT = REPO_ROOT / "chapters" / "08_exploratory_data_analysis"
+PACKAGE_ROOT = REPO_ROOT / "chapters" / "07_exploratory_data_analysis"
 
 NOTEBOOK_PATH = PACKAGE_ROOT / "notebooks" / "01_report_final_figures.ipynb"
 INPUT_DIR = PACKAGE_ROOT / "data" / "input"
@@ -62,7 +62,7 @@ REQUIRED_IMPORTS = (
 
 def main() -> int:
     print("=" * 70)
-    print("Chapter 08 EDA package smoke (paths + CSV + imports, no notebook run)")
+    print("Chapter 07 EDA package smoke (paths + CSV + imports, no notebook run)")
     print(f"package: {PACKAGE_ROOT}")
     print("=" * 70)
 
@@ -115,7 +115,7 @@ def main() -> int:
         return 1
 
     print("TEST COMPLETE")
-    print("CHECK_RESULT: PASS - Chapter 08 package layout and imports OK.")
+    print("CHECK_RESULT: PASS - Chapter 07 package layout and imports OK.")
     return 0
 
 

@@ -1,6 +1,6 @@
-# Pinned versions for reproducible Chapter 09 AutoML (seeded Optuna + models).
+# Pinned versions for reproducible Chapters 08–09 AutoML (seeded Optuna + models).
 # Install from the repo root:
-#   pip install -r chapters/09_baseline_forecasting/requirements.txt
+#   pip install -r chapters/08_09_baseline_forecasting/requirements.txt
 numpy==2.4.1
 pandas==2.3.3
 scipy==1.17.0
